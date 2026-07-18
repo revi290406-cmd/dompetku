@@ -1,92 +1,100 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 :root {
-    --bg-body: #f8f9fa;
-    --bg-container: #ffffff;
+    --bg-body: #f0f2f5;
+    --bg-container: rgba(255, 255, 255, 0.9);
     --text-utama: #2d3436;
-    --border-input: #e0e0e0;
-    --accent: #6c5ce7;
+    --gold: #d4af37;
+    --glass: rgba(255, 255, 255, 0.7);
 }
 
 .dark-theme {
-    --bg-body: #050505;
-    --bg-container: #121212;
+    --bg-body: #0a0a0a;
+    --bg-container: rgba(20, 20, 20, 0.85);
     --text-utama: #f1f1f1;
     --gold: #d4af37;
-    --glow: 0 0 20px rgba(212, 175, 55, 0.4);
+    --glass: rgba(30, 30, 30, 0.7);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; }
 
-/* MEMPERBAIKI POSISI LAYAR */
 body { 
     background-color: var(--bg-body); 
     min-height: 100vh; 
     display: flex; 
     justify-content: center; 
-    align-items: center; /* Memastikan konten di tengah */
+    align-items: center; 
     padding: 20px; 
 }
 
-/* FIX: Layar PIN kembali ke mode Full Screen */
-.pin-overlay {
-    position: fixed; 
-    top: 0; left: 0; 
-    width: 100vw; height: 100vh;
-    background: #000; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-    z-index: 9999;
-}
-.pin-box {
-    background: #1e1e1e; padding: 30px; border-radius: 15px; text-align: center;
-    width: 90%; max-width: 300px; color: white;
-}
-.pin-box input {
-    width: 100%; padding: 12px; margin: 15px 0; text-align: center; font-size: 24px;
-    letter-spacing: 10px; border-radius: 8px; border: 1px solid #444; background: #2a2a2a; color: white;
-}
-.pin-box button {
-    width: 100%; padding: 12px; background: #d4af37; color: #000; border: none;
-    border-radius: 8px; font-weight: bold; cursor: pointer;
+/* Glassmorphism Container */
+.container { 
+    width: 100%; max-width: 400px; 
+    background: var(--bg-container); 
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 30px; 
+    padding: 25px; 
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
 }
 
-.container { width: 100%; max-width: 400px; background: var(--bg-container); border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-#theme-toggle { background: transparent; border: none; font-size: 24px; cursor: pointer; }
+/* PIN Overlay */
+.pin-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #000; display: flex; justify-content: center; align-items: center; z-index: 9999;
+}
+.pin-box {
+    background: #151515; padding: 30px; border-radius: 25px; text-align: center;
+    width: 90%; max-width: 300px; color: white; border: 1px solid var(--gold);
+}
+.pin-box input {
+    width: 100%; padding: 15px; margin: 20px 0; text-align: center; font-size: 24px;
+    letter-spacing: 15px; border-radius: 12px; border: 1px solid #333; background: #222; color: white;
+}
+.pin-box button {
+    width: 100%; padding: 12px; background: var(--gold); color: #000; border: none;
+    border-radius: 12px; font-weight: 600; cursor: pointer;
+}
 
 /* Kartu ATM */
 .saldo { 
-    background: linear-gradient(135deg, #1a1a1a, #2d2d2d); 
-    border: 1px solid #d4af37;
-    padding: 20px; border-radius: 20px; color: white; height: 170px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a, #333); 
+    border: 1px solid var(--gold);
+    padding: 25px; border-radius: 25px; color: white; height: 180px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    position: relative; overflow: hidden; margin-bottom: 20px;
 }
-.dark-theme .saldo { border: 1px solid #d4af37; box-shadow: var(--glow); }
 
-.card-chip { color: #d4af37; font-size: 24px; }
-.saldo h1 { color: #fff; }
+/* Widget Pemasukan & Pengeluaran */
+.card-group { display: flex; gap: 15px; margin-bottom: 20px; }
+.card-group .card { 
+    flex: 1; padding: 15px; border-radius: 20px; text-align: center;
+    background: var(--bg-body); border: 1px solid rgba(0,0,0,0.05);
+}
+.dark-theme .card-group .card { background: #222; border: 1px solid rgba(255,255,255,0.05); }
 
-/* Form Input */
+/* Form */
 .form-section input, .form-section select, .budget-section input {
-    width: 100%; padding: 14px; margin-bottom: 12px;
-    border: 2px solid transparent; background: rgba(0,0,0,0.05);
-    border-radius: 12px; color: var(--text-utama); outline: none;
+    width: 100%; padding: 15px; margin-bottom: 15px;
+    border: 1px solid rgba(0,0,0,0.1); background: rgba(0,0,0,0.03);
+    border-radius: 15px; color: var(--text-utama); outline: none;
 }
-.dark-theme .form-section input, .dark-theme .form-section select, .dark-theme .budget-section input {
+.dark-theme .form-section input, .dark-theme .form-section select {
     background: rgba(255,255,255,0.05);
 }
-.form-section input:focus { border-color: #d4af37; }
+.form-section input:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
 
-/* Tombol */
+/* Tombol Utama */
 .btn-simpan { 
-    width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer;
-    background: linear-gradient(135deg, #d4af37, #f3e5ab); color: #000;
+    width: 100%; padding: 15px; border: none; border-radius: 15px; 
+    background: linear-gradient(135deg, var(--gold), #f3e5ab); 
+    color: #000; font-weight: 600; cursor: pointer;
 }
+.btn-simpan:active { transform: scale(0.97); }
 
-/* List Riwayat */
+/* List */
 li { 
-    background: var(--bg-container); padding: 15px; border-radius: 15px; margin-bottom: 10px;
-    border: 1px solid rgba(0,0,0,0.1);
+    background: var(--bg-body); padding: 15px; border-radius: 15px; margin-bottom: 10px;
+    border: 1px solid rgba(0,0,0,0.05);
 }
+.dark-theme li { background: #1a1a1a; border: 1px solid rgba(255,255,255,0.05); }
