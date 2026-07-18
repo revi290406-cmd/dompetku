@@ -1,130 +1,70 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 :root {
-    --bg-body: #f0f2f5;
+    /* Light Mode (Tetap elegan dan bersih) */
+    --bg-body: #f8f9fa;
     --bg-container: #ffffff;
-    --text-utama: #333333;
-    --border-input: #dddddd;
-    --bg-riwayat: #ffffff;
-    --shadow: rgba(0,0,0,0.1);
+    --text-utama: #2d3436;
+    --border-input: #e0e0e0;
+    --accent: #6c5ce7;
 }
 
 .dark-theme {
-    --bg-body: #121212;
-    --bg-container: #1e1e1e;
-    --text-utama: #ffffff;
-    --border-input: #444444;
-    --bg-riwayat: #2a2a2a;
-    --shadow: rgba(0,0,0,0.4);
+    /* Dark Mode (Golden Luxury Edition) */
+    --bg-body: #050505; /* Hitam pekat */
+    --bg-container: #121212; /* Hampir hitam */
+    --text-utama: #f1f1f1;
+    --gold: #d4af37; /* Warna Emas */
+    --gold-light: #f3e5ab;
+    --glow: 0 0 15px rgba(212, 175, 55, 0.3);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; transition: background-color 0.3s, color 0.3s; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; transition: all 0.4s ease; }
 body { background-color: var(--bg-body); display: flex; justify-content: center; padding: 20px; }
 
-/* Fitur Baru: Style Layar Pengunci PIN */
-.pin-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #121212; display: flex; justify-content: center; align-items: center;
-    z-index: 9999; transition: opacity 0.3s ease;
-}
-.pin-box {
-    background: #1e1e1e; padding: 30px; border-radius: 15px; text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5); color: white; width: 90%; max-width: 320px;
-}
-.pin-box input {
-    width: 100%; padding: 12px; margin: 15px 0; text-align: center; font-size: 24px;
-    letter-spacing: 10px; border-radius: 8px; border: 1px solid #444; background: #2a2a2a; color: white;
-}
-.pin-box button {
-    width: 100%; padding: 12px; background: #667eea; color: white; border: none;
-    border-radius: 8px; font-weight: bold; cursor: pointer;
-}
+.container { width: 100%; max-width: 400px; background: var(--bg-container); border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.05); }
 
-.container { width: 100%; max-width: 400px; background: var(--bg-container); border-radius: 15px; padding: 25px; box-shadow: 0 10px 25px var(--shadow); }
-.header-app { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.header-app h2 { color: var(--text-utama); }
-#theme-toggle { background: transparent; border: none; font-size: 24px; cursor: pointer; padding: 5px; }
+/* Tombol Mode */
+#theme-toggle { background: transparent; border: none; font-size: 24px; cursor: pointer; }
 
-.dashboard { margin-bottom: 25px; }
+/* Kartu ATM - Sentuhan Gradient Emas */
 .saldo { 
-    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); 
-    padding: 20px; border-radius: 15px; color: white; display: flex; 
-    flex-direction: column; justify-content: space-between; height: 175px; 
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a, #2d2d2d); 
+    border: 1px solid #d4af37;
+    padding: 20px; border-radius: 20px; color: white; height: 170px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5), var(--glow);
+    position: relative; overflow: hidden;
 }
-.saldo::before {
-    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-    background: linear-gradient(to bottom right, rgba(255,255,255,0.1), transparent);
-    transform: rotate(25deg); pointer-events: none;
+.dark-theme .saldo { background: linear-gradient(135deg, #000000, #332d18); border: 1px solid #d4af37; }
+
+.card-chip { color: #d4af37; font-size: 24px; }
+.saldo h1 { color: var(--gold, #6c5ce7); }
+
+/* Form Input - Tanpa garis kaku, hanya cahaya saat fokus */
+.form-section input, .form-section select, .budget-section input {
+    width: 100%; padding: 14px; margin-bottom: 12px;
+    border: 2px solid transparent; background: rgba(0,0,0,0.05);
+    border-radius: 12px; color: var(--text-utama); outline: none;
 }
-/* Efek Darurat Jika Anggaran Melebihi Batas (Kritis) */
-.saldo.kritis {
-    background: linear-gradient(135deg, #cb2d3e 0%, #ef473a 100%) !important;
+.dark-theme .form-section input, .dark-theme .form-section select, .dark-theme .budget-section input {
+    background: rgba(255,255,255,0.05);
 }
-
-.card-top, .card-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 13px; opacity: 0.8; }
-.card-chip { font-size: 24px; }
-.saldo h1 { font-size: 26px; margin-top: 5px; letter-spacing: 0.5px; }
-.card-brand { font-weight: bold; font-style: italic; }
-
-.status-badge {
-    display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px;
-    background: rgba(255,255,255,0.2); margin-top: 4px; width: fit-content;
-}
-
-/* Fitur Baru: Kolom Batas Anggaran */
-.budget-section { margin: 15px 0; color: var(--text-utama); font-size: 13px; }
-.budget-section input { width: 100%; padding: 8px 12px; margin-top: 5px; border: 1px solid var(--border-input); background: var(--bg-container); color: var(--text-utama); border-radius: 6px; }
-
-.card-group { display: flex; gap: 10px; margin-top: 10px; }
-.card-group .card { flex: 1; padding: 15px; border-radius: 12px; color: white; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.masuk { background: #28a745; }
-.keluar { background: #dc3545; }
-
-.form-section h3 { font-size: 16px; margin-bottom: 15px; color: var(--text-utama); }
-/* Tampilan Form Baru: Lebih Bersih & Modern */
-.form-section input, .form-section select {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 12px;
-    border: 2px solid transparent; /* Hilangkan garis kaku */
-    background: var(--bg-body);      /* Gunakan warna latar belakang */
-    color: var(--text-utama);
-    border-radius: 12px;             /* Sudut lebih membulat */
-    outline: none;
-    font-size: 14px;
-    transition: all 0.3s ease;       /* Transisi halus */
-}
-
-/* Efek saat input di-klik (Focus) */
 .form-section input:focus, .form-section select:focus {
-    background: var(--bg-container); /* Berubah warna saat diklik */
-    border-color: #667eea;           /* Muncul garis fokus warna tema */
-    box-shadow: 0 0 8px rgba(102, 126, 234, 0.2); /* Efek cahaya tipis */
+    border-color: var(--gold, #6c5ce7);
+    box-shadow: var(--glow);
 }
-.btn-simpan { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 15px; }
-.btn-simpan:active { transform: scale(0.96); }
 
-.history-section { margin-top: 25px; }
-.history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.history-header h3 { color: var(--text-utama); font-size: 16px; }
-.history-header select { padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border-input); background: var(--bg-container); color: var(--text-utama); }
-
-ul { list-style: none; }
-@keyframes slideIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Tombol */
+.btn-simpan { 
+    width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer;
+    background: linear-gradient(135deg, #d4af37, #f3e5ab); color: #000;
 }
+.btn-simpan:active { transform: scale(0.98); }
+
+/* List Riwayat - Efek Glow halus */
 li { 
-    background: var(--bg-riwayat); padding: 12px 15px; border-radius: 8px; display: flex; 
-    justify-content: space-between; align-items: center; margin-bottom: 10px; 
-    border-left: 5px solid #ccc; box-shadow: 0 2px 5px var(--shadow); color: var(--text-utama);
-    animation: slideIn 0.3s ease-out forwards;
+    background: var(--bg-container); padding: 15px; border-radius: 15px; margin-bottom: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
-li.plus { border-left-color: #28a745; }
-li.minus { border-left-color: #dc3545; }
-
-.delete-btn { background: #ff4757; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-.delete-btn:active { transform: scale(0.9); }
-.reset-btn { width: 100%; padding: 12px; background: transparent; color: #ff4757; border: 2px solid #ff4757; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
-.reset-btn:hover { background: #ff4757; color: white; }
+.dark-theme li { border: 1px solid rgba(212, 175, 55, 0.1); }
