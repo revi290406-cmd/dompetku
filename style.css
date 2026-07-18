@@ -1,33 +1,90 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-body { background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+/* Fitur Baru: Sistem Setelan Warna Siang dan Malam */
+:root {
+    --bg-body: #f0f2f5;
+    --bg-container: #ffffff;
+    --text-utama: #333333;
+    --border-input: #dddddd;
+    --bg-riwayat: #ffffff;
+    --shadow: rgba(0,0,0,0.1);
+}
 
-.container { width: 100%; max-width: 400px; background: white; border-radius: 15px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-h2 { text-align: center; color: #333; margin-bottom: 20px; }
+.dark-theme {
+    --bg-body: #121212;
+    --bg-container: #1e1e1e;
+    --text-utama: #ffffff;
+    --border-input: #444444;
+    --bg-riwayat: #2a2a2a;
+    --shadow: rgba(0,0,0,0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; transition: background-color 0.3s, color 0.3s; }
+body { background-color: var(--bg-body); display: flex; justify-content: center; padding: 20px; }
+
+.container { width: 100%; max-width: 400px; background: var(--bg-container); border-radius: 15px; padding: 25px; box-shadow: 0 10px 25px var(--shadow); }
+
+.header-app { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.header-app h2 { color: var(--text-utama); }
+#theme-toggle { background: transparent; border: none; font-size: 24px; cursor: pointer; padding: 5px; }
 
 .dashboard { margin-bottom: 25px; }
-.card { padding: 15px; border-radius: 12px; color: white; text-align: center; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.saldo { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-.saldo h1 { font-size: 26px; margin-top: 5px; }
 
-.card-group { display: flex; gap: 10px; }
-.card-group .card { flex: 1; }
+/* Fitur Baru: Efek Desain Kartu ATM Fisik */
+.saldo { 
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); 
+    padding: 20px; 
+    border-radius: 15px; 
+    color: white; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    height: 170px; 
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+}
+/* Efek kilau hologram pada kartu */
+.saldo::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: linear-gradient(to bottom right, rgba(255,255,255,0.1), transparent);
+    transform: rotate(25deg); pointer-events: none;
+}
+.card-top, .card-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 13px; opacity: 0.8; }
+.card-chip { font-size: 24px; }
+.saldo h1 { font-size: 26px; margin-top: 5px; letter-spacing: 0.5px; }
+.card-brand { font-weight: bold; font-style: italic; }
+
+.card-group { display: flex; gap: 10px; margin-top: 10px; }
+.card-group .card { flex: 1; padding: 15px; border-radius: 12px; color: white; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
 .masuk { background: #28a745; }
 .keluar { background: #dc3545; }
 
-.form-section input, .form-section select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; transition: 0.3s; font-size: 14px; }
-.form-section input:focus, .form-section select:focus { border-color: #667eea; }
-.form-section button { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 15px; }
-.form-section button:hover { background: #764ba2; }
+.form-section h3, .history-section h3 { font-size: 16px; margin-bottom: 15px; color: var(--text-utama); }
+.form-section input, .form-section select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border-input); background: var(--bg-container); color: var(--text-utama); border-radius: 8px; outline: none; font-size: 14px; }
+
+/* Fitur Baru: Animasi Membal (Bounce) pada Tombol saat di-klik */
+.btn-simpan { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 15px; }
+.btn-simpan:active { transform: scale(0.96); }
 
 .history-section { margin-top: 25px; }
-.history-section h3 { font-size: 16px; margin-bottom: 15px; color: #444; border-bottom: 2px solid #f0f2f5; padding-bottom: 5px; }
 ul { list-style: none; }
-li { background: #fff; padding: 12px 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-left: 5px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.06); }
+
+/* Fitur Baru: Animasi Riwayat Meluncur Halus (Slide-In) */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+li { 
+    background: var(--bg-riwayat); padding: 12px 15px; border-radius: 8px; display: flex; 
+    justify-content: space-between; align-items: center; margin-bottom: 10px; 
+    border-left: 5px solid #ccc; box-shadow: 0 2px 5px var(--shadow); color: var(--text-utama);
+    animation: slideIn 0.3s ease-out forwards;
+}
 li.plus { border-left-color: #28a745; }
 li.minus { border-left-color: #dc3545; }
 
 .delete-btn { background: #ff4757; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-.reset-btn { width: 100%; padding: 12px; background: white; color: #ff4757; border: 2px solid #ff4757; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+.delete-btn:active { transform: scale(0.9); }
+.reset-btn { width: 100%; padding: 12px; background: transparent; color: #ff4757; border: 2px solid #ff4757; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
 .reset-btn:hover { background: #ff4757; color: white; }
