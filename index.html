@@ -8,16 +8,25 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
+    <!-- Fitur Baru: Layar Kunci PIN Rahasia -->
+    <div id="pin-screen" class="pin-overlay">
+        <div class="pin-box">
+            <h3>🔒 Masukkan PIN Anda</h3>
+            <p id="pin-info" style="font-size: 12px; color: gray; margin-bottom: 15px;">PIN bawaan pertama kali: 1234</p>
+            <input type="password" id="pin-input" maxlength="4" placeholder="••••" autocomplete="off">
+            <button onclick="verifikasiPIN()">Buka Dompet</button>
+        </div>
+    </div>
+
     <div class="container">
-        <!-- Fitur Baru: Tombol Mode Gelap di Atas -->
         <div class="header-app">
             <h2>Dompetku</h2>
             <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
         </div>
         
         <div class="dashboard">
-            <!-- Fitur Baru: Desain Struktur Kartu ATM -->
-            <div class="card saldo">
+            <!-- Kartu ATM Premium -->
+            <div class="card saldo" id="kartu-atm">
                 <div class="card-top">
                     <span class="card-label">Digital Wallet</span>
                     <span class="card-chip">🪙</span>
@@ -25,10 +34,20 @@
                 <div class="card-middle">
                     <h4>Total Saldo</h4>
                     <h1 id="saldo">Rp 0</h1>
+                    <!-- Fitur Baru: Teks Status Peringatan Anggaran -->
+                    <span id="status-anggaran" class="status-badge">Aman</span>
                 </div>
                 <div class="card-bottom">
                     <span>**** **** **** 2026</span>
                     <span class="card-brand">PREMIUM</span>
+                </div>
+            </div>
+
+            <!-- Fitur Baru: Set Batas Anggaran Bulanan -->
+            <div class="budget-section">
+                <label for="input-budget">🎯 Batas Anggaran Pengeluaran:</label>
+                <div class="budget-input-group">
+                    <input type="number" id="input-budget" placeholder="Set Batas (Misal: 1000000)" onchange="simpanBudget()">
                 </div>
             </div>
 
@@ -66,10 +85,20 @@
         </div>
 
         <div class="history-section">
-            <h3>Riwayat Transaksi</h3>
-            <ul id="list-riwayat">
-                <!-- Data otomatis meluncur muncul di sini -->
-            </ul>
+            <div class="history-header">
+                <h3>Riwayat Transaksi</h3>
+                <!-- Fitur Baru: Filter Kategori -->
+                <select id="filter-kategori" onchange="updateTampilan()">
+                    <option value="semua">Semua 📑</option>
+                    <option value="Makanan 🍔">Makanan 🍔</option>
+                    <option value="Transportasi 🚗">Transportasi 🚗</option>
+                    <option value="Belanja 🛍️">Belanja 🛍️</option>
+                    <option value="Tagihan 📄">Tagihan 📄</option>
+                    <option value="Gaji 💰">Gaji 💰</option>
+                    <option value="Lainnya 📌">Lainnya 📌</option>
+                </select>
+            </div>
+            <ul id="list-riwayat"></ul>
             <button class="reset-btn" onclick="resetData()">🗑️ Hapus Semua Data</button>
         </div>
     </div>
