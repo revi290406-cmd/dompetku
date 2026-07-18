@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 :root {
-    /* Light Mode (Tetap elegan dan bersih) */
     --bg-body: #f8f9fa;
     --bg-container: #ffffff;
     --text-utama: #2d3436;
@@ -10,37 +9,66 @@
 }
 
 .dark-theme {
-    /* Dark Mode (Golden Luxury Edition) */
-    --bg-body: #050505; /* Hitam pekat */
-    --bg-container: #121212; /* Hampir hitam */
+    --bg-body: #050505;
+    --bg-container: #121212;
     --text-utama: #f1f1f1;
-    --gold: #d4af37; /* Warna Emas */
-    --gold-light: #f3e5ab;
-    --glow: 0 0 15px rgba(212, 175, 55, 0.3);
+    --gold: #d4af37;
+    --glow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; transition: all 0.4s ease; }
-body { background-color: var(--bg-body); display: flex; justify-content: center; padding: 20px; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; }
 
-.container { width: 100%; max-width: 400px; background: var(--bg-container); border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.05); }
+/* MEMPERBAIKI POSISI LAYAR */
+body { 
+    background-color: var(--bg-body); 
+    min-height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; /* Memastikan konten di tengah */
+    padding: 20px; 
+}
 
-/* Tombol Mode */
+/* FIX: Layar PIN kembali ke mode Full Screen */
+.pin-overlay {
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100vw; height: 100vh;
+    background: #000; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    z-index: 9999;
+}
+.pin-box {
+    background: #1e1e1e; padding: 30px; border-radius: 15px; text-align: center;
+    width: 90%; max-width: 300px; color: white;
+}
+.pin-box input {
+    width: 100%; padding: 12px; margin: 15px 0; text-align: center; font-size: 24px;
+    letter-spacing: 10px; border-radius: 8px; border: 1px solid #444; background: #2a2a2a; color: white;
+}
+.pin-box button {
+    width: 100%; padding: 12px; background: #d4af37; color: #000; border: none;
+    border-radius: 8px; font-weight: bold; cursor: pointer;
+}
+
+.container { width: 100%; max-width: 400px; background: var(--bg-container); border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 #theme-toggle { background: transparent; border: none; font-size: 24px; cursor: pointer; }
 
-/* Kartu ATM - Sentuhan Gradient Emas */
+/* Kartu ATM */
 .saldo { 
     background: linear-gradient(135deg, #1a1a1a, #2d2d2d); 
     border: 1px solid #d4af37;
     padding: 20px; border-radius: 20px; color: white; height: 170px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5), var(--glow);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     position: relative; overflow: hidden;
 }
-.dark-theme .saldo { background: linear-gradient(135deg, #000000, #332d18); border: 1px solid #d4af37; }
+.dark-theme .saldo { border: 1px solid #d4af37; box-shadow: var(--glow); }
 
 .card-chip { color: #d4af37; font-size: 24px; }
-.saldo h1 { color: var(--gold, #6c5ce7); }
+.saldo h1 { color: #fff; }
 
-/* Form Input - Tanpa garis kaku, hanya cahaya saat fokus */
+/* Form Input */
 .form-section input, .form-section select, .budget-section input {
     width: 100%; padding: 14px; margin-bottom: 12px;
     border: 2px solid transparent; background: rgba(0,0,0,0.05);
@@ -49,22 +77,16 @@ body { background-color: var(--bg-body); display: flex; justify-content: center;
 .dark-theme .form-section input, .dark-theme .form-section select, .dark-theme .budget-section input {
     background: rgba(255,255,255,0.05);
 }
-.form-section input:focus, .form-section select:focus {
-    border-color: var(--gold, #6c5ce7);
-    box-shadow: var(--glow);
-}
+.form-section input:focus { border-color: #d4af37; }
 
 /* Tombol */
 .btn-simpan { 
     width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer;
     background: linear-gradient(135deg, #d4af37, #f3e5ab); color: #000;
 }
-.btn-simpan:active { transform: scale(0.98); }
 
-/* List Riwayat - Efek Glow halus */
+/* List Riwayat */
 li { 
     background: var(--bg-container); padding: 15px; border-radius: 15px; margin-bottom: 10px;
-    border: 1px solid rgba(255,255,255,0.05);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.1);
 }
-.dark-theme li { border: 1px solid rgba(212, 175, 55, 0.1); }
