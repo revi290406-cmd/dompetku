@@ -1,7 +1,25 @@
 let transaksi = JSON.parse(localStorage.getItem('transaksi_keuangan')) || [];
-
-// Set tanggal hari ini otomatis di kolom input tanggal
 document.getElementById('tanggal').valueAsDate = new Date();
+
+// ================= FITUR BARU: LOGIKA MODE GELAP & TERANG =================
+if (localStorage.getItem('tema_aplikasi') === 'dark') {
+    document.body.classList.add('dark-theme');
+    document.getElementById('theme-toggle').innerText = '☀️';
+}
+
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+    let tombol = document.getElementById('theme-toggle');
+    
+    if (document.body.classList.contains('dark-theme')) {
+        localStorage.setItem('tema_aplikasi', 'dark');
+        tombol.innerText = '☀️';
+    } else {
+        localStorage.setItem('tema_aplikasi', 'light');
+        tombol.innerText = '🌙';
+    }
+}
+// =========================================================================
 
 function formatRupiah(angka) {
     return "Rp " + angka.toLocaleString('id-ID');
@@ -24,7 +42,6 @@ function updateTampilan() {
         let li = document.createElement('li');
         li.className = item.jenis === 'masuk' ? 'plus' : 'minus'; 
         
-        // Menampilkan Tanggal dan Kategori di riwayat
         li.innerHTML = `
             <div>
                 <small style="color: gray;">${item.tanggal}</small><br>
@@ -61,7 +78,7 @@ function tambahData() {
     let dataBaru = {
         tanggal: tanggal,
         kategori: kategori,
-        keterangan: keterangan || "-", // Jika keterangan kosong, isi dengan "-"
+        keterangan: keterangan || "-",
         nominal: parseInt(nominal), 
         jenis: jenis
     };
@@ -79,11 +96,10 @@ function hapusData(index) {
     }
 }
 
-// Fitur Baru: Reset Semua Data
 function resetData() {
-    if(confirm("PERINGATAN! Anda yakin ingin menghapus semua data? Ini tidak bisa dikembalikan.")) {
-        transaksi = []; // Kosongkan array
-        localStorage.removeItem('transaksi_keuangan'); // Hapus dari memori
+    if(confirm("PERINGATAN! Anda yakin ingin menghapus semua data?")) {
+        transaksi = [];
+        localStorage.removeItem('transaksi_keuangan');
         updateTampilan();
     }
 }
