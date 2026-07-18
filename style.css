@@ -82,8 +82,26 @@ body { background-color: var(--bg-body); display: flex; justify-content: center;
 .keluar { background: #dc3545; }
 
 .form-section h3 { font-size: 16px; margin-bottom: 15px; color: var(--text-utama); }
-.form-section input, .form-section select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border-input); background: var(--bg-container); color: var(--text-utama); border-radius: 8px; outline: none; font-size: 14px; }
+/* Tampilan Form Baru: Lebih Bersih & Modern */
+.form-section input, .form-section select {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 12px;
+    border: 2px solid transparent; /* Hilangkan garis kaku */
+    background: var(--bg-body);      /* Gunakan warna latar belakang */
+    color: var(--text-utama);
+    border-radius: 12px;             /* Sudut lebih membulat */
+    outline: none;
+    font-size: 14px;
+    transition: all 0.3s ease;       /* Transisi halus */
+}
 
+/* Efek saat input di-klik (Focus) */
+.form-section input:focus, .form-section select:focus {
+    background: var(--bg-container); /* Berubah warna saat diklik */
+    border-color: #667eea;           /* Muncul garis fokus warna tema */
+    box-shadow: 0 0 8px rgba(102, 126, 234, 0.2); /* Efek cahaya tipis */
+}
 .btn-simpan { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 15px; }
 .btn-simpan:active { transform: scale(0.96); }
 
