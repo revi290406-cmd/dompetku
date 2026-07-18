@@ -1,0 +1,15 @@
+{
+  "name": "Dompetku",
+  "short_name": "Dompetku",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#667eea",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2902/2902974.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

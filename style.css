@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+body { background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+
+.container { width: 100%; max-width: 400px; background: white; border-radius: 15px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+h2 { text-align: center; color: #333; margin-bottom: 20px; }
+
+.dashboard { margin-bottom: 25px; }
+.card { padding: 15px; border-radius: 12px; color: white; text-align: center; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.saldo { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.saldo h1 { font-size: 26px; margin-top: 5px; }
+
+.card-group { display: flex; gap: 10px; }
+.card-group .card { flex: 1; }
+.masuk { background: #28a745; }
+.keluar { background: #dc3545; }
+
+.form-section input, .form-section select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; transition: 0.3s; font-size: 14px; }
+.form-section input:focus, .form-section select:focus { border-color: #667eea; }
+.form-section button { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 15px; }
+.form-section button:hover { background: #764ba2; }
+
+.history-section { margin-top: 25px; }
+.history-section h3 { font-size: 16px; margin-bottom: 15px; color: #444; border-bottom: 2px solid #f0f2f5; padding-bottom: 5px; }
+ul { list-style: none; }
+li { background: #fff; padding: 12px 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-left: 5px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.06); }
+li.plus { border-left-color: #28a745; }
+li.minus { border-left-color: #dc3545; }
+
+.delete-btn { background: #ff4757; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+.reset-btn { width: 100%; padding: 12px; background: white; color: #ff4757; border: 2px solid #ff4757; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+.reset-btn:hover { background: #ff4757; color: white; }

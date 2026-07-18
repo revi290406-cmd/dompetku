@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dompetku - Catatan Keuangan</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Ini adalah kode pemanggil PWA -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="container">
+        <h2>Dompetku 💳</h2>
+        
+        <div class="dashboard">
+            <div class="card saldo">
+                <h4>Total Saldo</h4>
+                <h1 id="saldo">Rp 0</h1>
+            </div>
+            <div class="card-group">
+                <div class="card masuk">
+                    <h4>Pemasukan</h4>
+                    <p id="pemasukan">Rp 0</p>
+                </div>
+                <div class="card keluar">
+                    <h4>Pengeluaran</h4>
+                    <p id="pengeluaran">Rp 0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Tambah Transaksi</h3>
+            <!-- Fitur Baru: Tanggal & Kategori -->
+            <input type="date" id="tanggal">
+            <select id="kategori">
+                <option value="Makanan 🍔">Makanan 🍔</option>
+                <option value="Transportasi 🚗">Transportasi 🚗</option>
+                <option value="Belanja 🛍️">Belanja 🛍️</option>
+                <option value="Tagihan 📄">Tagihan 📄</option>
+                <option value="Gaji 💰">Gaji 💰</option>
+                <option value="Lainnya 📌">Lainnya 📌</option>
+            </select>
+            
+            <input type="text" id="keterangan" placeholder="Keterangan (Opsional)">
+            <input type="number" id="nominal" placeholder="Nominal (Misal: 50000)">
+            <select id="jenis">
+                <option value="masuk">Pemasukan (+)</option>
+                <option value="keluar">Pengeluaran (-)</option>
+            </select>
+            <button onclick="tambahData()">Simpan Transaksi</button>
+        </div>
+
+        <div class="history-section">
+            <h3>Riwayat Transaksi</h3>
+            <ul id="list-riwayat">
+                <!-- Data akan muncul di sini otomatis -->
+            </ul>
+            <!-- Fitur Baru: Tombol Reset -->
+            <button class="reset-btn" onclick="resetData()">🗑️ Hapus Semua Data (Bulan Baru)</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Script untuk menjalankan PWA (Service Worker) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
