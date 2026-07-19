@@ -1,17 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 :root {
-    --bg-body: #f4f4f4;
-    --bg-container: #ffffff;
+    --bg-body: #f0f2f5;
+    --bg-container: rgba(255, 255, 255, 0.95);
     --text-utama: #2d3436;
     --gold: #d4af37;
-    --glow: 0 0 15px rgba(212, 175, 55, 0.7);
+    --glass: rgba(255, 255, 255, 0.7);
 }
 
 .dark-theme {
-    --bg-body: #000000;
-    --bg-container: #0f0f0f;
-    --text-utama: #d4af37; /* Warna emas */
+    --bg-body: #0a0a0a;
+    --bg-container: rgba(20, 20, 20, 0.85);
+    --text-utama: #f1f1f1; /* Memastikan teks jadi putih di mode gelap */
+    --gold: #d4af37;
+    --glass: rgba(30, 30, 30, 0.7);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; }
@@ -25,59 +27,111 @@ body {
     padding: 20px; 
 }
 
-/* Teks Emas & Glow di Dark Mode */
-.dark-theme h1, .dark-theme h2, .dark-theme h3, .dark-theme p, .dark-theme label, .dark-theme span {
-    color: var(--gold) !important;
-    text-shadow: var(--glow);
-}
+/* Memastikan semua teks mengikuti tema terang/gelap */
+h1, h2, h3, h4, p, label { color: var(--text-utama); }
 
+/* Glassmorphism Container */
 .container { 
     width: 100%; max-width: 400px; 
     background: var(--bg-container); 
-    border-radius: 30px; padding: 25px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(150,150,150,0.2);
+    border-radius: 30px; 
+    padding: 25px; 
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
 }
 
-.dark-theme .container { background: var(--bg-container); border: 1px solid var(--gold); }
+/* Header & Ikon Bulan (Diperbaiki) */
+.header-app { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.header-app h2 { font-size: 22px; font-weight: 600; }
+#theme-toggle { 
+    background: transparent; border: none; font-size: 28px; cursor: pointer; outline: none; 
+    -webkit-tap-highlight-color: transparent; /* Menghilangkan kotak biru saat diklik di HP */
+}
 
-/* Kartu ATM Luxury */
+/* PIN Overlay */
+.pin-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #000; display: flex; justify-content: center; align-items: center; z-index: 9999;
+}
+.pin-box {
+    background: #151515; padding: 30px; border-radius: 25px; text-align: center;
+    width: 90%; max-width: 300px; color: white; border: 1px solid var(--gold);
+}
+.pin-box input {
+    width: 100%; padding: 15px; margin: 20px 0; text-align: center; font-size: 24px;
+    letter-spacing: 15px; border-radius: 12px; border: 1px solid #333; background: #222; color: white;
+}
+.pin-box button {
+    width: 100%; padding: 12px; background: var(--gold); color: #000; border: none;
+    border-radius: 12px; font-weight: 600; cursor: pointer;
+}
+
+/* Kartu ATM */
 .saldo { 
-    background: linear-gradient(135deg, #1a1a1a, #2d2d2d); 
+    background: linear-gradient(135deg, #1a1a1a, #333); 
     border: 1px solid var(--gold);
     padding: 25px; border-radius: 25px; color: white; height: 180px;
-    margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    position: relative; overflow: hidden; margin-bottom: 20px;
 }
-/* Memastikan angka saldo tetap putih agar terbaca */
-.saldo h1, .saldo p { color: #fff !important; text-shadow: none !important; }
+.saldo h1, .saldo h4, .saldo span { color: white; } /* Teks ATM selalu putih */
 
-/* Fix Calendar & Inputs */
-input, select {
-    color-scheme: light; /* Default */
-    width: 100%; padding: 15px; margin-bottom: 15px;
-    background: #f9f9f9; border: 1px solid #ddd;
-    border-radius: 12px; outline: none;
+/* Label Anggaran (Fix jarak) */
+.budget-section { margin-bottom: 15px; font-size: 13px; }
+
+/* Widget Pemasukan & Pengeluaran (Diperbaiki Teksnya) */
+.card-group { display: flex; gap: 15px; margin-bottom: 20px; }
+.card-group .card { 
+    flex: 1; padding: 15px; border-radius: 20px; text-align: center;
+    background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);
 }
-.dark-theme input, .dark-theme select {
-    color-scheme: dark; /* Ini membuat ikon kalender & dropdown jadi putih/jelas */
-    background: #1a1a1a; border: 1px solid var(--gold); color: var(--gold);
+.dark-theme .card-group .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+.card-group .card h4 { font-size: 13px; opacity: 0.7; margin-bottom: 5px; }
+.card-group .card p { font-size: 18px; font-weight: 600; }
+
+/* Form Input */
+.form-section h3 { margin-bottom: 10px; font-size: 16px; }
+.form-section input, .form-section select, .budget-section input {
+    width: 100%; padding: 15px; margin-bottom: 15px;
+    border: 1px solid rgba(150,150,150,0.2); background: rgba(0,0,0,0.02);
+    border-radius: 15px; color: var(--text-utama); outline: none; font-size: 14px;
+}
+.dark-theme .form-section input, .dark-theme .form-section select, .dark-theme .budget-section input {
+    background: rgba(255,255,255,0.05);
+}
+.form-section input:focus, .form-section select:focus, .budget-section input:focus { 
+    border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); 
 }
 
 /* Tombol Utama */
 .btn-simpan { 
-    width: 100%; padding: 15px; border: none; border-radius: 12px; 
-    background: var(--gold); color: #000; font-weight: 600; cursor: pointer;
+    width: 100%; padding: 15px; border: none; border-radius: 15px; 
+    background: linear-gradient(135deg, var(--gold), #f3e5ab); 
+    color: #000; font-weight: 600; cursor: pointer; font-size: 15px;
+}
+.btn-simpan:active { transform: scale(0.97); }
+
+/* Bagian Riwayat (Filter & Tombol Hapus Diperbaiki) */
+.history-section { margin-top: 25px; }
+.history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.history-header select { 
+    padding: 8px 12px; border-radius: 10px; border: 1px solid var(--gold); 
+    background: transparent; color: var(--text-utama); outline: none; cursor: pointer; font-size: 13px;
 }
 
-/* Riwayat & Hapus */
 li { 
-    background: #f4f4f4; padding: 15px; border-radius: 12px; margin-bottom: 10px;
-    border: 1px solid #ddd;
+    background: rgba(0,0,0,0.02); padding: 15px; border-radius: 15px; margin-bottom: 10px;
+    border: 1px solid rgba(150,150,150,0.2); display: flex; justify-content: space-between; align-items: center;
 }
-.dark-theme li { background: #1a1a1a; border: 1px solid #333; }
+.dark-theme li { background: rgba(255,255,255,0.02); }
 
+/* Tombol Hapus Semua Data */
 .reset-btn { 
-    background: transparent; color: #ff4757; border: 1px solid #ff4757; 
-    width: 100%; padding: 12px; border-radius: 12px; cursor: pointer;
+    width: 100%; padding: 14px; margin-top: 20px;
+    background: transparent; color: #ff4757; 
+    border: 1px solid #ff4757; border-radius: 15px; 
+    font-weight: 600; cursor: pointer; transition: 0.3s;
 }
+.reset-btn:hover { background: #ff4757; color: white; }
+.reset-btn:active { transform: scale(0.97); }
