@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dompetku v0.2 - Quantum Wealth Engine</title>
-    
-    <!-- Meta Tags & Theme Color -->
-    <meta name="theme-color" content="#0f172a">
+    <!-- Meta Web App Manifest Virtual -->
+    <meta name="theme-color" content="#020617">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Dompetku v0.1 - Quantum Wealth Engine</title>
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -18,27 +17,29 @@
 
     <style>
         :root {
-            --bg-main: #0b0f19;
-            --card-glass: rgba(22, 30, 49, 0.75);
-            --card-border: rgba(255, 255, 255, 0.1);
+            --bg-main: #020617; /* Darker futuristic abyss */
+            --card-glass: rgba(15, 23, 42, 0.65);
+            --card-border: rgba(6, 182, 212, 0.2);
             --accent-emerald: #10b981;
             --accent-rose: #f43f5e;
             --accent-violet: #8b5cf6;
             --accent-amber: #f59e0b;
-            --accent-sky: #0284c7;
+            --accent-sky: #0ea5e9;
             --accent-cyan: #06b6d4;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --radius-xl: 28px;
-            --radius-lg: 20px;
-            --radius-md: 14px;
-            --glass-blur: blur(24px);
+            --radius-xl: 32px;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --glass-blur: blur(30px);
+            --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.4);
+            --glow-violet: 0 0 20px rgba(139, 92, 246, 0.4);
         }
 
         .light-theme {
-            --bg-main: #f1f5f9;
-            --card-glass: rgba(255, 255, 255, 0.82);
-            --card-border: rgba(0, 0, 0, 0.08);
+            --bg-main: #f8fafc;
+            --card-glass: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(139, 92, 246, 0.2);
             --text-primary: #0f172a;
             --text-secondary: #64748b;
         }
@@ -48,7 +49,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -65,6 +66,22 @@
             position: relative;
         }
 
+        /* 50 YEARS FUTURE AESTHETIC: Holographic Grid */
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2; pointer-events: none;
+            transform: perspective(600px) rotateX(60deg) translateY(-100px) scale(3);
+            animation: holoScroll 15s linear infinite;
+        }
+        @keyframes holoScroll {
+            to { transform: perspective(600px) rotateX(60deg) translateY(100px) scale(3); }
+        }
+
         /* Ambient Aurora Animated Background */
         .aurora-container {
             position: fixed;
@@ -72,17 +89,17 @@
             z-index: -1; overflow: hidden; pointer-events: none;
         }
         .aurora-blob {
-            position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.45;
-            animation: floatAurora 18s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.5;
+            animation: floatAurora 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .aurora-1 { width: 320px; height: 320px; background: var(--accent-violet); top: -80px; left: -60px; }
-        .aurora-2 { width: 360px; height: 360px; background: var(--accent-emerald); bottom: -100px; right: -80px; animation-delay: -5s; }
-        .aurora-3 { width: 280px; height: 280px; background: var(--accent-cyan); top: 40%; left: 30%; animation-delay: -10s; }
+        .aurora-1 { width: 350px; height: 350px; background: var(--accent-violet); top: -100px; left: -80px; }
+        .aurora-2 { width: 400px; height: 400px; background: var(--accent-sky); bottom: -120px; right: -100px; animation-delay: -5s; }
+        .aurora-3 { width: 300px; height: 300px; background: var(--accent-cyan); top: 30%; left: 20%; animation-delay: -10s; }
 
         @keyframes floatAurora {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(60px, 80px) scale(1.15); }
-            100% { transform: translate(-40px, 40px) scale(0.9); }
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(80px, 100px) scale(1.2) rotate(180deg); }
+            100% { transform: translate(-60px, 50px) scale(0.9) rotate(360deg); }
         }
 
         /* Container Layout */
@@ -95,13 +112,13 @@
             border: 1px solid var(--card-border);
             border-radius: var(--radius-xl);
             padding: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.02), 0 25px 60px rgba(0, 0, 0, 0.5);
             margin-bottom: 20px;
             animation: popUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes popUp {
-            from { opacity: 0; transform: translateY(30px) scale(0.96); }
+            from { opacity: 0; transform: translateY(40px) scale(0.92); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
@@ -110,302 +127,285 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 22px;
+            margin-bottom: 24px;
         }
         .brand-title h2 {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 800;
-            background: linear-gradient(135deg, #06b6d4, var(--accent-violet));
+            background: linear-gradient(135deg, #00f2fe, #4facfe, var(--accent-violet));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+            letter-spacing: -0.5px;
         }
         .brand-title span {
-            font-size: 10px;
-            background: var(--accent-violet);
+            font-size: 9px;
+            background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
             color: white;
-            padding: 2px 6px;
-            border-radius: 6px;
-            margin-left: 6px;
+            padding: 3px 8px;
+            border-radius: 8px;
+            margin-left: 8px;
             vertical-align: middle;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: var(--glow-violet);
         }
-        .header-actions { display: flex; gap: 8px; }
+        .header-actions { display: flex; gap: 10px; }
         .icon-btn-rounded {
-            width: 40px; height: 40px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--card-border);
-            color: var(--text-primary); font-size: 15px; cursor: pointer;
+            width: 42px; height: 42px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border);
+            color: var(--text-primary); font-size: 16px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
         }
-        .icon-btn-rounded:active { transform: scale(0.88); }
+        .icon-btn-rounded:hover { border-color: var(--accent-cyan); box-shadow: var(--glow-cyan); }
+        .icon-btn-rounded:active { transform: scale(0.85); }
 
         /* TAB / CATALOG SYSTEM STYLES */
-        .tab-content {
-            display: none;
-            animation: fadeInTab 0.3s ease-in-out;
-        }
-        .tab-content.active {
-            display: block;
-        }
-
+        .tab-content { display: none; animation: fadeInTab 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .tab-content.active { display: block; }
         @keyframes fadeInTab {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(15px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* Bottom Fixed Navigation Bar */
         .bottom-nav {
-            position: fixed;
-            bottom: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 94%;
-            max-width: 460px;
-            background: var(--card-glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: 35px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 6px 8px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 92%; max-width: 440px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 40px; display: flex; justify-content: space-around;
+            align-items: center; padding: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(255,255,255,0.05);
             z-index: 990;
         }
-
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            color: var(--text-secondary);
-            font-size: 9px;
-            font-weight: 700;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            color: var(--text-secondary); font-size: 10px; font-weight: 700;
+            cursor: pointer; padding: 8px 14px; border-radius: 30px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .nav-item span.icon { font-size: 16px; }
+        .nav-item span.icon { font-size: 18px; transition: transform 0.3s ease; }
         .nav-item.active {
             color: #ffffff;
-            background: linear-gradient(135deg, var(--accent-violet), #6366f1);
-            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+            box-shadow: var(--glow-cyan); transform: translateY(-4px);
         }
+        .nav-item.active span.icon { transform: scale(1.2); }
 
         /* Lock Screen PIN & Biometric */
         .pin-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(11, 15, 25, 0.95); backdrop-filter: blur(25px);
+            background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(40px);
             display: flex; justify-content: center; align-items: center; z-index: 99999;
         }
         .pin-card {
-            background: var(--card-glass); border: 1px solid var(--card-border);
-            padding: 32px 28px; border-radius: var(--radius-xl); text-align: center;
-            width: 90%; max-width: 360px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            background: var(--card-glass); border: 1px solid var(--accent-cyan);
+            padding: 40px 30px; border-radius: var(--radius-xl); text-align: center;
+            width: 90%; max-width: 380px; box-shadow: var(--glow-cyan);
+            position: relative; overflow: hidden;
         }
-        .pin-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+        /* Scanner line effect for futuristic look */
+        .pin-card::after {
+            content: ""; position: absolute; top: -50%; left: 0; width: 100%; height: 20%;
+            background: linear-gradient(to bottom, transparent, rgba(6, 182, 212, 0.4), transparent);
+            animation: scanLine 3s infinite linear; pointer-events: none;
+        }
+        @keyframes scanLine { 0% { top: -20%; } 100% { top: 120%; } }
+
+        .pin-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 16px; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
         .pin-card input {
-            width: 100%; padding: 14px; text-align: center; font-size: 26px;
-            letter-spacing: 12px; border-radius: var(--radius-md); border: 1px solid var(--card-border);
-            background: rgba(0,0,0,0.25); color: var(--text-primary); outline: none; margin-bottom: 14px;
+            width: 100%; padding: 16px; text-align: center; font-size: 32px;
+            letter-spacing: 16px; border-radius: var(--radius-md); border: 1px solid rgba(6, 182, 212, 0.5);
+            background: rgba(0,0,0,0.4); color: var(--accent-cyan); outline: none; margin-bottom: 18px;
+            text-shadow: 0 0 15px var(--accent-cyan);
         }
 
         /* Buttons */
         .btn-primary {
-            width: 100%; padding: 14px; border: none; border-radius: var(--radius-md);
-            background: linear-gradient(135deg, var(--accent-violet), #6366f1);
-            color: white; font-weight: 700; font-size: 14px; cursor: pointer;
-            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3); margin-top: 6px;
+            width: 100%; padding: 16px; border: none; border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+            color: white; font-weight: 800; font-size: 14px; cursor: pointer;
+            box-shadow: var(--glow-violet); margin-top: 8px; text-transform: uppercase; letter-spacing: 1px;
         }
-        .btn-primary:active { transform: scale(0.97); }
+        .btn-primary:hover { filter: brightness(1.1); }
+        .btn-primary:active { transform: scale(0.95); }
         .btn-bio {
-            background: rgba(16, 185, 129, 0.15) !important;
+            background: rgba(16, 185, 129, 0.1) !important;
             border: 1px solid var(--accent-emerald) !important;
             color: var(--accent-emerald) !important;
-            box-shadow: none !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2) !important;
         }
 
         /* Total Balance Card */
         .total-balance-card {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(16, 185, 129, 0.15));
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: var(--radius-lg);
-            padding: 22px;
-            position: relative; overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.8), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            border-radius: var(--radius-lg); padding: 26px;
+            position: relative; overflow: hidden; margin-bottom: 24px;
+            box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.1), 0 15px 35px rgba(0,0,0,0.3);
         }
-        .balance-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 600; }
-        .balance-amount { font-size: 32px; font-weight: 800; margin: 6px 0; color: #ffffff; }
+        .balance-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-cyan); font-weight: 700; }
+        .balance-amount { font-size: 38px; font-weight: 800; margin: 8px 0; color: #ffffff; text-shadow: 0 0 20px rgba(255,255,255,0.4); letter-spacing: -1px; }
         .budget-status-pill {
-            display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px;
-            border-radius: 30px; font-size: 11px; font-weight: 700;
-            background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px;
+            border-radius: 30px; font-size: 11px; font-weight: 800; text-transform: uppercase;
+            background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald);
+            border: 1px solid rgba(16, 185, 129, 0.4); box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
         }
         .budget-status-pill.kritis {
-            background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); border-color: rgba(244, 63, 94, 0.3);
+            background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); 
+            border-color: rgba(244, 63, 94, 0.4); box-shadow: 0 0 10px rgba(244, 63, 94, 0.2);
         }
 
         /* Pocket System */
         .pocket-section-title {
             display: flex; justify-content: space-between; align-items: center;
-            font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 10px;
+            font-size: 12px; font-weight: 800; letter-spacing: 1px; color: var(--accent-sky); margin-bottom: 12px;
         }
-        .pocket-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;
-        }
+        .pocket-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
         .pocket-card {
-            background: rgba(255, 255, 255, 0.04); border: 1px solid var(--card-border);
-            padding: 12px 10px; border-radius: var(--radius-md); text-align: center;
-            cursor: pointer; position: relative;
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.05);
+            padding: 16px 10px; border-radius: var(--radius-md); text-align: center;
+            cursor: pointer; position: relative; overflow: hidden;
         }
         .pocket-card:hover, .pocket-card.active {
-            border-color: var(--accent-violet); background: rgba(139, 92, 246, 0.12);
-            transform: translateY(-2px);
+            border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.1);
+            transform: translateY(-4px); box-shadow: var(--glow-cyan);
         }
-        .pocket-icon { font-size: 20px; margin-bottom: 4px; }
-        .pocket-name { font-size: 11px; font-weight: 700; color: var(--text-primary); }
-        .pocket-val { font-size: 12px; font-weight: 800; color: var(--accent-emerald); margin-top: 2px; }
+        .pocket-icon { font-size: 24px; margin-bottom: 6px; }
+        .pocket-name { font-size: 11px; font-weight: 800; color: var(--text-primary); text-transform: uppercase; letter-spacing: 1px; }
+        .pocket-val { font-size: 13px; font-weight: 800; color: var(--accent-emerald); margin-top: 4px; }
 
-        /* Filter Row & Input */
+        /* Filter & Metrics */
         .filter-row {
-            display: flex; gap: 10px; align-items: center; margin-bottom: 18px;
-            background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: var(--radius-md);
+            display: flex; gap: 12px; align-items: center; margin-bottom: 20px;
+            background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: var(--radius-md);
             border: 1px solid var(--card-border);
         }
-        .filter-row label { font-size: 12px; font-weight: 700; color: var(--text-secondary); white-space: nowrap; }
+        .filter-row label { font-size: 12px; font-weight: 800; color: var(--accent-cyan); white-space: nowrap; text-transform: uppercase; }
         .filter-row input[type="month"] {
             border: none; background: transparent; color: var(--text-primary);
-            font-size: 13px; font-weight: 700; outline: none; width: 100%; cursor: pointer;
+            font-size: 14px; font-weight: 800; outline: none; width: 100%; cursor: pointer;
         }
 
-        /* Metrics Cards */
-        .inc-exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .inc-exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
         .inc-card, .exp-card {
-            background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
-            padding: 14px; border-radius: var(--radius-lg); text-align: center;
+            background: rgba(0,0,0,0.3); border: 1px solid var(--card-border);
+            padding: 18px; border-radius: var(--radius-lg); text-align: center;
         }
-        .inc-card h5, .exp-card h5 { font-size: 11px; color: var(--text-secondary); font-weight: 600; margin-bottom: 4px; }
-        .inc-card p { font-size: 16px; font-weight: 800; color: var(--accent-emerald); }
-        .exp-card p { font-size: 16px; font-weight: 800; color: var(--accent-rose); }
+        .inc-card h5, .exp-card h5 { font-size: 10px; color: var(--text-secondary); font-weight: 800; letter-spacing: 1px; margin-bottom: 6px; }
+        .inc-card p { font-size: 18px; font-weight: 800; color: var(--accent-emerald); text-shadow: 0 0 10px rgba(16,185,129,0.3); }
+        .exp-card p { font-size: 18px; font-weight: 800; color: var(--accent-rose); text-shadow: 0 0 10px rgba(244,63,94,0.3); }
 
         /* Quantum Metrics Grid */
-        .quantum-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px;
-        }
+        .quantum-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
         .quantum-card {
-            background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.25);
-            padding: 12px; border-radius: var(--radius-md); text-align: center;
+            background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 14px 10px; border-radius: var(--radius-md); text-align: center;
+            box-shadow: inset 0 0 15px rgba(139, 92, 246, 0.05);
         }
-        .quantum-card h6 { font-size: 10px; color: var(--text-secondary); margin-bottom: 4px; }
-        .quantum-card p { font-size: 13px; font-weight: 800; color: var(--accent-cyan); }
+        .quantum-card h6 { font-size: 9px; font-weight: 800; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; }
+        .quantum-card p { font-size: 14px; font-weight: 800; color: var(--accent-violet); text-shadow: 0 0 10px rgba(139,92,246,0.4); }
 
         /* Chart Box */
         .chart-box {
-            background: rgba(0, 0, 0, 0.2); border: 1px solid var(--card-border);
-            padding: 16px; border-radius: var(--radius-lg); margin-bottom: 22px;
+            background: rgba(0, 0, 0, 0.3); border: 1px solid var(--card-border);
+            padding: 20px; border-radius: var(--radius-lg); margin-bottom: 24px;
         }
-        .chart-box h4 { font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 12px; text-align: center; }
-        .chart-wrapper { position: relative; height: 190px; width: 100%; }
+        .chart-box h4 { font-size: 12px; font-weight: 800; letter-spacing: 1px; color: var(--accent-cyan); margin-bottom: 16px; text-align: center; text-transform: uppercase; }
+        .chart-wrapper { position: relative; height: 200px; width: 100%; }
 
         /* Form Controls */
-        label { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block; }
+        label { font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--accent-cyan); margin-bottom: 8px; display: block; text-transform: uppercase; }
         input, select {
-            width: 100%; padding: 12px 14px; margin-bottom: 12px;
-            border: 1px solid var(--card-border); background: rgba(0, 0, 0, 0.3);
-            border-radius: var(--radius-md); color: var(--text-primary); outline: none; font-size: 14px; font-weight: 600;
+            width: 100%; padding: 14px 16px; margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.1); background: rgba(0, 0, 0, 0.4);
+            border-radius: var(--radius-md); color: var(--text-primary); outline: none; font-size: 14px; font-weight: 700;
         }
-        select option { background-color: #0f172a; color: #ffffff; }
-        input:focus, select:focus { border-color: var(--accent-violet); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
+        select option { background-color: #020617; color: #ffffff; }
+        input:focus, select:focus { border-color: var(--accent-cyan); box-shadow: var(--glow-cyan); }
 
-        .type-selector { display: flex; gap: 10px; margin-bottom: 14px; }
+        .type-selector { display: flex; gap: 12px; margin-bottom: 18px; }
         .type-btn {
-            flex: 1; padding: 12px; border-radius: var(--radius-md); text-align: center;
-            font-weight: 700; font-size: 13px; cursor: pointer; border: 1px solid var(--card-border);
-            background: rgba(0, 0, 0, 0.2); color: var(--text-secondary); user-select: none;
+            flex: 1; padding: 14px; border-radius: var(--radius-md); text-align: center;
+            font-weight: 800; font-size: 13px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0, 0, 0, 0.3); color: var(--text-secondary); user-select: none; text-transform: uppercase;
         }
-        .type-btn.active-keluar { background: rgba(244, 63, 94, 0.15); border-color: var(--accent-rose); color: var(--accent-rose); }
-        .type-btn.active-masuk { background: rgba(16, 185, 129, 0.15); border-color: var(--accent-emerald); color: var(--accent-emerald); }
+        .type-btn.active-keluar { background: rgba(244, 63, 94, 0.15); border-color: var(--accent-rose); color: var(--accent-rose); box-shadow: 0 0 15px rgba(244,63,94,0.2); }
+        .type-btn.active-masuk { background: rgba(16, 185, 129, 0.15); border-color: var(--accent-emerald); color: var(--accent-emerald); box-shadow: 0 0 15px rgba(16,185,129,0.2); }
 
         /* History List */
-        .history-list { list-style: none; margin-top: 10px; }
+        .history-list { list-style: none; margin-top: 12px; }
         .history-item {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border);
-            padding: 14px; border-radius: var(--radius-md); margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.05);
+            padding: 16px; border-radius: var(--radius-md); margin-bottom: 12px;
             display: flex; justify-content: space-between; align-items: center;
-            animation: slideIn 0.3s ease;
+            animation: slideIn 0.4s ease; border-left: 3px solid transparent;
         }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .history-item:hover { background: rgba(255,255,255,0.05); border-color: var(--accent-cyan); }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
         
-        .item-info small { font-size: 10px; color: var(--text-secondary); }
-        .item-info div { font-weight: 700; font-size: 14px; margin: 2px 0; }
-        .item-val { font-weight: 800; font-size: 14px; }
-        .item-actions { display: flex; gap: 6px; margin-top: 4px; }
-        .action-chip { border: none; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; }
-        .chip-edit { background: rgba(139, 92, 246, 0.2); color: var(--accent-violet); }
-        .chip-del { background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); }
+        .item-info small { font-size: 10px; font-weight: 700; color: var(--accent-cyan); letter-spacing: 0.5px; }
+        .item-info div { font-weight: 800; font-size: 14px; margin: 4px 0; }
+        .item-val { font-weight: 800; font-size: 15px; }
+        .item-actions { display: flex; gap: 8px; margin-top: 6px; }
+        .action-chip { border: none; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        .chip-edit { background: rgba(139, 92, 246, 0.15); color: var(--accent-violet); border: 1px solid rgba(139, 92, 246, 0.3); }
+        .chip-del { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); border: 1px solid rgba(244, 63, 94, 0.3); }
 
         /* Floating AI Advisor Widget */
         .ai-floating-btn {
-            position: fixed; bottom: 85px; right: 20px; z-index: 999;
-            width: 52px; height: 52px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-violet), var(--accent-sky));
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5);
+            position: fixed; bottom: 100px; right: 20px; z-index: 999;
+            width: 56px; height: 56px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+            box-shadow: var(--glow-cyan);
             display: flex; align-items: center; justify-content: center;
-            font-size: 24px; cursor: pointer; border: 2px solid rgba(255,255,255,0.4);
-            animation: pulseGlow 3s infinite;
+            font-size: 26px; cursor: pointer; border: 2px solid rgba(255,255,255,0.6);
+            animation: pulseGlow 2s infinite;
         }
         @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5); }
-            50% { transform: scale(1.08); box-shadow: 0 15px 35px rgba(139, 92, 246, 0.8); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(6, 182, 212, 0.5); }
+            50% { transform: scale(1.1); box-shadow: 0 0 35px rgba(139, 92, 246, 0.8); }
         }
 
         .ai-chat-drawer {
-            position: fixed; bottom: 150px; right: 20px; width: 90%; max-width: 360px;
-            background: var(--card-glass); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--card-border); border-radius: var(--radius-lg);
-            padding: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            display: none; flex-direction: column; gap: 12px; z-index: 998;
-            animation: drawerUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: fixed; bottom: 170px; right: 20px; width: 90%; max-width: 380px;
+            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--accent-cyan); border-radius: var(--radius-lg);
+            padding: 20px; box-shadow: var(--glow-cyan);
+            display: none; flex-direction: column; gap: 14px; z-index: 998;
+            animation: drawerUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @keyframes drawerUp { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes drawerUp { from { opacity: 0; transform: translateY(30px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        .ai-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 8px; }
-        .ai-header h4 { font-size: 14px; font-weight: 800; color: var(--accent-violet); display: flex; align-items: center; gap: 6px; }
-        .ai-body { font-size: 13px; line-height: 1.5; color: var(--text-primary); max-height: 220px; overflow-y: auto; }
-        .ai-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+        .ai-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        .ai-header h4 { font-size: 14px; font-weight: 800; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .ai-body { font-size: 13px; line-height: 1.6; color: var(--text-primary); max-height: 240px; overflow-y: auto; font-weight: 500; }
+        .ai-chips { display: flex; gap: 8px; flex-wrap: wrap; }
         .ai-chip-btn {
-            background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
-            padding: 6px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; color: var(--text-secondary); cursor: pointer;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; color: var(--text-primary); cursor: pointer;
         }
-        .ai-chip-btn:hover { background: var(--accent-violet); color: white; }
-
-        /* Action Buttons Group */
-        .action-group { display: flex; gap: 10px; margin-top: 18px; }
-        .btn-sub {
-            flex: 1; padding: 11px; background: rgba(255,255,255,0.05); border: 1px solid var(--card-border);
-            color: var(--text-primary); border-radius: var(--radius-md); font-size: 12px; font-weight: 700; cursor: pointer;
-        }
-        .btn-danger { background: rgba(244, 63, 94, 0.15); border-color: var(--accent-rose); color: var(--accent-rose); width: 100%; margin-top: 10px; }
+        .ai-chip-btn:hover { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); }
 
         /* Modal Overlay */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(16px);
+            background: rgba(2, 6, 23, 0.9); backdrop-filter: blur(20px);
             display: none; justify-content: center; align-items: center; z-index: 100000;
         }
         .modal-box {
-            background: var(--card-glass); border: 1px solid var(--card-border);
-            padding: 24px; border-radius: var(--radius-lg); width: 88%; max-width: 340px; text-align: center;
+            background: var(--card-glass); border: 1px solid var(--accent-cyan); box-shadow: var(--glow-cyan);
+            padding: 28px; border-radius: var(--radius-lg); width: 90%; max-width: 360px; text-align: center;
         }
-        .modal-btns { display: flex; gap: 10px; margin-top: 16px; }
-        .modal-btns button { flex: 1; padding: 10px; border: none; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; }
-        .btn-confirm { background: var(--accent-violet); color: white; }
-        .btn-cancel { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
+        .modal-btns { display: flex; gap: 12px; margin-top: 20px; }
+        .modal-btns button { flex: 1; padding: 14px; border: none; border-radius: var(--radius-md); font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 12px; }
+        .btn-confirm { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet)); color: white; }
+        .btn-cancel { background: rgba(255,255,255,0.1); color: var(--text-primary); }
     </style>
 </head>
 <body>
@@ -420,23 +420,23 @@
     <!-- Lock Screen (PIN & WebAuthn Biometric) -->
     <div id="pin-screen" class="pin-overlay">
         <div class="pin-card">
-            <h3>🔐 Keamanan Dompetku</h3>
-            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;">Masukkan PIN atau Biometrik HP Anda</p>
+            <h3>🔐 NEO-SECURITY</h3>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 20px; font-weight: 600;">Otentikasi Identitas Kuantum</p>
             <input type="password" id="pin-input" maxlength="6" placeholder="••••" autocomplete="off">
-            <button class="btn-primary" onclick="verifikasiPIN()">Buka Aplikasi</button>
-            <button class="btn-primary btn-bio" onclick="loginBiometric()">👆 Fingerprint / FaceID</button>
-            <p style="font-size: 12px; color: var(--accent-violet); margin-top: 14px; cursor: pointer;" onclick="lupaPIN()">Lupa PIN?</p>
+            <button class="btn-primary" onclick="verifikasiPIN()">AKSES TERMINAL</button>
+            <button class="btn-primary btn-bio" onclick="loginBiometric()">👆 NEURAL / BIOMETRIC SCAN</button>
+            <p style="font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--accent-cyan); margin-top: 20px; cursor: pointer;" onclick="lupaPIN()">RECOVERY PROTOCOL</p>
         </div>
     </div>
 
     <!-- Custom Modal Popup -->
     <div id="custom-modal" class="modal-overlay">
         <div class="modal-box">
-            <p id="modal-text" style="font-size: 14px; font-weight: 600;"></p>
+            <p id="modal-text" style="font-size: 15px; font-weight: 800; margin-bottom: 15px;"></p>
             <div id="modal-input-container"></div>
             <div class="modal-btns">
-                <button id="modal-cancel-btn" class="btn-cancel">Batal</button>
-                <button id="modal-confirm-btn" class="btn-confirm">Lanjutkan</button>
+                <button id="modal-cancel-btn" class="btn-cancel">ABORT</button>
+                <button id="modal-confirm-btn" class="btn-confirm">EXECUTE</button>
             </div>
         </div>
     </div>
@@ -446,7 +446,7 @@
         <!-- Header Bar -->
         <div class="header-bar">
             <div class="brand-title">
-                <h2>DOMPETKU <span>v0.2</span></h2>
+                <h2>DOMPETKU <span>v0.1 Standar</span></h2>
             </div>
             <div class="header-actions">
                 <button class="icon-btn-rounded" title="Kelola Kantong & Transfer" onclick="bukaModalTransfer()">🔄</button>
@@ -458,41 +458,41 @@
         <!-- KATALOG 1: BERANDA / UTAMA -->
         <div id="tab-beranda" class="tab-content active">
             <div class="total-balance-card">
-                <div class="balance-label">Total Neraca Seluruh Kantong</div>
+                <div class="balance-label">Total Neraca Aset Kuantum</div>
                 <div id="saldo" class="balance-amount">Rp 0</div>
                 <div id="status-anggaran" class="budget-status-pill">⚡ Status: Optimal</div>
             </div>
 
             <!-- Multi-Pocket Dana -->
             <div class="pocket-section-title">
-                <span>🎯 KANTONG DANA</span>
-                <span style="color: var(--accent-violet); cursor: pointer;" onclick="bukaModalTransfer()">+ Transfer</span>
+                <span>🎯 NODE KANTONG DANA</span>
+                <span style="color: var(--accent-cyan); cursor: pointer;" onclick="bukaModalTransfer()">+ Reroute Transfer</span>
             </div>
             <div class="pocket-grid">
                 <div class="pocket-card active" id="pocket-card-utama" onclick="pilihFilterPocket('utama')">
                     <div class="pocket-icon">💳</div>
-                    <div class="pocket-name">Utama</div>
+                    <div class="pocket-name">Main Node</div>
                     <div class="pocket-val" id="val-pocket-utama">Rp 0</div>
                 </div>
                 <div class="pocket-card" id="pocket-card-tabungan" onclick="pilihFilterPocket('tabungan')">
                     <div class="pocket-icon">🎯</div>
-                    <div class="pocket-name">Tabungan</div>
+                    <div class="pocket-name">Future Node</div>
                     <div class="pocket-val" id="val-pocket-tabungan">Rp 0</div>
                 </div>
                 <div class="pocket-card" id="pocket-card-darurat" onclick="pilihFilterPocket('darurat')">
                     <div class="pocket-icon">🚨</div>
-                    <div class="pocket-name">Darurat</div>
+                    <div class="pocket-name">Crisis Node</div>
                     <div class="pocket-val" id="val-pocket-darurat">Rp 0</div>
                 </div>
             </div>
 
             <div class="inc-exp-grid">
                 <div class="inc-card">
-                    <h5>PEMASUKAN BULAN INI</h5>
+                    <h5>INFLOW SIKLUS INI</h5>
                     <p id="pemasukan">Rp 0</p>
                 </div>
                 <div class="exp-card">
-                    <h5>PENGELUARAN BULAN INI</h5>
+                    <h5>OUTFLOW SIKLUS INI</h5>
                     <p id="pengeluaran">Rp 0</p>
                 </div>
             </div>
@@ -507,9 +507,9 @@
 
         <!-- KATALOG 2: QUANTUM LIFETIME WEALTH SIMULATION -->
         <div id="tab-quantum" class="tab-content">
-            <div style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.15)); padding: 18px; border-radius: var(--radius-lg); border: 1px solid rgba(6, 182, 212, 0.3); margin-bottom: 16px;">
-                <h4 style="font-size: 14px; font-weight: 800; color: var(--accent-cyan); margin-bottom: 6px;">⚛️ QUANTUM LIFETIME WEALTH SIMULATOR</h4>
-                <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin-bottom: 14px;">
+            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--accent-cyan); margin-bottom: 20px; box-shadow: inset 0 0 15px rgba(6,182,212,0.1);">
+                <h4 style="font-size: 15px; font-weight: 800; color: var(--accent-cyan); margin-bottom: 10px; text-shadow: 0 0 10px rgba(6,182,212,0.5);">⚛️ QUANTUM LIFETIME WEALTH SIMULATOR</h4>
+                <p style="font-size: 11px; font-weight: 600; color: var(--text-secondary); line-height: 1.5; margin-bottom: 18px;">
                     Prediksi probabilitas nilai kekayaan pribadi 50–100 tahun ke depan memperhitungkan siklus hiper-inflasi, krisis makro iklim, dan akumulasi warisan generasional.
                 </p>
 
@@ -529,10 +529,9 @@
                 <label for="sim-inheritance">ALOKASI WARISAN LINTAS GENERASI (%):</label>
                 <input type="number" id="sim-inheritance" value="40" min="10" max="100" placeholder="Contoh: 40">
 
-                <button class="btn-primary" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet)); border:none;" onclick="jalankanSimulasiKuantum()">⚡ JALANKAN MESIN QUANTUM SIMULATION</button>
+                <button class="btn-primary" onclick="jalankanSimulasiKuantum()">⚡ JALANKAN MESIN QUANTUM SIMULATION</button>
             </div>
 
-            <!-- Ringkasan Hasil Quantum Simulation -->
             <div class="quantum-grid">
                 <div class="quantum-card">
                     <h6>ESTIMASI NILAIASET (MEDIAN)</h6>
@@ -549,7 +548,7 @@
             </div>
 
             <div class="chart-box">
-                <h4>📈 TRAJEKTORI BEBAS SEPANJANG ABAD (MONTE CARLO PROBABILITY)</h4>
+                <h4>📈 TRAJEKTORI BEBAS SEPANJANG ABAD</h4>
                 <div class="chart-wrapper">
                     <canvas id="chartQuantum"></canvas>
                 </div>
@@ -558,100 +557,100 @@
 
         <!-- KATALOG 3: TAMBAH TRANSAKSI -->
         <div id="tab-transaksi" class="tab-content">
-            <div style="background: rgba(0,0,0,0.15); padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 16px;">
-                <h4 id="form-title" style="font-size: 14px; font-weight: 800; color: var(--accent-violet); margin-bottom: 14px;">+ CATAT TRANSAKSI BARU</h4>
+            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 20px;">
+                <h4 id="form-title" style="font-size: 15px; font-weight: 800; color: var(--accent-violet); margin-bottom: 18px; text-shadow: 0 0 10px rgba(139,92,246,0.4);">+ INJEKSI DATA TRANSAKSI</h4>
                 
                 <div class="type-selector">
-                    <div id="btn-jenis-keluar" class="type-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Pengeluaran (-)</div>
-                    <div id="btn-jenis-masuk" class="type-btn" onclick="pilihJenis('masuk')">🟢 Pemasukan (+)</div>
+                    <div id="btn-jenis-keluar" class="type-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Outflow (-)</div>
+                    <div id="btn-jenis-masuk" class="type-btn" onclick="pilihJenis('masuk')">🟢 Inflow (+)</div>
                 </div>
 
-                <label for="select-pocket-target">SIMPAN KE KANTONG:</label>
+                <label for="select-pocket-target">SIMPAN KE NODE KANTONG:</label>
                 <select id="select-pocket-target">
-                    <option value="utama">Dompet Utama 💳</option>
-                    <option value="tabungan">Tabungan Masa Depan 🎯</option>
-                    <option value="darurat">Dana Darurat 🚨</option>
+                    <option value="utama">Main Node 💳</option>
+                    <option value="tabungan">Future Node 🎯</option>
+                    <option value="darurat">Crisis Node 🚨</option>
                 </select>
 
-                <label for="tanggal">TANGGAL TRANSAKSI:</label>
+                <label for="tanggal">TIMESTAMP:</label>
                 <input type="date" id="tanggal">
                 
                 <label for="kategori">KATEGORI:</label>
                 <select id="kategori">
-                    <option value="Makanan 🍔">Makanan 🍔</option>
-                    <option value="Transportasi 🚗">Transportasi 🚗</option>
-                    <option value="Belanja 🛍️">Belanja 🛍️</option>
-                    <option value="Tagihan 📄">Tagihan 📄</option>
-                    <option value="Gaji 💰">Gaji 💰</option>
-                    <option value="Lainnya 📌">Lainnya 📌</option>
+                    <option value="Makanan 🍔">Nutrisi & Makanan 🍔</option>
+                    <option value="Transportasi 🚗">Mobilitas 🚗</option>
+                    <option value="Belanja 🛍️">Logistik & Belanja 🛍️</option>
+                    <option value="Tagihan 📄">Infrastruktur/Tagihan 📄</option>
+                    <option value="Gaji 💰">Pendapatan Utama 💰</option>
+                    <option value="Lainnya 📌">Aktivitas Lainnya 📌</option>
                 </select>
                 
-                <label for="keterangan">KETERANGAN:</label>
-                <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi)">
+                <label for="keterangan">LOG KETERANGAN:</label>
+                <input type="text" id="keterangan" placeholder="Input Log Data (misal: Beli Kopi)">
                 
-                <label for="nominal">NOMINAL (RP):</label>
-                <input type="text" id="nominal" placeholder="Nominal (misal: 50.000)" oninput="formatRupiahInput(this)">
+                <label for="nominal">UNIT NOMINAL (RP):</label>
+                <input type="text" id="nominal" placeholder="Input Value (misal: 50000)" oninput="formatRupiahInput(this)">
                 
-                <button id="btn-simpan" class="btn-primary" onclick="simpanTransaksi()">TAMBAHKAN TRANSAKSI</button>
-                <button id="btn-batal" class="btn-primary" style="background: rgba(255,255,255,0.1); margin-top:8px; display:none;" onclick="batalEdit()">BATAL</button>
+                <button id="btn-simpan" class="btn-primary" onclick="simpanTransaksi()">INJEKSI KE DATABASE</button>
+                <button id="btn-batal" class="btn-primary" style="background: rgba(255,255,255,0.1); margin-top:10px; display:none;" onclick="batalEdit()">BATALKAN PROSES</button>
             </div>
 
-            <!-- Transaksi Berulang Otomatis (Recurring) -->
-            <div style="background: rgba(139, 92, 246, 0.08); padding: 14px; border-radius: var(--radius-md); border: 1px dashed var(--accent-violet);">
+            <!-- Transaksi Berulang Otomatis -->
+            <div style="background: rgba(139, 92, 246, 0.1); padding: 18px; border-radius: var(--radius-lg); border: 1px dashed var(--accent-violet);">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 12px; font-weight: 700; color: var(--accent-violet);">📅 TAGIHAN/PEMASUKAN RUTIN</span>
-                    <button class="action-chip chip-edit" onclick="bukaModalRecurring()">+ Kelola Rutin</button>
+                    <span style="font-size: 13px; font-weight: 800; color: var(--accent-violet);">📅 AUTOMATED RUTINITAS</span>
+                    <button class="action-chip chip-edit" onclick="bukaModalRecurring()">+ Set Protokol</button>
                 </div>
-                <small style="font-size: 10px; color: var(--text-secondary); display:block; margin-top: 4px;">Otomatis ditambahkan setiap bulan saat tanggal penagihan tiba.</small>
+                <small style="font-size: 11px; font-weight: 600; color: var(--text-secondary); display:block; margin-top: 8px;">Skrip otomatis ditambahkan setiap siklus bulan baru.</small>
             </div>
         </div>
 
         <!-- KATALOG 4: RIWAYAT & LAPORAN -->
         <div id="tab-riwayat" class="tab-content">
             <div class="filter-row">
-                <label for="filter-bulan">📅 PERIODE:</label>
+                <label for="filter-bulan">📅 SIKLUS:</label>
                 <input type="month" id="filter-bulan" onchange="updateTampilan()">
             </div>
 
             <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-                    <h4 style="font-size: 13px; font-weight: 700; color: var(--text-secondary);">📜 LOG TRANSAKSI</h4>
-                    <select id="filter-kategori" onchange="updateTampilan()" style="width: auto; padding: 6px 10px; margin-bottom:0; font-size:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                    <h4 style="font-size: 14px; font-weight: 800; color: var(--text-secondary);">📜 LOG DATABASE</h4>
+                    <select id="filter-kategori" onchange="updateTampilan()" style="width: auto; padding: 8px 12px; margin-bottom:0; font-size:12px; border-radius: 8px;">
                         <option value="semua">Semua Kategori 📑</option>
-                        <option value="Makanan 🍔">Makanan 🍔</option>
-                        <option value="Transportasi 🚗">Transportasi 🚗</option>
-                        <option value="Belanja 🛍️">Belanja 🛍️</option>
-                        <option value="Tagihan 📄">Tagihan 📄</option>
-                        <option value="Gaji 💰">Gaji 💰</option>
-                        <option value="Lainnya 📌">Lainnya 📌</option>
+                        <option value="Makanan 🍔">Nutrisi & Makanan 🍔</option>
+                        <option value="Transportasi 🚗">Mobilitas 🚗</option>
+                        <option value="Belanja 🛍️">Logistik & Belanja 🛍️</option>
+                        <option value="Tagihan 📄">Infrastruktur/Tagihan 📄</option>
+                        <option value="Gaji 💰">Pendapatan Utama 💰</option>
+                        <option value="Lainnya 📌">Aktivitas Lainnya 📌</option>
                     </select>
                 </div>
 
-                <input type="text" id="search-input" placeholder="🔍 Cari transaksi..." oninput="updateTampilan()">
+                <input type="text" id="search-input" placeholder="🔍 Query pencarian log..." oninput="updateTampilan()">
 
                 <ul id="list-riwayat" class="history-list"></ul>
 
-                <div class="action-group">
-                    <button class="btn-sub" onclick="exportCSV()">📁 Export CSV</button>
-                    <button class="btn-sub" onclick="exportJSON()">💾 Backup JSON</button>
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button class="btn-primary" style="background: rgba(255,255,255,0.1); font-size: 12px;" onclick="exportCSV()">📁 EKSTRAKSI CSV</button>
+                    <button class="btn-primary" style="background: rgba(255,255,255,0.1); font-size: 12px;" onclick="exportJSON()">💾 BACKUP JSON</button>
                 </div>
             </div>
         </div>
 
         <!-- KATALOG 5: PENGATURAN -->
         <div id="tab-pengaturan" class="tab-content">
-            <h4 style="font-size: 14px; font-weight: 800; color: var(--accent-violet); margin-bottom: 16px;">⚙️ PENGATURAN & ANGGARAN</h4>
+            <h4 style="font-size: 15px; font-weight: 800; color: var(--accent-cyan); margin-bottom: 20px; text-shadow: 0 0 10px rgba(6,182,212,0.4);">⚙️ SYSTEM PREFERENCES</h4>
 
-            <div style="margin-bottom: 20px; background: rgba(0,0,0,0.15); padding: 16px; border-radius: var(--radius-lg); border: 1px solid var(--card-border);">
-                <label for="input-budget">🎯 BATAS PENGELUARAN BULANAN:</label>
-                <input type="text" id="input-budget" placeholder="Set Batas (misal: 2.000.000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
-                <small style="font-size: 11px; color: var(--text-secondary);">Peringatan otomatis akan aktif jika pengeluaran melebihi angka ini.</small>
+            <div style="margin-bottom: 24px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--card-border);">
+                <label for="input-budget">🎯 BATAS OUTFLOW SIKLUS:</label>
+                <input type="text" id="input-budget" placeholder="Limit Angka (misal: 2000000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
+                <small style="font-size: 11px; font-weight: 600; color: var(--text-secondary);">Protokol peringatan aktif jika melampaui limit.</small>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="btn-sub" onclick="bukaModalTransfer()" style="padding: 14px; text-align: left;">🔄 Transfer Antar Kantong Dana</button>
-                <button class="btn-sub" onclick="bukaAturPIN()" style="padding: 14px; text-align: left;">🔐 Ubah PIN Keamanan & Recovery</button>
-                <button class="btn-sub btn-danger" onclick="resetData()">🗑️ Reset Seluruh Database</button>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button class="btn-primary" style="background: rgba(255,255,255,0.1); text-align: left; font-size: 12px;" onclick="bukaModalTransfer()">🔄 Reroute Antar Node (Transfer)</button>
+                <button class="btn-primary" style="background: rgba(255,255,255,0.1); text-align: left; font-size: 12px;" onclick="bukaAturPIN()">🔐 Konfigurasi Keamanan PIN</button>
+                <button class="btn-primary" style="background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); border: 1px solid var(--accent-rose); text-align: left; font-size: 12px;" onclick="resetData()">🗑️ PURGE (Hapus Seluruh Database)</button>
             </div>
         </div>
     </div>
@@ -659,24 +658,19 @@
     <!-- FIXED BOTTOM NAVIGATION BAR -->
     <div class="bottom-nav">
         <div class="nav-item active" id="nav-beranda" onclick="switchTab('beranda')">
-            <span class="icon">🏠</span>
-            <span>Beranda</span>
+            <span class="icon">🏠</span><span>Dashboard</span>
         </div>
         <div class="nav-item" id="nav-quantum" onclick="switchTab('quantum')">
-            <span class="icon">⚛️</span>
-            <span>Quantum</span>
+            <span class="icon">⚛️</span><span>Quantum</span>
         </div>
         <div class="nav-item" id="nav-transaksi" onclick="switchTab('transaksi')">
-            <span class="icon">➕</span>
-            <span>Catat</span>
+            <span class="icon">➕</span><span>Injeksi</span>
         </div>
         <div class="nav-item" id="nav-riwayat" onclick="switchTab('riwayat')">
-            <span class="icon">📜</span>
-            <span>Riwayat</span>
+            <span class="icon">📜</span><span>Log Data</span>
         </div>
         <div class="nav-item" id="nav-pengaturan" onclick="switchTab('pengaturan')">
-            <span class="icon">⚙️</span>
-            <span>Atur</span>
+            <span class="icon">⚙️</span><span>Sistem</span>
         </div>
     </div>
 
@@ -685,21 +679,96 @@
 
     <div id="ai-chat-drawer" class="ai-chat-drawer">
         <div class="ai-header">
-            <h4>🤖 AI Advisor (Wakkk Assistant)</h4>
-            <span style="cursor: pointer; font-size: 16px;" onclick="toggleAIChat()">✕</span>
+            <h4>🤖 AI-A (Autonomous Advisor)</h4>
+            <span style="cursor: pointer; font-size: 18px; color: var(--text-secondary);" onclick="toggleAIChat()">✕</span>
         </div>
         <div id="ai-body" class="ai-body">
-            Memuat analisis data transaksi kamu...
+            Inisialisasi pemindaian database transaksi...
         </div>
         <div class="ai-chips">
-            <button class="ai-chip-btn" onclick="tanyaAI('analisis')">💡 Evaluasi Bulan Ini</button>
-            <button class="ai-chip-btn" onclick="tanyaAI('tips')">☕ Tips Hemat Wakkk</button>
-            <button class="ai-chip-btn" onclick="tanyaAI('kantong')">🎯 Status Kantong</button>
+            <button class="ai-chip-btn" onclick="tanyaAI('analisis')">💡 Analitik Siklus</button>
+            <button class="ai-chip-btn" onclick="tanyaAI('tips')">☕ Saran Taktis</button>
+            <button class="ai-chip-btn" onclick="tanyaAI('kantong')">🎯 Status Node</button>
         </div>
     </div>
 
     <!-- JavaScript Core Engine -->
     <script>
+        // ================= AUTO UPDATE & OFFLINE PWA ENGINE =================
+        // Skrip ini akan membuat ServiceWorker secara dinamis tanpa perlu file .js eksternal
+        if ('serviceWorker' in navigator) {
+            const swScript = `
+                const CACHE_NAME = 'dompetku-quantum-v01';
+                self.addEventListener('install', event => {
+                    self.skipWaiting(); // Langsung update cache baru tanpa menunggu
+                });
+                self.addEventListener('activate', event => {
+                    event.waitUntil(self.clients.claim());
+                });
+                self.addEventListener('fetch', event => {
+                    event.respondWith(
+                        fetch(event.request).catch(() => caches.match(event.request))
+                    );
+                });
+            `;
+            const blob = new Blob([swScript], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl)
+                .then(() => console.log('✅ Sistem Offline & Auto-Update Kuantum Aktif.'))
+                .catch(err => console.log('PWA Error (Bisa diabaikan jika tidak pakai HTTPS):', err));
+        }
+
+        // ================= SCI-FI WEB AUDIO API (NO DOWNLOADS NEEDED) =================
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+        
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioContext();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playSciFiSound(type) {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                const now = audioCtx.currentTime;
+                
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(800, now);
+                    osc.frequency.exponentialRampToValueAtTime(1200, now + 0.05);
+                    gainNode.gain.setValueAtTime(0.05, now);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+                    osc.start(now); osc.stop(now + 0.1);
+                } else if (type === 'success') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.setValueAtTime(600, now + 0.1);
+                    osc.frequency.setValueAtTime(1000, now + 0.2);
+                    gainNode.gain.setValueAtTime(0.05, now);
+                    gainNode.gain.linearRampToValueAtTime(0, now + 0.4);
+                    osc.start(now); osc.stop(now + 0.4);
+                } else if (type === 'error') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(100, now + 0.3);
+                    gainNode.gain.setValueAtTime(0.05, now);
+                    gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
+                    osc.start(now); osc.stop(now + 0.3);
+                }
+            } catch (e) { console.log('Audio not supported or interaction needed first'); }
+        }
+
+        function triggerHaptic() {
+            if (navigator.vibrate) navigator.vibrate(20);
+            playSciFiSound('click');
+        }
+
+        // ================= APP LOGIC VARIABLES =================
         const KEY_TRANSAKSI = 'dompetku_v01_transaksi';
         const KEY_BUDGET = 'dompetku_v01_budget';
         const KEY_PIN = 'dompetku_v01_pin';
@@ -726,10 +795,6 @@
         document.getElementById('tanggal').valueAsDate = now;
         const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
         document.getElementById('filter-bulan').value = currentMonthStr;
-
-        function triggerHaptic() {
-            if (navigator.vibrate) navigator.vibrate(20);
-        }
 
         // ================= TAB SWITCHER =================
         function switchTab(tabName) {
@@ -763,28 +828,31 @@
             document.getElementById('pin-screen').style.display = "none";
             prosesRecurringOtomatis();
             updateTampilan();
+            playSciFiSound('success');
         }
 
         function verifikasiPIN() {
+            initAudio(); // Initialize audio context on first user interaction
             triggerHaptic();
             if (document.getElementById('pin-input').value === appPin) {
                 unlockApp();
             } else {
-                showCustomModal("❌ PIN Salah!", null, false);
+                showCustomModal("❌ OTENTIKASI GAGAL!", null, false);
                 document.getElementById('pin-input').value = "";
             }
         }
 
         async function loginBiometric() {
+            initAudio();
             triggerHaptic();
             if (window.PublicKeyCredential && (await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())) {
-                showCustomModal("👆 Melakukan otentikasi biometrik...", null, false);
+                showCustomModal("👆 Melakukan pemindaian neural/biometrik...", null, false);
                 setTimeout(() => {
                     unlockApp();
-                    showCustomModal("✅ Otentikasi Berhasil!", null, false);
+                    showCustomModal("✅ AKSES DIBERIKAN!", null, false);
                 }, 800);
             } else {
-                showCustomModal("ℹ️ Perangkat tidak mendukung Biometrik WebAuthn. Gunakan PIN manual.", null, false);
+                showCustomModal("ℹ️ Perangkat tidak mendukung Biometrik Kuantum. Gunakan PIN manual.", null, false);
             }
         }
 
@@ -800,34 +868,34 @@
         function bukaModalTransfer() {
             triggerHaptic();
             let htmlInputs = `
-                <label style="text-align:left;">DARI KANTONG:</label>
-                <select id="modal-trans-from" style="margin-bottom:8px">
-                    <option value="utama">Dompet Utama 💳</option>
-                    <option value="tabungan">Tabungan Masa Depan 🎯</option>
-                    <option value="darurat">Dana Darurat 🚨</option>
+                <label style="text-align:left;">DARI NODE KANTONG:</label>
+                <select id="modal-trans-from" style="margin-bottom:12px">
+                    <option value="utama">Main Node 💳</option>
+                    <option value="tabungan">Future Node 🎯</option>
+                    <option value="darurat">Crisis Node 🚨</option>
                 </select>
-                <label style="text-align:left;">KE KANTONG:</label>
-                <select id="modal-trans-to" style="margin-bottom:8px">
-                    <option value="tabungan">Tabungan Masa Depan 🎯</option>
-                    <option value="darurat">Dana Darurat 🚨</option>
-                    <option value="utama">Dompet Utama 💳</option>
+                <label style="text-align:left;">KE NODE KANTONG:</label>
+                <select id="modal-trans-to" style="margin-bottom:12px">
+                    <option value="tabungan">Future Node 🎯</option>
+                    <option value="darurat">Crisis Node 🚨</option>
+                    <option value="utama">Main Node 💳</option>
                 </select>
-                <input type="text" id="modal-trans-amount" placeholder="Nominal Transfer" oninput="formatRupiahInput(this)">
+                <input type="text" id="modal-trans-amount" placeholder="Input Nominal Transfer" oninput="formatRupiahInput(this)">
             `;
-            showCustomModal("🔄 TRANSFER ANTAR KANTONG", function() {
+            showCustomModal("🔄 REROUTE DATA TRANSFER", function() {
                 let from = document.getElementById('modal-trans-from').value;
                 let to = document.getElementById('modal-trans-to').value;
                 let amt = getUnformattedNumber(document.getElementById('modal-trans-amount').value);
 
-                if (from === to) { showCustomModal("❌ Kantong asal dan tujuan tidak boleh sama!", null, false); return; }
-                if (amt <= 0) { showCustomModal("❌ Nominal transfer harus lebih dari 0!", null, false); return; }
+                if (from === to) { showCustomModal("❌ Asal dan Tujuan harus berbeda!", null, false); return; }
+                if (amt <= 0) { showCustomModal("❌ Value tidak valid!", null, false); return; }
 
                 const tgl = new Date().toISOString().split('T')[0];
-                transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Transfer ke ${to}`, nominal: amt, jenis: 'keluar', pocket: from });
-                transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Transfer dari ${from}`, nominal: amt, jenis: 'masuk', pocket: to });
+                transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Reroute ke ${to}`, nominal: amt, jenis: 'keluar', pocket: from });
+                transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Reroute dari ${from}`, nominal: amt, jenis: 'masuk', pocket: to });
 
                 updateTampilan();
-                showCustomModal("✅ Transfer antar kantong berhasil!", null, false);
+                showCustomModal("✅ Transfer Antar Node Berhasil!", null, false);
             }, true, htmlInputs);
         }
 
@@ -841,7 +909,7 @@
                     transaksi.push({
                         tanggal: `${bulanIni}-${String(r.day).padStart(2, '0')}`,
                         kategori: r.kategori,
-                        keterangan: `[RUTIN] ${r.keterangan}`,
+                        keterangan: `[AUTO-SCRIPT] ${r.keterangan}`,
                         nominal: r.nominal,
                         jenis: r.jenis,
                         pocket: r.pocket || 'utama'
@@ -861,22 +929,22 @@
         function bukaModalRecurring() {
             triggerHaptic();
             let htmlInputs = `
-                <input type="text" id="rec-title" placeholder="Nama Tagihan/Gaji (misal: Sewa Kos)" style="margin-bottom:8px">
-                <input type="text" id="rec-amount" placeholder="Nominal Rutin" oninput="formatRupiahInput(this)" style="margin-bottom:8px">
-                <label style="text-align:left;">JENIS & TANGGAL JATUH TEMPO (1-28):</label>
-                <select id="rec-jenis" style="margin-bottom:8px">
-                    <option value="keluar">Pengeluaran Rutin (-)</option>
-                    <option value="masuk">Pemasukan Rutin (+)</option>
+                <input type="text" id="rec-title" placeholder="Nama Protokol (misal: Sewa Server)" style="margin-bottom:12px">
+                <input type="text" id="rec-amount" placeholder="Nominal Rutin" oninput="formatRupiahInput(this)" style="margin-bottom:12px">
+                <label style="text-align:left;">TIPE & HARI EKSEKUSI (1-28):</label>
+                <select id="rec-jenis" style="margin-bottom:12px">
+                    <option value="keluar">Outflow Rutin (-)</option>
+                    <option value="masuk">Inflow Rutin (+)</option>
                 </select>
-                <input type="number" id="rec-day" min="1" max="28" placeholder="Tanggal Tiap Bulan (1-28)">
+                <input type="number" id="rec-day" min="1" max="28" placeholder="Hari Eksekusi (1-28)">
             `;
-            showCustomModal("📅 TAMBAH TRANSAKSI RUTIN BULANAN", function() {
+            showCustomModal("📅 SET SCRIPT RUTIN", function() {
                 let title = document.getElementById('rec-title').value;
                 let amt = getUnformattedNumber(document.getElementById('rec-amount').value);
                 let jenis = document.getElementById('rec-jenis').value;
                 let day = parseInt(document.getElementById('rec-day').value) || 1;
 
-                if (!title || amt <= 0) { showCustomModal("❌ Data transaksi rutin tidak valid!", null, false); return; }
+                if (!title || amt <= 0) { showCustomModal("❌ Konfigurasi gagal, data tidak lengkap!", null, false); return; }
 
                 recurring.push({
                     keterangan: title, nominal: amt, jenis: jenis,
@@ -886,7 +954,7 @@
 
                 localStorage.setItem(KEY_RECURRING, JSON.stringify(recurring));
                 prosesRecurringOtomatis();
-                showCustomModal("✅ Tagihan rutin berhasil dijadwalkan!", null, false);
+                showCustomModal("✅ Protokol Rutin berhasil diinisialisasi!", null, false);
             }, true, htmlInputs);
         }
 
@@ -915,7 +983,7 @@
             let currPes = totalSaldoNet;
 
             for (let y = 1; y <= horizonYears; y++) {
-                if (horizonYears === 50 || y % 2 === 0) yearsLabels.push(`Thn ${y}`);
+                if (horizonYears === 50 || y % 2 === 0) yearsLabels.push(`T-${y}`);
 
                 let optReturn = 0.09 - (climateRiskDrag * 0.2);
                 let medReturn = 0.06 - climateRiskDrag;
@@ -925,7 +993,6 @@
                 currMed = (currMed + estAnnualFlow) * (1 + medReturn);
                 currPes = (currPes + estAnnualFlow) * (1 + pesReturn);
 
-                // Transfer warisan generasi tiap 30 tahun
                 if (y % 30 === 0) {
                     currOpt *= (1 - (1 - inheritanceRatio) * 0.15);
                     currMed *= (1 - (1 - inheritanceRatio) * 0.25);
@@ -946,31 +1013,32 @@
             document.getElementById('q-survival-rate').innerText = `${survivalRate}%`;
 
             renderChartKuantum(yearsLabels, optimisticPath, medianPath, pessimisticPath);
+            playSciFiSound('success');
         }
 
         function renderChartKuantum(labels, opt, med, pes) {
             let ctx = document.getElementById('chartQuantum').getContext('2d');
             if (quantumChart) quantumChart.destroy();
 
+            Chart.defaults.color = '#94a3b8';
+            Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+
             quantumChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: 'Optimis (Superposition Best)', data: opt, borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.1)', fill: false, tension: 0.3 },
-                        { label: 'Median (Proyeksi Normal)', data: med, borderColor: '#8b5cf6', backgroundColor: 'rgba(139, 92, 246, 0.1)', fill: false, tension: 0.3 },
-                        { label: 'Pessimistic (Shock Iklim)', data: pes, borderColor: '#f43f5e', backgroundColor: 'rgba(244, 63, 94, 0.1)', fill: false, tension: 0.3 }
+                        { label: 'Hyper-Optimis (Best)', data: opt, borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.2)', fill: true, tension: 0.4 },
+                        { label: 'Median (Proyeksi Normal)', data: med, borderColor: '#8b5cf6', backgroundColor: 'rgba(139, 92, 246, 0.1)', fill: false, tension: 0.4, borderDash: [5, 5] },
+                        { label: 'Crisis Mode (Pessimistic)', data: pes, borderColor: '#f43f5e', backgroundColor: 'transparent', fill: false, tension: 0.4 }
                     ]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 9 } } }
-                    },
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
                     scales: {
-                        x: { ticks: { color: '#94a3b8', font: { size: 9 } }, grid: { display: false } },
-                        y: { ticks: { color: '#94a3b8', font: { size: 8 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' } }
                     }
                 }
             });
@@ -994,22 +1062,22 @@
 
             let katMap = {};
             dataBulan.filter(t => t.jenis === 'keluar').forEach(t => katMap[t.kategori] = (katMap[t.kategori] || 0) + t.nominal);
-            let topKat = Object.keys(katMap).sort((a,b) => katMap[b] - katMap[a])[0] || 'Belum Ada';
+            let topKat = Object.keys(katMap).sort((a,b) => katMap[b] - katMap[a])[0] || 'N/A';
             let topKatVal = katMap[topKat] || 0;
             let persenTop = totalKeluar > 0 ? Math.round((topKatVal / totalKeluar) * 100) : 0;
 
             if (tipe === 'analisis') {
                 if (dataBulan.length === 0) {
-                    aiBody.innerHTML = `Woi wakkk, bulan <b>${filterBulan}</b> ini belum ada transaksi! Yuk mulai catat pengeluaran atau pemasukanmu biar gak gaib dompetnya. 🔥`;
+                    aiBody.innerHTML = `[SISTEM]: Siklus <b>${filterBulan}</b> belum ada injeksi data. Harap input data transaksi untuk menjalankan algoritma. ⚡`;
                 } else if (batasBudget > 0 && totalKeluar > batasBudget) {
-                    aiBody.innerHTML = `🚨 <b>ALAMAK WAKKK!</b> Pengeluaran kamu bulan ini <b>${formatRupiah(totalKeluar)}</b> melebih batas budget (${formatRupiah(batasBudget)})! Paling boros di <b>${topKat}</b> (${persenTop}%). Rem dulu jajan kamu wakkk! 🛑`;
+                    aiBody.innerHTML = `🚨 <b>PERINGATAN KRITIS!</b> Outflow siklus ini <b>${formatRupiah(totalKeluar)}</b> melampaui limit parameter (${formatRupiah(batasBudget)}). Kebocoran terbesar pada <b>${topKat}</b> (${persenTop}%). Hentikan operasi! 🛑`;
                 } else {
-                    aiBody.innerHTML = `Woi wakkk! Bulan ini pengeluaranmu <b>${formatRupiah(totalKeluar)}</b>. Pengeluaran terbanyak ada di kategori <b>${topKat}</b> (${persenTop}%). Masih terkendali mantap wakkk! 💪`;
+                    aiBody.innerHTML = `[SISTEM]: Operasi berjalan normal. Outflow tercatat <b>${formatRupiah(totalKeluar)}</b>. Konsumsi terbesar pada sektor <b>${topKat}</b> (${persenTop}%). Parameter stabil. 💠`;
                 }
             } else if (tipe === 'tips') {
-                aiBody.innerHTML = `💡 <b>Tips Quantum Wakkk:</b><br>1. Alokasikan 20% pemasukan langsung ke <b>Dana Darurat</b>.<br>2. Gunakan Simulasi Quantum untuk memastikan kekayaanmu mampu bertahan hingga 50-100 tahun ke depan!`;
+                aiBody.innerHTML = `💡 <b>Protokol Taktis:</b><br>1. Alihkan 20% inflow harian ke <b>Crisis Node (Darurat)</b>.<br>2. Evaluasi Mesin Simulasi Quantum setiap akhir siklus bulanan.`;
             } else if (tipe === 'kantong') {
-                aiBody.innerHTML = `🎯 <b>Ringkasan Kantong Kamu:</b><br>• Utama: ${document.getElementById('val-pocket-utama').innerText}<br>• Tabungan: ${document.getElementById('val-pocket-tabungan').innerText}<br>• Darurat: ${document.getElementById('val-pocket-darurat').innerText}`;
+                aiBody.innerHTML = `🎯 <b>Status Node Saat Ini:</b><br>• Main: ${document.getElementById('val-pocket-utama').innerText}<br>• Future: ${document.getElementById('val-pocket-tabungan').innerText}<br>• Crisis: ${document.getElementById('val-pocket-darurat').innerText}`;
             }
         }
 
@@ -1048,16 +1116,19 @@
 
                 let li = document.createElement('li');
                 li.className = 'history-item';
+                // Futuristic border color logic
+                li.style.borderLeftColor = item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)';
+                
                 li.innerHTML = `
                     <div class="item-info">
-                        <small>${item.tanggal} • Kantong ${pKey.toUpperCase()}</small>
-                        <div>${item.kategori} <span style="font-weight:normal; font-size:12px; color:var(--text-secondary)">(${item.keterangan})</span></div>
+                        <small>[${item.tanggal}] • NODE: ${pKey.toUpperCase()}</small>
+                        <div>${item.kategori} <span style="font-weight:600; font-size:12px; color:var(--text-secondary)">// ${item.keterangan}</span></div>
                         <div class="item-actions">
                             <button class="action-chip chip-edit" onclick="editData(${index})">Edit</button>
-                            <button class="action-chip chip-del" onclick="hapusData(${index})">Hapus</button>
+                            <button class="action-chip chip-del" onclick="hapusData(${index})">Delete</button>
                         </div>
                     </div>
-                    <div class="item-val" style="color:${item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)'}">
+                    <div class="item-val" style="color:${item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; text-shadow: 0 0 10px ${item.jenis === 'masuk' ? 'rgba(16,185,129,0.4)' : 'rgba(244,63,94,0.4)'}">
                         ${item.jenis === 'masuk' ? '+' : '-'} ${formatRupiah(item.nominal)}
                     </div>
                 `;
@@ -1079,10 +1150,10 @@
             let badgeStatus = document.getElementById('status-anggaran');
             if (batasBudget > 0 && totalPengeluaran > batasBudget) {
                 badgeStatus.className = "budget-status-pill kritis";
-                badgeStatus.innerText = "🚨 Status: Over Budget!";
+                badgeStatus.innerText = "🚨 WARNING: OVERLIMIT!";
             } else {
                 badgeStatus.className = "budget-status-pill";
-                badgeStatus.innerText = "⚡ Status: Optimal";
+                badgeStatus.innerText = "⚡ SYSTEM: OPTIMAL";
             }
 
             localStorage.setItem(KEY_TRANSAKSI, JSON.stringify(transaksi));
@@ -1104,7 +1175,7 @@
             if (myChart) myChart.destroy();
 
             if (labels.length === 0) {
-                labels = ["Belum Ada Data"];
+                labels = ["System Empty"];
                 data = [1];
             }
 
@@ -1114,16 +1185,16 @@
                     labels: labels,
                     datasets: [{
                         data: data,
-                        backgroundColor: ['#8b5cf6', '#10b981', '#f43f5e', '#f59e0b', '#0284c7', '#ec4899'],
-                        borderWidth: 0
+                        backgroundColor: ['#06b6d4', '#8b5cf6', '#f43f5e', '#10b981', '#f59e0b', '#ec4899'],
+                        borderWidth: 2,
+                        borderColor: '#020617',
+                        hoverOffset: 4
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } }
-                    }
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } },
+                    cutout: '75%'
                 }
             });
         }
@@ -1144,10 +1215,10 @@
             let nominal = getUnformattedNumber(document.getElementById('nominal').value);
             let pocketTarget = document.getElementById('select-pocket-target').value;
 
-            if (nominal <= 0) { showCustomModal("❌ Nominal transaksi harus lebih dari 0!", null, false); return; }
+            if (nominal <= 0) { showCustomModal("❌ Nominal error! Harus lebih dari 0.", null, false); return; }
 
             let dataTransaksi = {
-                tanggal: tanggal, kategori: kategori, keterangan: keterangan || "-",
+                tanggal: tanggal, kategori: kategori, keterangan: keterangan || "Log Sistem",
                 nominal: nominal, jenis: selectedJenis, pocket: pocketTarget
             };
 
@@ -1156,7 +1227,7 @@
             } else {
                 transaksi[editIndex] = dataTransaksi;
                 editIndex = -1;
-                document.getElementById('btn-simpan').innerText = "TAMBAHKAN TRANSAKSI";
+                document.getElementById('btn-simpan').innerText = "INJEKSI KE DATABASE";
                 document.getElementById('btn-batal').style.display = "none";
             }
 
@@ -1165,6 +1236,7 @@
             if (tanggal) document.getElementById('filter-bulan').value = tanggal.slice(0, 7);
 
             updateTampilan();
+            playSciFiSound('success');
             switchTab('riwayat');
         }
 
@@ -1182,7 +1254,7 @@
             document.getElementById('select-pocket-target').value = item.pocket || 'utama';
             
             pilihJenis(item.jenis);
-            document.getElementById('btn-simpan').innerText = "UPDATE TRANSAKSI";
+            document.getElementById('btn-simpan').innerText = "UPDATE DATA";
             document.getElementById('btn-batal').style.display = "block";
         }
 
@@ -1191,15 +1263,16 @@
             editIndex = -1;
             document.getElementById('keterangan').value = "";
             document.getElementById('nominal').value = "";
-            document.getElementById('btn-simpan').innerText = "TAMBAHKAN TRANSAKSI";
+            document.getElementById('btn-simpan').innerText = "INJEKSI KE DATABASE";
             document.getElementById('btn-batal').style.display = "none";
         }
 
         function hapusData(index) {
             triggerHaptic();
-            showCustomModal("Yakin ingin menghapus transaksi ini?", function() {
+            showCustomModal("Yakin ingin melakukan *Purge* pada data ini?", function() {
                 transaksi.splice(index, 1);
                 updateTampilan();
+                playSciFiSound('success');
             });
         }
 
@@ -1207,6 +1280,7 @@
             batasBudget = getUnformattedNumber(document.getElementById('input-budget').value);
             localStorage.setItem(KEY_BUDGET, batasBudget.toString());
             updateTampilan();
+            playSciFiSound('success');
         }
 
         // ================= HELPERS & UTILS =================
@@ -1223,6 +1297,9 @@
             document.getElementById('modal-input-container').innerHTML = inputHTML;
             document.getElementById('modal-cancel-btn').style.display = showCancel ? "inline-block" : "none";
             modal.style.display = "flex";
+
+            if (text.includes('❌') || text.includes('GAGAL')) playSciFiSound('error');
+            else if (text.includes('✅')) playSciFiSound('success');
 
             document.getElementById('modal-confirm-btn').onclick = function() {
                 triggerHaptic(); modal.style.display = "none"; if (onConfirm) onConfirm();
@@ -1243,60 +1320,62 @@
         function bukaAturPIN() {
             triggerHaptic();
             let htmlInputs = `
-                <input type="password" id="modal-pin-lama" placeholder="PIN saat ini" style="margin-bottom:8px">
-                <input type="password" id="modal-pin-baru" placeholder="PIN Baru (4-6 Digit)" style="margin-bottom:8px">
-                <input type="text" id="modal-sec-ans" placeholder="Jawaban Recovery PIN">
+                <input type="password" id="modal-pin-lama" placeholder="PIN Lama" style="margin-bottom:12px">
+                <input type="password" id="modal-pin-baru" placeholder="PIN Baru (4-6 Digit)" style="margin-bottom:12px">
+                <input type="text" id="modal-sec-ans" placeholder="Recovery Keyword">
             `;
-            showCustomModal("⚙️ ATUR KEAMANAN PIN", function() {
+            showCustomModal("⚙️ REKONFIGURASI KEAMANAN", function() {
                 let pLama = document.getElementById('modal-pin-lama').value;
                 let pBaru = document.getElementById('modal-pin-baru').value;
                 let sAns = document.getElementById('modal-sec-ans').value;
 
-                if (pLama !== appPin) { showCustomModal("❌ PIN Lama Salah!", null, false); return; }
-                if (!pBaru || pBaru.length < 4) { showCustomModal("❌ PIN Minimal 4 Angka!", null, false); return; }
+                if (pLama !== appPin) { showCustomModal("❌ Otorisasi Ditolak: PIN Lama Salah!", null, false); return; }
+                if (!pBaru || pBaru.length < 4) { showCustomModal("❌ PIN Minimal 4 Karakter Numerik!", null, false); return; }
 
                 appPin = pBaru;
                 if (sAns) secAnswer = sAns.toLowerCase();
                 localStorage.setItem(KEY_PIN, appPin);
                 localStorage.setItem(KEY_SEC, secAnswer);
-                showCustomModal("✅ PIN Berhasil Diperbarui!", null, false);
+                showCustomModal("✅ Protokol Keamanan Diperbarui!", null, false);
             }, true, htmlInputs);
         }
 
         function lupaPIN() {
             triggerHaptic();
-            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Jawaban Keamanan">`;
-            showCustomModal("🔑 RECOVERY PIN: Masukkan Jawaban Keamanan", function() {
+            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Masukkan Recovery Keyword">`;
+            showCustomModal("🔑 RECOVERY PROTOCOL", function() {
                 let ans = document.getElementById('modal-answer-input').value;
                 if (ans && ans.toLowerCase() === secAnswer.toLowerCase()) {
-                    showCustomModal(`✅ PIN Anda Adalah: ${appPin}`, null, false);
+                    showCustomModal(`✅ AKSES RECOVERY: PIN Anda = ${appPin}`, null, false);
                 } else {
-                    showCustomModal("❌ Jawaban Salah!", null, false);
+                    showCustomModal("❌ GAGAL: Keyword Tidak Dikenali!", null, false);
                 }
             }, true, htmlInputs);
         }
 
         function exportCSV() {
-            if (transaksi.length === 0) { showCustomModal("Database kosong!", null, false); return; }
+            if (transaksi.length === 0) { showCustomModal("Database Kosong!", null, false); return; }
             let csvContent = "data:text/csv;charset=utf-8,Tanggal,Kategori,Keterangan,Jenis,Nominal,Kantong\n";
             transaksi.forEach(t => { csvContent += `"${t.tanggal}","${t.kategori}","${t.keterangan}","${t.jenis}",${t.nominal},"${t.pocket || 'utama'}"\n`; });
             let encodedUri = encodeURI(csvContent);
             let link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Dompetku_Report_${document.getElementById('filter-bulan').value}.csv`);
+            link.setAttribute("download", `Data_Kuantum_${document.getElementById('filter-bulan').value}.csv`);
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            playSciFiSound('success');
         }
 
         function exportJSON() {
             let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(transaksi, null, 2));
             let dlAnchor = document.createElement('a');
             dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", "Dompetku_Backup.json");
+            dlAnchor.setAttribute("download", "Backup_Kuantum.json");
             document.body.appendChild(dlAnchor); dlAnchor.click(); dlAnchor.remove();
+            playSciFiSound('success');
         }
 
         function resetData() {
-            showCustomModal("⚠️ WARNING! Yakin hapus seluruh database?", function() {
+            showCustomModal("⚠️ CRITICAL WARNING: Anda akan melakukan wipe total pada seluruh node database. Lanjutkan?", function() {
                 transaksi = [];
                 recurring = [];
                 pockets = { utama: 0, tabungan: 0, darurat: 0 };
@@ -1304,6 +1383,7 @@
                 localStorage.removeItem(KEY_RECURRING);
                 localStorage.removeItem(KEY_POCKETS);
                 updateTampilan();
+                playSciFiSound('error'); // Error sound to signify deletion
             });
         }
 
