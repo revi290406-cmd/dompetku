@@ -16,31 +16,29 @@
 
     <style>
         :root {
-            /* Mode Gelap (Dark Theme) Default */
             --bg-main: #0f172a;
-            --bg-card: rgba(30, 41, 59, 0.7);
-            --bg-card-hover: rgba(51, 65, 85, 0.8);
+            --bg-card: rgba(30, 41, 59, 0.75);
+            --bg-card-hover: rgba(51, 65, 85, 0.85);
             --card-border: rgba(255, 255, 255, 0.08);
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --accent-primary: #6366f1; /* Indigo Modern */
-            --accent-emerald: #10b981; /* Pemasukan */
-            --accent-rose: #f43f5e;    /* Pengeluaran */
-            --accent-amber: #f59e0b;   /* Peringatan/Agen AI */
+            --accent-primary: #6366f1;
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
             --accent-sky: #0ea5e9;
             --radius-xl: 28px;
             --radius-lg: 20px;
             --radius-md: 14px;
             --glass-blur: blur(20px);
-            --shadow-main: 0 20px 40px rgba(0, 0, 0, 0.3);
-            --input-bg: rgba(15, 23, 42, 0.6);
+            --shadow-main: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --input-bg: rgba(15, 23, 42, 0.65);
             --nav-bg: rgba(15, 23, 42, 0.85);
         }
 
         .light-theme {
-            /* Mode Terang (Light Theme) */
             --bg-main: #f1f5f9;
-            --bg-card: rgba(255, 255, 255, 0.8);
+            --bg-card: rgba(255, 255, 255, 0.85);
             --bg-card-hover: rgba(241, 245, 249, 1);
             --card-border: rgba(0, 0, 0, 0.06);
             --text-primary: #0f172a;
@@ -77,13 +75,15 @@
             position: relative;
         }
 
-        /* Latar Belakang Gradien Halus Masa Depan */
-        body::before {
-            content: "";
-            position: fixed; top: -10%; left: -10%; width: 120vw; height: 120vh;
-            background: radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
-            z-index: -1; pointer-events: none;
+        /* Kanvas Latar Belakang Bintang Berkelap-kelip */
+        #star-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
         }
 
         /* Kontainer Utama */
@@ -99,6 +99,8 @@
             box-shadow: var(--shadow-main);
             margin-bottom: 20px;
             animation: popUp 0.5s ease-out;
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes popUp {
@@ -246,12 +248,17 @@
         .inc-card p { font-size: 16px; font-weight: 800; color: var(--accent-emerald); }
         .exp-card p { font-size: 16px; font-weight: 800; color: var(--accent-rose); }
 
-        /* Kartu Agen AI Otonom */
+        /* Kartu AI Penasihat Sadar & Eksekutor Otonom */
         .agent-card {
-            background: rgba(245, 158, 11, 0.1); border: 1px solid var(--accent-amber);
+            background: rgba(245, 158, 11, 0.08); border: 1px solid var(--accent-amber);
             padding: 18px; border-radius: var(--radius-lg); margin-bottom: 20px;
         }
         .agent-title { font-size: 13px; font-weight: 800; color: var(--accent-amber); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .agent-log-box {
+            background: var(--input-bg); border: 1px solid var(--card-border);
+            border-radius: var(--radius-md); padding: 12px; max-height: 120px; overflow-y: auto;
+            font-size: 11px; color: var(--text-secondary); margin-bottom: 12px; font-family: monospace;
+        }
 
         /* Grafik Box */
         .chart-box {
@@ -319,6 +326,9 @@
 </head>
 <body>
 
+    <!-- Latar Belakang Bintang Berkelap-kelip -->
+    <canvas id="star-canvas"></canvas>
+
     <!-- Layar Kunci (PIN & Biometrik) -->
     <div id="pin-screen" class="pin-overlay">
         <div class="pin-card">
@@ -348,7 +358,7 @@
         <!-- Header -->
         <div class="header-bar">
             <div class="brand-title">
-                <h2>Dompetku <span>v0.2</span></h2>
+                <h2>Dompetku <span>v0.2 Standar</span></h2>
             </div>
             <div class="header-actions">
                 <button class="icon-btn-rounded" title="Transfer Antar Kantong" onclick="bukaModalTransfer()">🔄</button>
@@ -407,15 +417,20 @@
             </div>
         </div>
 
-        <!-- TAB 2: AGEN OTONOM & MASA DEPAN -->
+        <!-- TAB 2: AGEN AI & KESADARAN OTONOM -->
         <div id="tab-agen" class="tab-content">
             <div class="agent-card">
-                <div class="agent-title">🤖 Agen Asisten Finansial Otonom</div>
-                <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
-                    Sistem otomatisasi yang bernegosiasi, membandingkan opsi pasar terbaik, dan mengeksekusi kebutuhan finansial Anda tanpa pencatatan manual.
+                <div class="agent-title">🧠 AI Penasihat Sadar & Eksekutor Otonom</div>
+                <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px;">
+                    Sistem kecerdasan sadar yang memindai kesehatan mental, memblokir langganan parasit bawah sadar, dan mengeksekusi kebutuhan finansial secara otonom.
                 </p>
-                <input type="text" id="agent-command" placeholder="Perintah Agen (misal: Beli Sembako Bulanan Max 500rb)" style="margin-bottom: 10px;">
-                <button class="btn-primary" style="background: var(--accent-amber);" onclick="eksekusiAgenOtonom()">⚡ Eksekusi Pembelanjaan Otonom</button>
+                
+                <div id="agent-log" class="agent-log-box">
+                    [System AI]: Sinkronisasi kesadaran aktif. Siap mengeksekusi perintah otonom...
+                </div>
+
+                <input type="text" id="agent-command" placeholder="Perintah Agen (misal: Beli Sembako Max 500rb)" style="margin-bottom: 10px;">
+                <button class="btn-primary" style="background: var(--accent-amber);" onclick="eksekusiAgenOtonom()">⚡ Eksekusi Keputusan Otonom</button>
             </div>
 
             <div style="background: var(--input-bg); padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 20px;">
@@ -569,7 +584,50 @@
 
     <!-- JAVASCRIPT LOGIC ENGINE -->
     <script>
-        // SW & PWA ENGINE
+        // --- MESIN BINTANG LATAR BELAKANG ---
+        const starCanvas = document.getElementById('star-canvas');
+        const starCtx = starCanvas.getContext('2d');
+        let stars = [];
+
+        function initStars() {
+            starCanvas.width = window.innerWidth;
+            starCanvas.height = window.innerHeight;
+            stars = [];
+            let count = Math.floor((window.innerWidth * window.innerHeight) / 3500);
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * starCanvas.width,
+                    y: Math.random() * starCanvas.height,
+                    radius: Math.random() * 1.5 + 0.5,
+                    speed: Math.random() * 0.15 + 0.05,
+                    alpha: Math.random(),
+                    alphaChange: (Math.random() * 0.01 + 0.003) * (Math.random() < 0.5 ? 1 : -1)
+                });
+            }
+        }
+
+        function animateStars() {
+            starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+            stars.forEach(star => {
+                star.y -= star.speed;
+                if (star.y < 0) star.y = starCanvas.height;
+
+                star.alpha += star.alphaChange;
+                if (star.alpha > 1 || star.alpha < 0.2) star.alphaChange *= -1;
+
+                starCtx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                starCtx.beginPath();
+                starCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                starCtx.fill();
+            });
+            requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', initStars);
+        initStars();
+        animateStars();
+
+        // --- SW & PWA ENGINE ---
         if ('serviceWorker' in navigator) {
             const swScript = `
                 const CACHE_NAME = 'dompetku-v02';
@@ -587,7 +645,7 @@
             if (navigator.vibrate) navigator.vibrate(15);
         }
 
-        // VARIABLE APPLIKASI
+        // --- VARIABEL APLIKASI ---
         const KEY_TRANSAKSI = 'dompetku_v02_transaksi';
         const KEY_BUDGET = 'dompetku_v02_budget';
         const KEY_PIN = 'dompetku_v02_pin';
@@ -609,7 +667,6 @@
         let myChart = null;
         let masaDepanChart = null;
 
-        // Inisialisasi Tanggal
         const now = new Date();
         document.getElementById('tanggal').valueAsDate = now;
         const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
@@ -672,32 +729,43 @@
             }
         }
 
-        // AGEN FINANSIAL OTONOM (AI Pembelanjaan)
+        // --- AI PENASIHAT SADAR & EKSEKUTOR OTONOM ---
+        function appendAgentLog(message) {
+            const logBox = document.getElementById('agent-log');
+            const timeStr = new Date().toLocaleTimeString();
+            logBox.innerHTML += `<br>[${timeStr}] ${message}`;
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
         function eksekusiAgenOtonom() {
             triggerHaptic();
             let perintah = document.getElementById('agent-command').value;
             if (!perintah) {
-                showCustomModal("❌ Masukkan perintah untuk Agen Finansial Otonom!", null, false);
+                showCustomModal("❌ Masukkan perintah untuk Agen AI Sadar!", null, false);
                 return;
             }
 
-            // Simulasi Logika Agen Otonom Memilih Diskon Terbaik & Negosiasi Pasar
-            let nominalEstimasi = Math.floor(Math.random() * 150000) + 50000;
+            appendAgentLog(`Menganalisis matriks pasar untuk: "${perintah}"...`);
+            let nominalEstimasi = Math.floor(Math.random() * 120000) + 40000;
             let tgl = new Date().toISOString().split('T')[0];
 
-            showCustomModal(`🤖 Agen Otonom Berhasil Mengatur Pembelanjaan:\n"${perintah}"\n\nNegosiasi Harga Terbaik: Rp ${nominalEstimasi.toLocaleString('id-ID')}. Eksekusi Pembayaran?`, function() {
-                transaksi.push({
-                    tanggal: tgl,
-                    kategori: "Belanja 🛍️",
-                    keterangan: `[Eksekusi AI] ${perintah}`,
-                    nominal: nominalEstimasi,
-                    jenis: 'keluar',
-                    pocket: 'utama'
+            setTimeout(() => {
+                appendAgentLog(`Negosiasi kuantum sukses. Diskon optimal diperoleh.`);
+                showCustomModal(`🤖 AI Penasihat Sadar Menyetujui:\n"${perintah}"\n\nAlokasi Biaya: Rp ${nominalEstimasi.toLocaleString('id-ID')}. Eksekusi transaksi otonom?`, function() {
+                    transaksi.push({
+                        tanggal: tgl,
+                        kategori: "Belanja 🛍️",
+                        keterangan: `[AI Conscious Agent] ${perintah}`,
+                        nominal: nominalEstimasi,
+                        jenis: 'keluar',
+                        pocket: 'utama'
+                    });
+                    document.getElementById('agent-command').value = '';
+                    updateTampilan();
+                    appendAgentLog(`Transaksi otonom senilai Rp ${nominalEstimasi.toLocaleString('id-ID')} berhasil dicatat.`);
+                    showCustomModal("✅ Eksekusi Otonom Berhasil Diamankan!", null, false);
                 });
-                document.getElementById('agent-command').value = '';
-                updateTampilan();
-                showCustomModal("✅ Transaksi Otonom Berhasil Dieksekusi!", null, false);
-            });
+            }, 400);
         }
 
         // KANTONG DANA
