@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Dompetku v0.2 Premium Aurora - Keuangan Masa Depan</title>
+    <title>Dompetku v0.1 Premium - Keuangan & POS Masa Depan</title>
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -34,6 +34,10 @@
             --shadow-main: 0 20px 40px rgba(0, 0, 0, 0.4);
             --input-bg: rgba(15, 23, 42, 0.65);
             --nav-bg: rgba(15, 23, 42, 0.85);
+            --mesh-gradient: radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--accent-primary) 22%, transparent) 0%, transparent 40%),
+                             radial-gradient(circle at 85% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 45%),
+                             radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.15) 0%, transparent 55%),
+                             radial-gradient(circle at 80% 20%, rgba(244, 63, 94, 0.12) 0%, transparent 40%);
         }
 
         .light-theme {
@@ -75,7 +79,7 @@
             position: relative;
         }
 
-        /* Responsif Sempurna Portrait & Landscape HP / Laptop */
+        /* Responsif Sempurna Portrait & Landscape HP / Tablet / Laptop */
         @media (min-width: 768px) {
             body {
                 align-items: center;
@@ -90,27 +94,23 @@
             }
         }
 
-        @media (orientation: landscape) and (max-height: 600px) {
+        @media (orientation: landscape) and (max-height: 700px) {
             body {
                 align-items: flex-start;
                 padding-bottom: 80px;
             }
             .app-container {
-                max-width: 680px !important;
+                max-width: 750px !important;
                 padding: 20px !important;
             }
         }
 
-        /* Mesh Gradient Background Bergerak Dinamis */
+        /* Mesh Gradient Background Bergerak Dinamis (Dapat Dikustomisasi) */
         .mesh-gradient-bg {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none; z-index: -2;
-            background: 
-                radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--accent-primary) 22%, transparent) 0%, transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.15) 0%, transparent 55%),
-                radial-gradient(circle at 80% 20%, rgba(244, 63, 94, 0.12) 0%, transparent 40%);
+            background: var(--mesh-gradient);
             animation: meshShift 15s ease infinite alternate;
         }
 
@@ -123,6 +123,24 @@
         #star-canvas {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none; z-index: -1;
+        }
+
+        /* Immersive POS Mode (Sembunyikan Header & Nav untuk Kecepatan Tinggi) */
+        body.immersive-mode .header-bar,
+        body.immersive-mode .bottom-nav {
+            display: none !important;
+        }
+        body.immersive-mode {
+            padding: 10px !important;
+        }
+        .exit-immersive-btn {
+            display: none; position: fixed; top: 15px; right: 15px; z-index: 99999;
+            background: var(--accent-rose); color: white; border: none; padding: 8px 14px;
+            border-radius: var(--radius-md); font-weight: 800; font-size: 11px; cursor: pointer;
+            box-shadow: var(--shadow-main);
+        }
+        body.immersive-mode .exit-immersive-btn {
+            display: block;
         }
 
         /* Toast Notifikasi Mengapung */
@@ -278,7 +296,7 @@
             background: var(--input-bg); color: var(--text-primary); outline: none; margin-bottom: 16px;
         }
 
-        /* Tombol Utama & Mikro-Interaksi Scale-down/Ripple */
+        /* Tombol Utama */
         .btn-primary {
             width: 100%; padding: 14px; border: none; border-radius: var(--radius-md);
             background: var(--accent-primary); color: white; font-weight: 700; font-size: 12px;
@@ -294,16 +312,33 @@
             color: var(--accent-emerald) !important;
         }
 
-        /* 3D Tilt Card & Rim Lighting */
+        /* 3D Tilt Card & Budget Health Ring Layout */
+        .balance-dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        @media(min-width: 540px) {
+            .balance-dashboard-grid {
+                grid-template-columns: 1.3fr 0.9fr;
+                align-items: center;
+            }
+        }
+
         .total-balance-card {
             background: linear-gradient(135deg, var(--accent-primary), #4338ca);
-            color: white; border-radius: var(--radius-lg); padding: 24px;
-            position: relative; overflow: hidden; margin-bottom: 20px;
+            color: white; border-radius: var(--radius-lg); padding: 22px;
+            position: relative; overflow: hidden;
             box-shadow: 0 15px 35px rgba(99, 102, 241, 0.35);
             transform-style: preserve-3d;
             perspective: 1000px;
             transition: transform 0.1s ease-out;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         
         .total-balance-card::before {
@@ -313,31 +348,116 @@
             pointer-events: none; z-index: 2;
         }
 
-        .total-balance-card::after {
-            content: '';
-            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 100%);
-            transform: rotate(30deg) translateY(-100%);
-            animation: holoShine 6s linear infinite;
-            pointer-events: none; z-index: 1;
-        }
-        @keyframes holoShine {
-            0% { transform: translateY(-120%) rotate(30deg); }
-            20% { transform: translateY(120%) rotate(30deg); }
-            100% { transform: translateY(120%) rotate(30deg); }
-        }
-
         .balance-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.85; font-weight: 700; position: relative; z-index: 3; }
-        .balance-amount { font-size: 32px; font-weight: 800; margin: 6px 0; letter-spacing: -1px; position: relative; z-index: 3; }
-        .budget-status-pill {
-            display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
-            border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase;
-            background: rgba(255, 255, 255, 0.2); color: #fff; backdrop-filter: blur(10px);
-            position: relative; z-index: 3;
+        .balance-amount { font-size: 28px; font-weight: 800; margin: 6px 0; letter-spacing: -1px; position: relative; z-index: 3; }
+        
+        /* Fitur 2: Budget Health Ring Widget */
+        .budget-ring-card {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow-main);
+            height: 100%;
         }
-        .budget-status-pill.kritis { background: rgba(244, 63, 94, 0.85); }
+        .ring-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin-bottom: 8px;
+        }
+        .ring-container svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .ring-bg {
+            fill: none;
+            stroke: var(--card-border);
+            stroke-width: 8;
+        }
+        .ring-progress {
+            fill: none;
+            stroke: var(--accent-emerald);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.8s ease, stroke 0.3s ease;
+        }
+        .ring-text {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            font-weight: 800;
+        }
 
-        /* Kantong Dana dengan Sparklines Mini */
+        /* Fitur 3: Gamification Badges & Streaks */
+        .gamification-banner {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(16, 185, 129, 0.15));
+            border: 1px solid var(--accent-amber);
+            border-radius: var(--radius-lg);
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .streak-info h5 { font-size: 12px; font-weight: 800; color: var(--accent-amber); margin-bottom: 2px; }
+        .streak-info p { font-size: 10px; color: var(--text-secondary); font-weight: 600; }
+        .badge-sparkle {
+            font-size: 22px;
+            background: var(--input-bg);
+            padding: 8px;
+            border-radius: 50%;
+            border: 1px solid var(--card-border);
+            animation: badgeGlow 2s infinite alternate;
+        }
+        @keyframes badgeGlow {
+            from { box-shadow: 0 0 5px rgba(245, 158, 11, 0.3); transform: scale(1); }
+            to { box-shadow: 0 0 15px rgba(245, 158, 11, 0.8); transform: scale(1.05); }
+        }
+
+        /* Fitur 4: Financial Heatmap (Mini Calendar) */
+        .heatmap-card {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .heatmap-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 11px; font-weight: 800; color: var(--text-secondary); }
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+        .heatmap-day-label { font-size: 9px; font-weight: 700; color: var(--text-secondary); padding-bottom: 4px; }
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            position: relative;
+        }
+        .heatmap-cell.empty { background: transparent; border: none; }
+        .heatmap-cell.frugal { background: rgba(16, 185, 129, 0.3); border-color: var(--accent-emerald); color: var(--accent-emerald); }
+        .heatmap-cell.heavy { background: rgba(244, 63, 94, 0.3); border-color: var(--accent-rose); color: var(--accent-rose); }
+
+        /* Kantong Dana */
         .pocket-section-title {
             display: flex; justify-content: space-between; align-items: center;
             font-size: 11px; font-weight: 800; color: var(--text-secondary); margin-bottom: 10px;
@@ -364,7 +484,7 @@
             opacity: 0.35; pointer-events: none;
         }
 
-        /* Pill-shaped Category Bar (Navigasi Kategori Kapsul Melayang) */
+        /* Pill-shaped Category Bar & Fitur 8: Stock/Category Health Bars */
         .pill-category-bar {
             display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 14px;
             scrollbar-width: none;
@@ -392,18 +512,6 @@
         .inc-card p { font-size: 15px; font-weight: 800; color: var(--accent-emerald); }
         .exp-card p { font-size: 15px; font-weight: 800; color: var(--accent-rose); }
 
-        /* Kartu AI Penasihat & Eksekutor Otonom */
-        .agent-card {
-            background: rgba(245, 158, 11, 0.08); border: 1px solid var(--accent-amber);
-            padding: 18px; border-radius: var(--radius-lg); margin-bottom: 20px;
-        }
-        .agent-title { font-size: 13px; font-weight: 800; color: var(--accent-amber); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-        .agent-log-box {
-            background: var(--input-bg); border: 1px solid var(--card-border);
-            border-radius: var(--radius-md); padding: 12px; max-height: 120px; overflow-y: auto;
-            font-size: 11px; color: var(--text-secondary); margin-bottom: 12px; font-family: monospace;
-        }
-
         /* Grafik Box */
         .chart-box {
             background: var(--input-bg); border: 1px solid var(--card-border);
@@ -412,7 +520,7 @@
         .chart-box h4 { font-size: 11px; font-weight: 800; color: var(--text-secondary); margin-bottom: 12px; text-align: center; text-transform: uppercase; }
         .chart-wrapper { position: relative; height: 180px; width: 100%; }
 
-        /* Elemen Form & Kontras Optimal */
+        /* Form Elemen */
         label { font-size: 10px; font-weight: 800; color: var(--text-secondary); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
         input, select {
             width: 100%; padding: 12px 14px; margin-bottom: 14px;
@@ -433,20 +541,45 @@
         .type-btn.active-keluar { background: rgba(244, 63, 94, 0.15); border-color: var(--accent-rose); color: var(--accent-rose); }
         .type-btn.active-masuk { background: rgba(16, 185, 129, 0.15); border-color: var(--accent-emerald); color: var(--accent-emerald); }
 
-        /* Daftar Riwayat & Highlight Pencarian */
+        /* Fitur 1: Widget Quick Action Berbasis Gesture (Swipe-to-Delete/Edit) pada Riwayat Transaksi */
         .filter-row {
             display: flex; gap: 10px; align-items: center; margin-bottom: 16px;
             background: var(--input-bg); padding: 8px 12px; border-radius: var(--radius-md); border: 1px solid var(--card-border);
         }
-        .history-list { list-style: none; margin-top: 10px; }
+        .history-list { list-style: none; margin-top: 10px; overflow: hidden; }
+        
+        .history-item-wrapper {
+            position: relative;
+            margin-bottom: 10px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+        }
+        .swipe-actions-bg {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-weight: 800;
+            font-size: 11px;
+            z-index: 1;
+        }
+        .swipe-action-left { color: var(--accent-primary); display: flex; align-items: center; gap: 4px; }
+        .swipe-action-right { color: var(--accent-rose); display: flex; align-items: center; gap: 4px; }
+
         .history-item {
-            background: var(--input-bg); border: 1px solid var(--card-border);
-            padding: 14px; border-radius: var(--radius-md); margin-bottom: 10px;
+            background: var(--input-bg);
+            padding: 14px;
             display: flex; justify-content: space-between; align-items: center;
             border-left: 4px solid transparent;
-            animation: fadeInItem 0.3s ease;
+            position: relative;
+            z-index: 2;
+            touch-action: pan-y;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @keyframes fadeInItem { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
         .item-info small { font-size: 10px; font-weight: 700; color: var(--text-secondary); }
         .item-info div { font-weight: 800; font-size: 13px; margin: 2px 0; }
         .item-val { font-weight: 800; font-size: 14px; }
@@ -455,7 +588,26 @@
         .chip-edit { background: rgba(99, 102, 241, 0.15); color: var(--accent-primary); }
         .chip-del { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
 
-        /* Modern Empty State dengan Ilustrasi Garis Futuristik */
+        /* Fitur 8: Indikator Stok / Health Bar Kategori / Barang */
+        .stock-health-container {
+            margin-top: 6px;
+            width: 100%;
+        }
+        .stock-health-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--card-border);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+        }
+        .stock-health-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        /* Modern Empty State */
         .empty-state {
             text-align: center; padding: 40px 20px; display: none;
         }
@@ -486,7 +638,7 @@
         .btn-confirm { background: var(--accent-primary); color: white; }
         .btn-cancel { background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); }
 
-        /* Tema Selector Grid (Custom Accent Picker) */
+        /* Tema Selector Grid (Custom Mesh & Gradient Picker) */
         .palette-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
         .palette-btn {
             padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--card-border);
@@ -505,6 +657,9 @@
 </head>
 <body>
 
+    <!-- Tombol Keluar Mode Immersive POS -->
+    <button class="exit-immersive-btn" onclick="toggleImmersiveMode()"> Keluar Fullscreen POS</button>
+
     <!-- Mesh Gradient Background & Toast Container -->
     <div class="mesh-gradient-bg"></div>
     <canvas id="star-canvas"></canvas>
@@ -514,7 +669,7 @@
     <div id="pin-screen" class="pin-overlay">
         <div class="pin-card">
             <h3>🔒 Keamanan Akses</h3>
-            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 16px; font-weight: 600;">Verifikasi Identitas Dompetku Pro</p>
+            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 16px; font-weight: 600;">Verifikasi Identitas Dompetku v0.1 Premium</p>
             <input type="password" id="pin-input" maxlength="6" placeholder="••••" autocomplete="off">
             <button class="btn-primary" onclick="verifikasiPIN()">Buka Dompet</button>
             <button class="btn-primary btn-bio" onclick="loginBiometric()">👆 Pindai Biometrik</button>
@@ -539,7 +694,7 @@
         <!-- Header -->
         <div class="header-bar">
             <div class="brand-title">
-                <h2>Dompetku <span>v0.2 Premium</span></h2>
+                <h2>Dompetku <span>v0.1 Premium</span></h2>
             </div>
             <div class="header-right">
                 <div class="connection-indicator" id="conn-status" title="Status Jaringan">
@@ -547,7 +702,8 @@
                     <span id="conn-text">Online</span>
                 </div>
                 <div class="header-actions">
-                    <button class="icon-btn-rounded" title="Kustomisasi Tema Aurora" onclick="bukaModalTema()">🎨</button>
+                    <button class="icon-btn-rounded" title="Mode Layar Penuh POS (Immersive)" onclick="toggleImmersiveMode()">📺</button>
+                    <button class="icon-btn-rounded" title="Kustomisasi Tema Mesh Gradient" onclick="bukaModalTema()">🎨</button>
                     <button class="icon-btn-rounded" title="Transfer Antar Kantong" onclick="bukaModalTransfer()">🔄</button>
                     <button id="theme-toggle" class="icon-btn-rounded" onclick="toggleTheme()">🌙</button>
                 </div>
@@ -563,10 +719,46 @@
             </div>
 
             <div id="beranda-content">
-                <div class="total-balance-card" id="tilt-card">
-                    <div class="balance-label">Total Keuangan Saat Ini</div>
-                    <div id="saldo" class="balance-amount">Rp 0</div>
-                    <div id="status-anggaran" class="budget-status-pill">⚡ Status: Aman</div>
+                <!-- Fitur 3: Gamification Banner (Streak & Badges) -->
+                <div class="gamification-banner">
+                    <div class="streak-info">
+                        <h5 id="streak-title">🔥 Streak Menabung: 5 Hari</h5>
+                        <p id="streak-desc">Pertahankan batas budget untuk lencana emas!</p>
+                    </div>
+                    <div class="badge-sparkle" id="user-badge" title="Lencana Finansial">🌟</div>
+                </div>
+
+                <!-- Balance Dashboard & Budget Health Ring (Fitur 2) -->
+                <div class="balance-dashboard-grid">
+                    <div class="total-balance-card" id="tilt-card">
+                        <div>
+                            <div class="balance-label">Total Keuangan Saat Ini</div>
+                            <div id="saldo" class="balance-amount">Rp 0</div>
+                        </div>
+                        <div id="status-anggaran" class="budget-status-pill" style="display:inline-block; width:fit-content; margin-top:8px;">⚡ Status: Aman</div>
+                    </div>
+
+                    <div class="budget-ring-card">
+                        <div class="ring-container">
+                            <svg viewBox="0 0 36 36">
+                                <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <path id="budget-ring-progress" class="ring-progress" stroke-dasharray="100, 100" stroke-dashoffset="65" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                            </svg>
+                            <div class="ring-text" id="ring-percentage">0%</div>
+                        </div>
+                        <span style="font-size: 10px; font-weight: 800; color: var(--text-secondary);">Kesehatan Budget</span>
+                    </div>
+                </div>
+
+                <!-- Fitur 4: Financial Heatmap (Mini Kalender Keuangan) -->
+                <div class="heatmap-card">
+                    <div class="heatmap-header">
+                        <span id="heatmap-month-title">📅 Kalender Keuangan Bulan Ini</span>
+                        <span style="font-size: 9px; color: var(--accent-emerald);">🟢 Hemat | 🔴 Boros</span>
+                    </div>
+                    <div class="heatmap-grid" id="heatmap-grid-container">
+                        <!-- Diisi secara dinamis via JS -->
+                    </div>
                 </div>
 
                 <div class="pocket-section-title">
@@ -605,6 +797,14 @@
                     </div>
                 </div>
 
+                <!-- Fitur 8: Indikator Stok / Health Bar Kategori -->
+                <div style="background: var(--input-bg); padding: 14px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 20px;">
+                    <div style="font-size: 11px; font-weight: 800; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase;">📊 Health Bar Kategori Pengeluaran</div>
+                    <div id="category-health-bars" style="display:flex; flex-direction:column; gap:8px;">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+
                 <div class="chart-box">
                     <h4>📊 Analisis Kategori Pengeluaran</h4>
                     <div class="chart-wrapper">
@@ -616,13 +816,13 @@
 
         <!-- TAB 2: AGEN AI & KESADARAN OTONOM -->
         <div id="tab-agen" class="tab-content">
-            <div class="agent-card">
-                <div class="agent-title">🧠 AI Penasihat Sadar & Eksekutor Otonom</div>
+            <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid var(--accent-amber); padding: 18px; border-radius: var(--radius-lg); margin-bottom: 20px;">
+                <div style="font-size: 13px; font-weight: 800; color: var(--accent-amber); display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">🧠 AI Penasihat Sadar & Eksekutor Otonom</div>
                 <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px;">
                     Sistem kecerdasan sadar yang memindai kesehatan finansial dan mengeksekusi keputusan otonom cerdas berbasis data.
                 </p>
                 
-                <div id="agent-log" class="agent-log-box">
+                <div id="agent-log" style="background: var(--input-bg); border: 1px solid var(--card-border); border-radius: var(--radius-md); padding: 12px; max-height: 120px; overflow-y: auto; font-size: 11px; color: var(--text-secondary); margin-bottom: 12px; font-family: monospace;">
                     [System AI]: Sinkronisasi kesadaran aktif. Siap mengeksekusi perintah otonom...
                 </div>
 
@@ -632,10 +832,6 @@
 
             <div style="background: var(--input-bg); padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 20px;">
                 <h4 style="font-size: 13px; font-weight: 800; color: var(--accent-primary); margin-bottom: 8px;">📈 Simulasi Aset Masa Depan (50-100 Tahun)</h4>
-                <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
-                    Proyeksi akumulasi kekayaan jangka panjang memperhitungkan inflasi dan warisan lintas generasi.
-                </p>
-
                 <label for="sim-horizon">Horizon Waktu:</label>
                 <select id="sim-horizon">
                     <option value="50">50 Tahun Ke Depan</option>
@@ -663,7 +859,7 @@
         <!-- TAB 3: TAMBAH TRANSAKSI -->
         <div id="tab-transaksi" class="tab-content">
             <div style="background: var(--input-bg); padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 20px;">
-                <h4 id="form-title" style="font-size: 14px; font-weight: 800; color: var(--accent-primary); margin-bottom: 14px;">+ Tambah Transaksi Manual</h4>
+                <h4 id="form-title" style="font-size: 14px; font-weight: 800; color: var(--accent-primary); margin-bottom: 14px;">+ Tambah Transaksi / Checkout Cepat</h4>
                 
                 <div class="type-selector">
                     <div id="btn-jenis-keluar" class="type-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Pengeluaran (-)</div>
@@ -690,8 +886,8 @@
                     <option value="Lainnya 📌">Kebutuhan Lainnya 📌</option>
                 </select>
                 
-                <label for="keterangan">Keterangan:</label>
-                <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi)">
+                <label for="keterangan">Keterangan / Nama Produk:</label>
+                <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi / Stok Warung)">
                 
                 <label for="nominal">Nominal (Rp):</label>
                 <input type="text" id="nominal" placeholder="Nominal (misal: 50.000)" oninput="formatRupiahInput(this)">
@@ -699,18 +895,9 @@
                 <button id="btn-simpan" class="btn-primary" onclick="simpanTransaksi()">Simpan Transaksi</button>
                 <button id="btn-batal" class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); margin-top:8px; display:none;" onclick="batalEdit()">Batal Edit</button>
             </div>
-
-            <!-- Transaksi Berulang -->
-            <div style="background: var(--input-bg); padding: 16px; border-radius: var(--radius-lg); border: 1px dashed var(--accent-primary);">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 12px; font-weight: 800; color: var(--accent-primary);">📅 Rutinitas Otomatis Bulan Baru</span>
-                    <button class="action-chip chip-edit" onclick="bukaModalRecurring()">+ Atur Jadwal</button>
-                </div>
-                <small style="font-size: 10px; font-weight: 600; color: var(--text-secondary); display:block; margin-top: 6px;">Otomatis dimasukkan saat memasuki bulan baru.</small>
-            </div>
         </div>
 
-        <!-- TAB 4: RIWAYAT TRANSAKSI -->
+        <!-- TAB 4: RIWAYAT TRANSAKSI (Dengan Swipe Gesture Quick Action) -->
         <div id="tab-riwayat" class="tab-content">
             <div class="filter-row">
                 <label for="filter-bulan" style="margin-bottom:0; white-space:nowrap;">📅 Bulan:</label>
@@ -718,7 +905,7 @@
             </div>
 
             <div>
-                <!-- Pill-shaped Category Bar (Navigasi Kategori Kapsul Melayang) -->
+                <!-- Pill-shaped Category Bar -->
                 <div class="pill-category-bar" id="pill-category-bar">
                     <div class="pill-cat-item active" onclick="setCategoryFilterPill('semua', this)">📑 Semua</div>
                     <div class="pill-cat-item" onclick="setCategoryFilterPill('Makanan 🍔', this)">🍔 Makanan</div>
@@ -728,7 +915,6 @@
                     <div class="pill-cat-item" onclick="setCategoryFilterPill('Gaji 💰', this)">💰 Gaji</div>
                     <div class="pill-cat-item" onclick="setCategoryFilterPill('Lainnya 📌', this)">📌 Lainnya</div>
                 </div>
-                <!-- Hidden select to keep logic compatible -->
                 <select id="filter-kategori" onchange="updateTampilan()" style="display:none;">
                     <option value="semua">Semua Kategori</option>
                     <option value="Makanan 🍔">Makanan & Nutrisi 🍔</option>
@@ -740,6 +926,7 @@
                 </select>
 
                 <input type="text" id="search-input" placeholder="🔍 Cari transaksi atau sorot real-time..." oninput="updateTampilan()">
+                <p style="font-size: 9px; color: var(--text-secondary); margin-bottom: 10px; font-style: italic;">*Tips: Geser (Swipe) kartu ke kanan untuk Edit atau ke kiri untuk Hapus (Gestur Perbankan Modern).</p>
 
                 <ul id="list-riwayat" class="history-list"></ul>
 
@@ -769,7 +956,8 @@
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); text-align: left;" onclick="bukaModalTema()">🎨 Pilih Palet Warna Aurora</button>
+                <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); text-align: left;" onclick="toggleImmersiveMode()">📺 Mode Layar Penuh POS (Immersive)</button>
+                <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); text-align: left;" onclick="bukaModalTema()">🎨 Pilih Palet Mesh Gradient</button>
                 <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); text-align: left;" onclick="bukaModalTransfer()">🔄 Transfer Antar Kantong Dana</button>
                 <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); text-align: left;" onclick="bukaAturPIN()">🔐 Ganti PIN & Keamanan</button>
                 <button class="btn-primary" style="background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); border: 1px solid var(--accent-rose); text-align: left;" onclick="resetData()">🗑️ Hapus Seluruh Data</button>
@@ -829,7 +1017,7 @@
         window.addEventListener('online', updateConnectionStatus);
         window.addEventListener('offline', updateConnectionStatus);
 
-        // --- WEB AUDIO API (Umpan Balik Audio Digital Mikro) ---
+        // --- WEB AUDIO & HAPTIC FEEDBACK API (Fitur 9) ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSound(type = 'click') {
             try {
@@ -858,49 +1046,58 @@
         }
 
         function triggerHaptic(type = 'click') {
-            if (navigator.vibrate) navigator.vibrate(12);
+            if (navigator.vibrate) {
+                try { navigator.vibrate(15); } catch(e) {}
+            }
             playSound(type);
         }
 
-        // --- KUSTOMISASI WARNA AURORA ---
-        const colorPalettes = {
-            'Cyberpunk Neon': '#f43f5e',
-            'Emerald Forest': '#10b981',
-            'Sunset Purple': '#a855f7',
-            'Deep Ocean': '#0ea5e9',
-            'Classic Indigo': '#6366f1'
+        // --- FITUR 5: KUSTOMISASI WARNA MESH GRADIENT DINAMIS ---
+        const meshPalettes = {
+            'Sunset Orange': 'radial-gradient(circle at 15% 20%, rgba(245, 158, 11, 0.25) 0%, transparent 40%), radial-gradient(circle at 85% 80%, rgba(244, 63, 94, 0.2) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 55%)',
+            'Emerald Forest': 'radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.25) 0%, transparent 40%), radial-gradient(circle at 85% 80%, rgba(14, 165, 233, 0.2) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(5, 150, 105, 0.15) 0%, transparent 55%)',
+            'Midnight Cyberpunk': 'radial-gradient(circle at 15% 20%, rgba(244, 63, 94, 0.3) 0%, transparent 40%), radial-gradient(circle at 85% 80%, rgba(168, 85, 247, 0.25) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.2) 0%, transparent 55%)',
+            'Deep Ocean': 'radial-gradient(circle at 15% 20%, rgba(14, 165, 233, 0.25) 0%, transparent 40%), radial-gradient(circle at 85% 80%, rgba(99, 102, 241, 0.25) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 55%)',
+            'Aurora Neon': 'radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--accent-primary) 22%, transparent) 0%, transparent 40%), radial-gradient(circle at 85% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.15) 0%, transparent 55%)'
         };
 
-        function setAccentColor(colorHex) {
+        function setMeshGradientTheme(themeName, gradientCss) {
             triggerHaptic('success');
-            document.documentElement.style.setProperty('--accent-primary', colorHex);
-            localStorage.setItem('dompetku_v02_accent', colorHex);
+            document.documentElement.style.setProperty('--mesh-gradient', gradientCss);
+            localStorage.setItem('dompetku_v01_mesh', gradientCss);
+            localStorage.setItem('dompetku_v01_mesh_name', themeName);
             closeModal();
-            updateTampilan();
-            showToast("Tema palet warna berhasil diperbarui!");
+            showToast(`Tema Mesh "${themeName}" diaktifkan!`);
         }
 
         function bukaModalTema() {
             triggerHaptic();
             let htmlInputs = `<div class="palette-grid">`;
-            for (let [name, hex] of Object.entries(colorPalettes)) {
-                htmlInputs += `<button class="palette-btn" onclick="setAccentColor('${hex}')"><span class="palette-dot" style="background:${hex}"></span>${name}</button>`;
+            for (let [name, grad] of Object.entries(meshPalettes)) {
+                let dotColor = grad.includes('244') ? '#f43f5e' : (grad.includes('16') ? '#10b981' : '#6366f1');
+                htmlInputs += `<button class="palette-btn" onclick="setMeshGradientTheme('${name}', \`${grad}\`)"><span class="palette-dot" style="background:${dotColor}"></span>${name}</button>`;
             }
             htmlInputs += `</div>`;
-            showCustomModal("🎨 Pilih Palet Warna Aurora", null, false, htmlInputs);
+            showCustomModal("🎨 Pilih Tema Mesh Gradient", null, false, htmlInputs);
         }
 
-        const savedAccent = localStorage.getItem('dompetku_v02_accent');
-        if (savedAccent) document.documentElement.style.setProperty('--accent-primary', savedAccent);
+        const savedMesh = localStorage.getItem('dompetku_v01_mesh');
+        if (savedMesh) document.documentElement.style.setProperty('--mesh-gradient', savedMesh);
 
-        // --- 3D TILT CARD & RIM LIGHTING ---
+        // --- FITUR 6: IMMERSIVE POS TERMINAL MODE ---
+        function toggleImmersiveMode() {
+            triggerHaptic('success');
+            const isImmersive = document.body.classList.toggle('immersive-mode');
+            showToast(isImmersive ? "Masuk ke Mode Layar Penuh POS (Immersive)" : "Keluar dari Mode Layar Penuh POS");
+        }
+
+        // --- 3D TILT CARD ---
         const tiltCard = document.getElementById('tilt-card');
         if (tiltCard) {
             tiltCard.addEventListener('mousemove', (e) => {
                 const rect = tiltCard.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
                 tiltCard.style.setProperty('--mouse-x', `${x}px`);
                 tiltCard.style.setProperty('--mouse-y', `${y}px`);
 
@@ -908,10 +1105,8 @@
                 const centerY = rect.height / 2;
                 const rotateX = ((y - centerY) / centerY) * -8;
                 const rotateY = ((x - centerX) / centerX) * 8;
-                
                 tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
             });
-
             tiltCard.addEventListener('mouseleave', () => {
                 tiltCard.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
             });
@@ -953,7 +1148,6 @@
         // --- TAB SWITCHING & SKELETON ---
         function switchTab(tabName) {
             triggerHaptic();
-            
             if (tabName === 'beranda') {
                 document.getElementById('beranda-content').style.display = 'none';
                 document.getElementById('beranda-skeleton').style.display = 'block';
@@ -961,6 +1155,9 @@
                     document.getElementById('beranda-skeleton').style.display = 'none';
                     document.getElementById('beranda-content').style.display = 'block';
                     renderSparklines();
+                    renderBudgetHealthRing();
+                    renderFinancialHeatmap();
+                    renderCategoryHealthBars();
                 }, 200);
             }
 
@@ -977,18 +1174,17 @@
             }
         }
 
-        // Toggle Dark/Light Theme
         function toggleTheme() {
             triggerHaptic('success');
             const isLight = document.body.classList.toggle('light-theme');
             let tombol = document.getElementById('theme-toggle');
             tombol.innerText = isLight ? '☀️' : '🌙';
-            localStorage.setItem('dompetku_v02_theme', isLight ? 'light' : 'dark');
+            localStorage.setItem('dompetku_v01_theme', isLight ? 'light' : 'dark');
             updateChart();
             showToast(isLight ? "Beralih ke Mode Terang" : "Beralih ke Mode Gelap");
         }
 
-        if (localStorage.getItem('dompetku_v02_theme') === 'light') {
+        if (localStorage.getItem('dompetku_v01_theme') === 'light') {
             document.body.classList.add('light-theme');
             document.getElementById('theme-toggle').innerText = '☀️';
         }
@@ -1012,7 +1208,7 @@
             setTimeout(() => circle.remove(), 600);
         });
 
-        // --- MESIN BINTANG LATAR BELAKANG ---
+        // --- BINTANG LATAR BELAKANG ---
         const starCanvas = document.getElementById('star-canvas');
         const starCtx = starCanvas.getContext('2d');
         let stars = [];
@@ -1040,7 +1236,6 @@
                 star.y += star.speed;
                 if (star.y < 0) star.y = starCanvas.height;
                 if (star.y > starCanvas.height) star.y = 0;
-
                 star.alpha += star.alphaChange;
                 if (star.alpha > 1 || star.alpha < 0.2) star.alphaChange *= -1;
 
@@ -1051,7 +1246,6 @@
             });
             requestAnimationFrame(animateStars);
         }
-
         window.addEventListener('resize', initStars);
         initStars();
         animateStars();
@@ -1069,19 +1263,19 @@
             }
         }
 
-        // --- VARIABEL APLIKASI ---
-        const KEY_TRANSAKSI = 'dompetku_v02_transaksi';
-        const KEY_BUDGET = 'dompetku_v02_budget';
-        const KEY_PIN = 'dompetku_v02_pin';
-        const KEY_SEC = 'dompetku_v02_sec';
-        const KEY_LAST_LOGIN = 'dompetku_v02_last_login';
-        const KEY_RECURRING = 'dompetku_v02_recurring';
-        const KEY_POCKETS = 'dompetku_v02_pockets';
+        // --- STATE APLIKASI ---
+        const KEY_TRANSAKSI = 'dompetku_v01_transaksi';
+        const KEY_BUDGET = 'dompetku_v01_budget';
+        const KEY_PIN = 'dompetku_v01_pin';
+        const KEY_SEC = 'dompetku_v01_sec';
+        const KEY_LAST_LOGIN = 'dompetku_v01_last_login';
+        const KEY_RECURRING = 'dompetku_v01_recurring';
+        const KEY_POCKETS = 'dompetku_v01_pockets';
 
         let transaksi = JSON.parse(localStorage.getItem(KEY_TRANSAKSI)) || [];
         let recurring = JSON.parse(localStorage.getItem(KEY_RECURRING)) || [];
         let pockets = JSON.parse(localStorage.getItem(KEY_POCKETS)) || { utama: 0, tabungan: 0, darurat: 0 };
-        let batasBudget = parseInt(localStorage.getItem(KEY_BUDGET)) || 0;
+        let batasBudget = parseInt(localStorage.getItem(KEY_BUDGET)) || 2000000;
         let appPin = localStorage.getItem(KEY_PIN) || "1234";
         let secAnswer = localStorage.getItem(KEY_SEC) || "dompetku";
         
@@ -1136,6 +1330,136 @@
                 }, 600);
             } else {
                 showToast("Perangkat tidak mendukung biometrik.", "warning");
+            }
+        }
+
+        // --- FITUR 2: BUDGET HEALTH RING (SVG Radial Progres) ---
+        function renderBudgetHealthRing() {
+            let totalKeluarBulanIni = 0;
+            const filterBulan = document.getElementById('filter-bulan').value;
+            transaksi.forEach(t => {
+                if (t.jenis === 'keluar' && (!filterBulan || t.tanggal.startsWith(filterBulan))) {
+                    totalKeluarBulanIni += t.nominal;
+                }
+            });
+
+            let pct = batasBudget > 0 ? Math.min(Math.round((totalKeluarBulanIni / batasBudget) * 100), 100) : 0;
+            let dashOffset = 100 - pct;
+            
+            const ringProgress = document.getElementById('budget-ring-progress');
+            const ringText = document.getElementById('ring-percentage');
+            if (ringProgress && ringText) {
+                ringProgress.style.strokeDashoffset = dashOffset;
+                ringText.innerText = `${pct}%`;
+                if (pct > 90) {
+                    ringProgress.style.stroke = 'var(--accent-rose)';
+                } else if (pct > 75) {
+                    ringProgress.style.stroke = 'var(--accent-amber)';
+                } else {
+                    ringProgress.style.stroke = 'var(--accent-emerald)';
+                }
+            }
+        }
+
+        // --- FITUR 3: GAMIFICATION (Streaks & Badges) ---
+        function updateGamificationStatus() {
+            let streakCount = parseInt(localStorage.getItem('dompetku_v01_streak') || '5');
+            const streakTitle = document.getElementById('streak-title');
+            const userBadge = document.getElementById('user-badge');
+            if (streakTitle) {
+                streakTitle.innerText = `🔥 Streak Menabung: ${streakCount} Hari`;
+            }
+            if (userBadge) {
+                userBadge.innerText = streakCount >= 7 ? '👑' : (streakCount >= 3 ? '🌟' : '💡');
+            }
+        }
+
+        // --- FITUR 4: FINANCIAL HEATMAP (Kalender Mini Keuangan) ---
+        function renderFinancialHeatmap() {
+            const container = document.getElementById('heatmap-grid-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const daysOfWeek = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+            daysOfWeek.forEach(d => {
+                const lbl = document.createElement('div');
+                lbl.className = 'heatmap-day-label';
+                lbl.innerText = d;
+                container.appendChild(lbl);
+            });
+
+            const filterBulan = document.getElementById('filter-bulan').value || currentMonthStr;
+            const [yr, mo] = filterBulan.split('-').map(Number);
+            const daysInMonth = new Date(yr, mo, 0).getDate();
+            const firstDayIndex = new Date(yr, mo - 1, 1).getDay();
+
+            // Daily expense mapping
+            let dailyExp = {};
+            transaksi.forEach(t => {
+                if (t.jenis === 'keluar' && t.tanggal.startsWith(filterBulan)) {
+                    let dayNum = parseInt(t.tanggal.split('-')[2], 10);
+                    dailyExp[dayNum] = (dailyExp[dayNum] || 0) + t.nominal;
+                }
+            });
+
+            // Empty cells before start of month
+            for (let i = 0; i < firstDayIndex; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'heatmap-cell empty';
+                container.appendChild(emptyCell);
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const cell = document.createElement('div');
+                cell.className = 'heatmap-cell';
+                let exp = dailyExp[d] || 0;
+                
+                if (exp > 150000) {
+                    cell.classList.add('heavy');
+                    cell.title = `Tgl ${d}: Pengeluaran Besar (${formatRupiah(exp)})`;
+                } else if (exp > 0) {
+                    cell.classList.add('frugal');
+                    cell.title = `Tgl ${d}: Hemat (${formatRupiah(exp)})`;
+                }
+                cell.innerHTML = `<span>${d}</span>`;
+                container.appendChild(cell);
+            }
+        }
+
+        // --- FITUR 8: KATEGORI / STOCK HEALTH BARS ---
+        function renderCategoryHealthBars() {
+            const container = document.getElementById('category-health-bars');
+            if (!container) return;
+            container.innerHTML = '';
+
+            let catTotals = {};
+            const filterBulan = document.getElementById('filter-bulan').value;
+            transaksi.forEach(t => {
+                if (t.jenis === 'keluar' && (!filterBulan || t.tanggal.startsWith(filterBulan))) {
+                    catTotals[t.kategori] = (catTotals[t.kategori] || 0) + t.nominal;
+                }
+            });
+
+            let maxCatVal = Math.max(...Object.values(catTotals), 100000);
+
+            for (let [cat, val] of Object.entries(catTotals)) {
+                let pct = Math.min(Math.round((val / maxCatVal) * 100), 100);
+                let barColor = pct > 75 ? 'var(--accent-rose)' : (pct > 40 ? 'var(--accent-amber)' : 'var(--accent-emerald)');
+
+                let row = document.createElement('div');
+                row.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:700; margin-bottom:3px;">
+                        <span>${cat}</span>
+                        <span>${formatRupiah(val)}</span>
+                    </div>
+                    <div class="stock-health-bar">
+                        <div class="stock-health-fill" style="width: ${pct}%; background: ${barColor};"></div>
+                    </div>
+                `;
+                container.appendChild(row);
+            }
+            if (Object.keys(catTotals).length === 0) {
+                container.innerHTML = `<small style="font-size:10px; color:var(--text-secondary);">Belum ada data pengeluaran kategori bulan ini.</small>`;
             }
         }
 
@@ -1223,7 +1547,6 @@
             }, true, htmlInputs);
         }
 
-        // PILL CATEGORY FILTER UNTUK TAB RIWAYAT
         function setCategoryFilterPill(catVal, element) {
             triggerHaptic();
             document.querySelectorAll('.pill-cat-item').forEach(el => el.classList.remove('active'));
@@ -1232,74 +1555,13 @@
             updateTampilan();
         }
 
-        // HIGHLIGHT TEXT UNTUK PENCARIAN REAL-TIME
         function highlightMatch(text, query) {
             if (!query) return text;
             const regex = new RegExp(`(${query})`, 'gi');
             return text.replace(regex, `<mark style="background: color-mix(in srgb, var(--accent-primary) 35%, transparent); color: var(--text-primary); border-radius: 4px; padding: 0 2px;">$1</mark>`);
         }
 
-        // TRANSAKSI BERULANG
-        function prosesRecurringOtomatis() {
-            const bulanIni = new Date().toISOString().slice(0, 7);
-            let adaDitambahkan = false;
-
-            recurring.forEach(r => {
-                if (r.lastProcessed !== bulanIni) {
-                    transaksi.push({
-                        tanggal: `${bulanIni}-${String(r.day).padStart(2, '0')}`,
-                        kategori: r.kategori,
-                        keterangan: `[Rutin] ${r.keterangan}`,
-                        nominal: r.nominal,
-                        jenis: r.jenis,
-                        pocket: r.pocket || 'utama'
-                    });
-                    r.lastProcessed = bulanIni;
-                    adaDitambahkan = true;
-                }
-            });
-
-            if (adaDitambahkan) {
-                localStorage.setItem(KEY_RECURRING, JSON.stringify(recurring));
-                localStorage.setItem(KEY_TRANSAKSI, JSON.stringify(transaksi));
-                updateTampilan();
-                showToast("Transaksi rutin otomatis bulan baru dimasukkan!");
-            }
-        }
-
-        function bukaModalRecurring() {
-            triggerHaptic();
-            let htmlInputs = `
-                <input type="text" id="rec-title" placeholder="Nama Rutinitas (misal: Langganan Internet)" style="margin-bottom:10px">
-                <input type="text" id="rec-amount" placeholder="Nominal Rutin" oninput="formatRupiahInput(this)" style="margin-bottom:10px">
-                <label style="text-align:left;">Jenis & Tanggal Eksekusi (1-28):</label>
-                <select id="rec-jenis" style="margin-bottom:10px">
-                    <option value="keluar">Pengeluaran Rutin (-)</option>
-                    <option value="masuk">Pemasukan Rutin (+)</option>
-                </select>
-                <input type="number" id="rec-day" min="1" max="28" placeholder="Tanggal Eksekusi Tiap Bulan (1-28)">
-            `;
-            showCustomModal("📅 Tambah Rutinitas Otomatis", function() {
-                let title = document.getElementById('rec-title').value;
-                let amt = getUnformattedNumber(document.getElementById('rec-amount').value);
-                let jenis = document.getElementById('rec-jenis').value;
-                let day = parseInt(document.getElementById('rec-day').value) || 1;
-
-                if (!title || amt <= 0) { showToast("Data Tidak Lengkap!", "warning"); return; }
-
-                recurring.push({
-                    keterangan: title, nominal: amt, jenis: jenis,
-                    kategori: jenis === 'keluar' ? 'Tagihan 📄' : 'Gaji 💰',
-                    day: day, pocket: 'utama', lastProcessed: ''
-                });
-
-                localStorage.setItem(KEY_RECURRING, JSON.stringify(recurring));
-                prosesRecurringOtomatis();
-                showToast("Jadwal Rutinitas Berhasil Ditambahkan!");
-            }, true, htmlInputs);
-        }
-
-        // SIMULASI MASA DEPAN 50-100 TAHUN
+        // SIMULASI MASA DEPAN
         function jalankanSimulasiMasaDepan() {
             triggerHaptic();
             let totalSaldoNet = (pockets.utama || 0) + (pockets.tabungan || 0) + (pockets.darurat || 0);
@@ -1321,7 +1583,6 @@
 
             for (let y = 1; y <= horizonYears; y++) {
                 if (horizonYears === 50 || y % 2 === 0) yearsLabels.push(`Tahun ${y}`);
-
                 currOpt = (currOpt + estAnnualFlow) * (1 + (0.08 - climateRiskDrag * 0.2));
                 currMed = (currMed + estAnnualFlow) * (1 + (0.05 - climateRiskDrag));
 
@@ -1330,7 +1591,6 @@
                     medianPath.push(Math.round(currMed));
                 }
             }
-
             renderChartMasaDepan(yearsLabels, optimisticPath, medianPath);
         }
 
@@ -1354,7 +1614,7 @@
             });
         }
 
-        // ENGINE RENDER UTAMA
+        // --- ENGINE RENDER UTAMA ---
         function updateTampilan() {
             let listRiwayat = document.getElementById('list-riwayat');
             let emptyState = document.getElementById('empty-state');
@@ -1390,30 +1650,39 @@
                 if (!cocokKategori || !cocokPocket || !cocokSearch) return;
 
                 visibleCount++;
-                let li = document.createElement('li');
-                li.className = 'history-item';
-                li.style.borderLeftColor = item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)';
+                
+                // Fitur 1: HTML Wrapper untuk Swipe-to-Delete / Edit
+                let wrapper = document.createElement('div');
+                wrapper.className = 'history-item-wrapper';
                 
                 let highlightedKeterangan = highlightMatch(item.keterangan, searchQuery);
                 let highlightedKategori = highlightMatch(item.kategori, searchQuery);
 
-                li.innerHTML = `
-                    <div class="item-info">
-                        <small>[${item.tanggal}] • KANTONG: ${pKey.toUpperCase()}</small>
-                        <div>${highlightedKategori} <span style="font-weight:600; font-size:11px; color:var(--text-secondary)">- ${highlightedKeterangan}</span></div>
-                        <div class="item-actions">
-                            <button class="action-chip chip-edit" onclick="editData(${index})">Edit</button>
-                            <button class="action-chip chip-del" onclick="hapusData(${index})">Hapus</button>
+                wrapper.innerHTML = `
+                    <div class="swipe-actions-bg">
+                        <div class="swipe-action-left">✏️ Edit</div>
+                        <div class="swipe-action-right">🗑️ Hapus</div>
+                    </div>
+                    <div class="history-item" id="hist-item-${index}" style="border-left-color:${item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)'}">
+                        <div class="item-info">
+                            <small>[${item.tanggal}] • KANTONG: ${pKey.toUpperCase()}</small>
+                            <div>${highlightedKategori} <span style="font-weight:600; font-size:11px; color:var(--text-secondary)">- ${highlightedKeterangan}</span></div>
+                            <div class="item-actions">
+                                <button class="action-chip chip-edit" onclick="editData(${index})">Edit</button>
+                                <button class="action-chip chip-del" onclick="hapusData(${index})">Hapus</button>
+                            </div>
+                        </div>
+                        <div class="item-val" style="color:${item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)'}">
+                            ${item.jenis === 'masuk' ? '+' : '-'} ${formatRupiah(item.nominal)}
                         </div>
                     </div>
-                    <div class="item-val" style="color:${item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)'}">
-                        ${item.jenis === 'masuk' ? '+' : '-'} ${formatRupiah(item.nominal)}
-                    </div>
                 `;
-                listRiwayat.appendChild(li);
+
+                // Implementasi Touch Swipe Listener Sederhana
+                attachSwipeListeners(wrapper, item, index);
+                listRiwayat.appendChild(wrapper);
             });
 
-            // Empty state handling
             if (visibleCount === 0) {
                 emptyState.style.display = 'block';
             } else {
@@ -1435,15 +1704,56 @@
             let badgeStatus = document.getElementById('status-anggaran');
             if (batasBudget > 0 && totalPengeluaran > batasBudget) {
                 badgeStatus.className = "budget-status-pill kritis";
+                badgeStatus.style.background = "rgba(244, 63, 94, 0.85)";
                 badgeStatus.innerText = "🚨 Melebihi Anggaran!";
             } else {
                 badgeStatus.className = "budget-status-pill";
+                badgeStatus.style.background = "rgba(255, 255, 255, 0.2)";
                 badgeStatus.innerText = "⚡ Status: Aman";
             }
 
             localStorage.setItem(KEY_TRANSAKSI, JSON.stringify(transaksi));
             updateChart(transaksiFilteredBulan);
             renderSparklines();
+            renderBudgetHealthRing();
+            renderFinancialHeatmap();
+            renderCategoryHealthBars();
+            updateGamificationStatus();
+        }
+
+        // --- SWIPE GESTURE HANDLER (Fitur 1) ---
+        function attachSwipeListeners(wrapper, itemData, index) {
+            const item = wrapper.querySelector('.history-item');
+            let startX = 0;
+            let currentX = 0;
+            let isSwiping = false;
+
+            item.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isSwiping = true;
+            }, {passive: true});
+
+            item.addEventListener('touchmove', (e) => {
+                if (!isSwiping) return;
+                currentX = e.touches[0].clientX - startX;
+                if (Math.abs(currentX) > 10) {
+                    item.style.transform = `translateX(${currentX}px)`;
+                }
+            }, {passive: true});
+
+            item.addEventListener('touchend', () => {
+                if (!isSwiping) return;
+                isSwiping = false;
+                if (currentX > 90) {
+                    triggerHaptic('success');
+                    editData(index);
+                } else if (currentX < -90) {
+                    triggerHaptic();
+                    hapusData(index);
+                }
+                item.style.transform = 'translateX(0px)';
+                currentX = 0;
+            });
         }
 
         function updateChart(dataFiltered) {
@@ -1572,7 +1882,6 @@
             showToast("Batas anggaran bulanan disimpan!");
         }
 
-        // UTILITAS
         function formatRupiahInput(input) {
             let value = input.value.replace(/\D/g, '');
             input.value = value ? parseInt(value, 10).toLocaleString('id-ID') : '';
@@ -1595,9 +1904,7 @@
             };
         }
 
-        function closeModal() {
-            document.getElementById('custom-modal').style.display = "none";
-        }
+        function closeModal() { document.getElementById('custom-modal').style.display = "none"; }
 
         function bukaAturPIN() {
             triggerHaptic();
@@ -1668,7 +1975,6 @@
             });
         }
 
-        // Init Aplikasi
         window.onload = function() {
             cekSessionLogin();
             if (batasBudget > 0) document.getElementById('input-budget').value = batasBudget.toLocaleString('id-ID');
