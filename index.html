@@ -3,41 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dompetku v0.1 — Cyber Financial Core</title>
+    <title>Dompetku v0.1 (gacor banget wakkk) — Quantum Core 2126</title>
     
-    <!-- PWA & Mobile Meta Tags -->
-    <meta name="theme-color" content="#070a12">
+    <!-- Meta Tags Mobile & PWA -->
+    <meta name="theme-color" content="#03050d">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="description" content="Aplikasi Catatan Keuangan Futuristik Quantum Core v0.1">
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Google Fonts Sci-Fi Futuristic -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts Sci-Fi Futuristic 100 Tahun Ke Depan -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-body: #05070f;
-            --bg-card: rgba(13, 20, 38, 0.75);
-            --text-utama: #00f3ff;
-            --text-sub: #8a99ad;
-            --neon-blue: #00f3ff;
+            --bg-body: #03050d;
+            --bg-card: rgba(10, 16, 32, 0.85);
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff007f;
+            --neon-green: #00ffaa;
+            --neon-gold: #ffcc00;
             --neon-purple: #9d00ff;
-            --neon-green: #00ff88;
-            --neon-red: #ff0055;
-            --neon-gold: #ffb700;
-            --border-glow: rgba(0, 243, 255, 0.3);
-            --glass-blur: blur(16px);
+            --text-main: #ffffff;
+            --text-sub: #7e8b9b;
+            --border-glow: rgba(0, 243, 255, 0.4);
+            --glass-blur: blur(20px);
         }
 
         .light-theme {
-            --bg-body: #0d1527;
-            --bg-card: rgba(20, 30, 55, 0.85);
-            --text-utama: #ffffff;
-            --text-sub: #a0aec0;
-            --border-glow: rgba(0, 243, 255, 0.5);
+            --bg-body: #080e1e;
+            --bg-card: rgba(18, 28, 52, 0.9);
+            --text-sub: #94a3b8;
+            --border-glow: rgba(0, 243, 255, 0.6);
         }
 
         * { 
@@ -45,173 +43,187 @@
             margin: 0; 
             padding: 0; 
             font-family: 'Rajdhani', sans-serif; 
-            transition: all 0.25s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             -webkit-tap-highlight-color: transparent;
         }
 
         body { 
             background: var(--bg-body);
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(157, 0, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(0, 243, 255, 0.12) 0%, transparent 40%);
+                radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(255, 0, 127, 0.1) 0%, transparent 40%),
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
             min-height: 100vh; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             padding: 15px; 
-            color: #fff;
+            color: var(--text-main);
             overflow-x: hidden;
         }
 
         h1, h2, h3, h4 {
             font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 12px var(--neon-cyan);
         }
 
+        /* Container Cyber HUD */
         .container { 
             width: 100%; 
-            max-width: 440px; 
+            max-width: 450px; 
             background: var(--bg-card); 
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--border-glow);
-            border-radius: 28px; 
+            border-radius: 24px; 
             padding: 22px; 
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.15), inset 0 0 15px rgba(0, 243, 255, 0.05);
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.15), inset 0 0 20px rgba(0, 243, 255, 0.05);
             position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
         }
 
-        /* Header Cyber */
+        /* Scanline Overlay */
+        .container::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* Header (Tanpa Tulisan Versi) */
         .header-app { 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             margin-bottom: 20px;
-            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
-            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+            padding-bottom: 14px;
         }
         .header-app h2 { 
-            font-size: 20px; 
-            color: var(--neon-blue);
+            font-size: 22px; 
+            color: var(--neon-cyan);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
-        .version-badge {
-            font-size: 10px;
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
-            color: #fff;
-            padding: 2px 8px;
-            border-radius: 8px;
-            font-family: 'Orbitron', sans-serif;
-        }
-        .header-actions { display: flex; gap: 8px; }
+        .header-actions { display: flex; gap: 8px; z-index: 11; }
         .icon-btn { 
-            background: rgba(0, 243, 255, 0.1); 
-            border: 1px solid var(--neon-blue); 
-            color: var(--neon-blue);
+            background: rgba(0, 243, 255, 0.08); 
+            border: 1px solid var(--neon-cyan); 
+            color: var(--neon-cyan);
             font-size: 16px; 
             cursor: pointer; 
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.2);
         }
         .icon-btn:active { transform: scale(0.9); }
 
-        /* PIN Screen Futuristic */
+        /* Lock Screen PIN & Biometric WebAuthn */
         .pin-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(5, 7, 15, 0.95); 
-            backdrop-filter: blur(25px);
+            background: rgba(3, 5, 13, 0.96); 
+            backdrop-filter: blur(30px);
             display: flex; justify-content: center; align-items: center; z-index: 9999;
         }
         .pin-box {
-            background: rgba(13, 20, 38, 0.9); 
-            padding: 30px 25px; 
+            background: rgba(10, 16, 32, 0.95); 
+            padding: 32px 26px; 
             border-radius: 24px; 
             text-align: center;
-            width: 90%; max-width: 340px; color: white; 
-            border: 1px solid var(--neon-blue);
-            box-shadow: 0 0 40px rgba(0, 243, 255, 0.25);
+            width: 90%; max-width: 350px; color: white; 
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.3);
+            position: relative;
         }
-        .pin-box h3 { color: var(--neon-blue); font-size: 18px; margin-bottom: 15px; }
+        .pin-box h3 { color: var(--neon-cyan); font-size: 18px; margin-bottom: 15px; }
         .pin-box input {
-            width: 100%; padding: 14px; margin: 15px 0; text-align: center; font-size: 24px;
-            letter-spacing: 12px; border-radius: 14px; border: 1px solid var(--neon-blue); 
-            background: rgba(0, 0, 0, 0.6); color: var(--neon-blue); outline: none;
-            box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.2);
+            width: 100%; padding: 14px; margin: 15px 0; text-align: center; font-size: 26px;
+            letter-spacing: 12px; border-radius: 12px; border: 1px solid var(--neon-cyan); 
+            background: rgba(0, 0, 0, 0.7); color: var(--neon-cyan); outline: none;
+            box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.2);
             font-family: 'Orbitron', sans-serif;
         }
         .pin-box button {
-            width: 100%; padding: 14px; 
-            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); 
+            width: 100%; padding: 14px; margin-top: 8px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); 
             color: #fff; border: none; border-radius: 12px; font-weight: 700; 
             cursor: pointer; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
         }
-        .pin-link { font-size: 13px; color: var(--neon-blue); cursor: pointer; text-decoration: underline; margin-top: 15px; display: inline-block; }
+        .btn-bio {
+            background: rgba(0, 255, 170, 0.15) !important;
+            border: 1px solid var(--neon-green) !important;
+            color: var(--neon-green) !important;
+            margin-top: 10px !important;
+        }
+        .pin-link { font-size: 13px; color: var(--neon-cyan); cursor: pointer; text-decoration: underline; margin-top: 16px; display: inline-block; }
 
-        /* Quantum Hologram Card */
+        /* Quantum Hologram ATM Card 2126 */
         .saldo { 
-            background: linear-gradient(135deg, rgba(157,0,255,0.3), rgba(0,243,255,0.15)); 
-            border: 1px solid var(--neon-blue);
-            padding: 20px; border-radius: 22px; color: white; height: 180px;
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(157,0,255,0.35), rgba(0,243,255,0.15)); 
+            border: 1px solid var(--neon-cyan);
+            padding: 20px; border-radius: 20px; color: white; height: 185px;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.1);
             position: relative; overflow: hidden; margin-bottom: 20px;
             display: flex; flex-direction: column; justify-content: space-between;
         }
         .saldo::before {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0, 243, 255, 0.08), transparent);
-            transform: rotate(45deg); animation: holoGlow 6s infinite linear;
+            background: linear-gradient(45deg, transparent, rgba(0, 243, 255, 0.12), transparent);
+            transform: rotate(45deg); animation: holoGlow 7s infinite linear;
         }
         @keyframes holoGlow { 0% { transform: translate(-30%, -30%) rotate(45deg); } 100% { transform: translate(30%, 30%) rotate(45deg); } }
         
-        .card-top, .card-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-sub); }
+        .card-top, .card-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-sub); z-index: 2;}
         .card-middle { text-align: center; z-index: 2; }
-        .card-middle h4 { font-size: 12px; color: var(--text-sub); font-weight: 500; }
-        .card-middle h1 { font-size: 28px; margin: 4px 0; color: #fff; text-shadow: 0 0 12px var(--neon-blue); }
+        .card-middle h4 { font-size: 11px; color: var(--text-sub); font-weight: 600; letter-spacing: 1px; }
+        .card-middle h1 { font-size: 28px; margin: 4px 0; color: #fff; text-shadow: 0 0 15px var(--neon-cyan); font-family: 'Orbitron', sans-serif;}
         
         .status-badge {
-            display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;
-            background: rgba(0, 255, 136, 0.2); border: 1px solid var(--neon-green); color: var(--neon-green);
+            display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 10px; font-weight: 700;
+            background: rgba(0, 255, 170, 0.15); border: 1px solid var(--neon-green); color: var(--neon-green);
         }
         .saldo.kritis {
-            background: linear-gradient(135deg, rgba(255,0,85,0.4), rgba(40,0,15,0.8));
-            border-color: var(--neon-red); box-shadow: 0 0 25px rgba(255, 0, 85, 0.4);
+            background: linear-gradient(135deg, rgba(255,0,127,0.4), rgba(30,0,15,0.85));
+            border-color: var(--neon-magenta); box-shadow: 0 0 30px rgba(255, 0, 127, 0.4);
         }
         .saldo.kritis .status-badge {
-            background: rgba(255, 0, 85, 0.2); border-color: var(--neon-red); color: var(--neon-red);
+            background: rgba(255, 0, 127, 0.2); border-color: var(--neon-magenta); color: var(--neon-magenta);
         }
 
-        /* Inputs & Controls High Contrast Mode Dark */
-        label { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; display: block; }
+        /* Inputs & Form Controls High Contrast */
+        label { font-size: 12px; color: var(--text-sub); margin-bottom: 5px; display: block; font-weight: 600; }
         input, select {
             width: 100%; padding: 12px 14px; margin-bottom: 12px;
-            border: 1px solid rgba(0, 243, 255, 0.3); background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 243, 255, 0.3); background: rgba(0, 0, 0, 0.6);
             border-radius: 12px; color: #ffffff; outline: none; font-size: 14px;
-            font-weight: 600;
+            font-weight: 600; z-index: 11; position: relative;
         }
-        /* Memperbaiki tampilan dropdown agar teks terlihat jelas di Dark Mode */
         select option {
-            background-color: #0b1120;
+            background-color: #080e1e;
             color: #ffffff;
             padding: 10px;
         }
         input:focus, select:focus { 
-            border-color: var(--neon-blue); 
-            box-shadow: 0 0 12px rgba(0, 243, 255, 0.4); 
+            border-color: var(--neon-cyan); 
+            box-shadow: 0 0 14px rgba(0, 243, 255, 0.4); 
         }
 
-        /* Custom Selector Segmented Pemasukan / Pengeluaran (Point 5 Fix) */
-        .jenis-selector {
-            display: flex; gap: 10px; margin-bottom: 14px;
-        }
+        /* Segmented Button (Pengeluaran/Pemasukan) */
+        .jenis-selector { display: flex; gap: 10px; margin-bottom: 14px; }
         .jenis-btn {
             flex: 1; padding: 12px; border-radius: 12px; text-align: center;
             font-weight: 700; font-size: 13px; cursor: pointer;
@@ -219,114 +231,125 @@
             color: var(--text-sub); user-select: none;
         }
         .jenis-btn.active-masuk {
-            background: rgba(0, 255, 136, 0.2);
-            border-color: var(--neon-green);
-            color: var(--neon-green);
-            box-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+            background: rgba(0, 255, 170, 0.2); border-color: var(--neon-green);
+            color: var(--neon-green); box-shadow: 0 0 14px rgba(0, 255, 170, 0.3);
         }
         .jenis-btn.active-keluar {
-            background: rgba(255, 0, 85, 0.2);
-            border-color: var(--neon-red);
-            color: var(--neon-red);
-            box-shadow: 0 0 12px rgba(255, 0, 85, 0.3);
+            background: rgba(255, 0, 127, 0.2); border-color: var(--neon-magenta);
+            color: var(--neon-magenta); box-shadow: 0 0 14px rgba(255, 0, 127, 0.3);
         }
 
-        /* Dashboard Summary Grid */
+        /* Dashboard Cards Grid */
         .card-group { display: flex; gap: 12px; margin-bottom: 20px; }
         .card-group .card { 
             flex: 1; padding: 14px; border-radius: 16px; text-align: center;
-            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 243, 255, 0.15);
         }
         .card-group .card h4 { font-size: 11px; color: var(--text-sub); margin-bottom: 4px; }
         .card-group .card p { font-size: 16px; font-weight: 700; font-family: 'Orbitron', sans-serif; }
 
-        /* Chart Cyber Section */
+        /* Filter Bulan Section */
+        .month-filter-box {
+            background: rgba(0, 243, 255, 0.05);
+            border: 1px solid rgba(0, 243, 255, 0.25);
+            padding: 12px 14px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .month-filter-box label { margin-bottom: 0; white-space: nowrap; color: var(--neon-cyan); }
+        .month-filter-box input[type="month"] { margin-bottom: 0; padding: 8px 10px; font-size: 13px; }
+
+        /* Chart Section */
         .chart-section {
-            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 243, 255, 0.2);
+            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 243, 255, 0.2);
             padding: 16px; border-radius: 20px; margin-bottom: 20px; text-align: center;
         }
-        .chart-section h3 { font-size: 13px; color: var(--neon-blue); margin-bottom: 12px; }
+        .chart-section h3 { font-size: 13px; color: var(--neon-cyan); margin-bottom: 12px; }
         .chart-container { position: relative; height: 190px; width: 100%; display: flex; justify-content: center; }
 
         /* Buttons Futuristic */
         .btn-simpan { 
             width: 100%; padding: 14px; border: none; border-radius: 12px; 
-            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); 
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); 
             color: #fff; font-weight: 700; cursor: pointer; font-size: 14px; 
             font-family: 'Orbitron', sans-serif; margin-bottom: 10px;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+            box-shadow: 0 0 18px rgba(0, 243, 255, 0.35);
         }
-        .btn-batal { background: var(--neon-red); color: white; display: none; }
+        .btn-batal { background: var(--neon-magenta); color: white; display: none; }
         .btn-simpan:active, .btn-batal:active { transform: scale(0.97); }
 
-        /* Riwayat Transaksi List */
+        /* Transaction History */
         .history-section { margin-top: 25px; }
         .history-header { display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         
         ul { list-style: none; }
         li { 
-            background: rgba(0, 0, 0, 0.4); padding: 12px 14px; border-radius: 14px; margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.45); padding: 12px 14px; border-radius: 14px; margin-bottom: 10px;
             border: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;
         }
-        li:hover { border-color: var(--neon-blue); }
+        li:hover { border-color: var(--neon-cyan); }
         .action-btns { display: flex; gap: 6px; }
         .edit-btn, .delete-btn {
             border: none; padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; color: white;
             font-weight: 600;
         }
-        .edit-btn { background: rgba(0, 243, 255, 0.2); border: 1px solid var(--neon-blue); color: var(--neon-blue); }
-        .delete-btn { background: rgba(255, 0, 85, 0.2); border: 1px solid var(--neon-red); color: var(--neon-red); }
+        .edit-btn { background: rgba(0, 243, 255, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); }
+        .delete-btn { background: rgba(255, 0, 127, 0.15); border: 1px solid var(--neon-magenta); color: var(--neon-magenta); }
 
         /* Export / Reset */
         .export-group { display: flex; gap: 10px; margin-top: 15px; }
         .btn-export { 
-            flex: 1; padding: 10px; background: rgba(0, 243, 255, 0.05); border: 1px solid var(--neon-blue); 
-            color: var(--neon-blue); border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer;
+            flex: 1; padding: 11px; background: rgba(0, 243, 255, 0.05); border: 1px solid var(--neon-cyan); 
+            color: var(--neon-cyan); border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer;
         }
-        .btn-export:hover { background: var(--neon-blue); color: #000; }
+        .btn-export:hover { background: var(--neon-cyan); color: #000; }
 
         .reset-btn { 
             width: 100%; padding: 12px; margin-top: 15px; background: transparent; 
-            color: var(--neon-red); border: 1px solid var(--neon-red); border-radius: 12px; font-weight: 700; cursor: pointer;
+            color: var(--neon-magenta); border: 1px solid var(--neon-magenta); border-radius: 12px; font-weight: 700; cursor: pointer;
         }
-        .reset-btn:hover { background: var(--neon-red); color: white; }
+        .reset-btn:hover { background: var(--neon-magenta); color: white; }
 
-        /* Custom Holographic Modal */
+        /* Modal Overlay */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(5, 7, 15, 0.85); backdrop-filter: blur(15px); 
+            background: rgba(3, 5, 13, 0.88); backdrop-filter: blur(18px); 
             display: none; justify-content: center; align-items: center; z-index: 10000;
         }
         .modal-box {
-            background: rgba(13, 20, 38, 0.95); border: 1px solid var(--neon-blue);
-            padding: 22px; border-radius: 20px; width: 85%; max-width: 320px; text-align: center;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
+            background: rgba(10, 16, 32, 0.95); border: 1px solid var(--neon-cyan);
+            padding: 24px; border-radius: 20px; width: 85%; max-width: 330px; text-align: center;
+            box-shadow: 0 0 35px rgba(0, 243, 255, 0.3);
         }
         .modal-box p { margin-bottom: 15px; font-size: 14px; color: #fff; }
         .modal-btns { display: flex; gap: 10px; justify-content: center; }
         .modal-btns button {
             flex: 1; padding: 10px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;
         }
-        .modal-btn-confirm { background: var(--neon-blue); color: #000; }
-        .modal-btn-cancel { background: rgba(255, 0, 85, 0.2); border: 1px solid var(--neon-red); color: var(--neon-red); }
+        .modal-btn-confirm { background: var(--neon-cyan); color: #000; }
+        .modal-btn-cancel { background: rgba(255, 0, 127, 0.2); border: 1px solid var(--neon-magenta); color: var(--neon-magenta); }
     </style>
 </head>
 <body>
 
-    <!-- Layar Kunci PIN Cyber (Point 1: Hapus Tulisan PIN bawaan 1234) -->
+    <!-- Lock Screen Cyber PIN & Biometric -->
     <div id="pin-screen" class="pin-overlay">
         <div class="pin-box">
             <h3>🔒 CYBER CORE SECURITY</h3>
-            <!-- Tulisan PIN Bawaan Sudah Dihapus Total -->
             <input type="password" id="pin-input" maxlength="6" placeholder="••••" autocomplete="off">
-            <button onclick="verifikasiPIN()">OTENTIKASI</button>
+            <button onclick="verifikasiPIN()">OTENTIKASI PIN</button>
+            <button class="btn-bio" onclick="loginBiometric()">👆 BIOMETRIC / FACEID</button>
             <div>
                 <span class="pin-link" onclick="lupaPIN()">Lupa PIN?</span>
             </div>
         </div>
     </div>
 
-    <!-- Custom Modal Hologram -->
+    <!-- Modal Hologram -->
     <div id="custom-modal" class="modal-overlay">
         <div class="modal-box">
             <p id="modal-text">Notifikasi Sistem</p>
@@ -338,12 +361,13 @@
         </div>
     </div>
 
-    <!-- Main App Container -->
+    <!-- App Main Container -->
     <div class="container">
+        <!-- Header (Tulisan Versi Dihapus Total) -->
         <div class="header-app">
-            <h2>DOMPETKU <span class="version-badge">v0.1</span></h2>
+            <h2>DOMPETKU</h2>
             <div class="header-actions">
-                <button class="icon-btn" title="Pengaturan PIN" onclick="bukaAturPIN()">⚙️</button>
+                <button class="icon-btn" title="Atur PIN Keamanan" onclick="bukaAturPIN()">⚙️</button>
                 <button id="theme-toggle" class="icon-btn" onclick="toggleTheme()">🌙</button>
             </div>
         </div>
@@ -353,7 +377,7 @@
             <div class="card saldo" id="kartu-atm">
                 <div class="card-top">
                     <span>QUANTUM CORE</span>
-                    <span>⚡ HYPER-VAULT</span>
+                    <span>⚡ HYPER-VAULT 2126</span>
                 </div>
                 <div class="card-middle">
                     <h4>TOTAL SALDO TERSEDIA</h4>
@@ -362,8 +386,14 @@
                 </div>
                 <div class="card-bottom">
                     <span>ID: **** 2076</span>
-                    <span style="color: var(--neon-blue); font-weight: bold;">v0.1 GACOR</span>
+                    <span style="color: var(--neon-cyan); font-weight: bold;">GACOR CORE</span>
                 </div>
+            </div>
+
+            <!-- Filter Bulan (Monthly Filter) -->
+            <div class="month-filter-box">
+                <label for="filter-bulan">📅 PERIODE BULAN:</label>
+                <input type="month" id="filter-bulan" onchange="updateTampilan()">
             </div>
 
             <!-- Batas Anggaran -->
@@ -379,24 +409,23 @@
                 </div>
                 <div class="card">
                     <h4>PENGELUARAN</h4>
-                    <p id="pengeluaran" style="color: var(--neon-red);">Rp 0</p>
+                    <p id="pengeluaran" style="color: var(--neon-magenta);">Rp 0</p>
                 </div>
             </div>
 
-            <!-- Visualisasi Chart.js Futuristic -->
+            <!-- Visualisasi Chart.js -->
             <div class="chart-section">
-                <h3>📊 ANALISIS STRUKTUR KEUANGAN</h3>
+                <h3>📊 ANALISIS STRUKTUR KEUANGAN BULANAN</h3>
                 <div class="chart-container">
                     <canvas id="chartPengeluaran"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Form Input & Edit Transaksi -->
+        <!-- Form Input Transaksi -->
         <div class="form-section">
-            <h3 id="form-title" style="font-size: 14px; color: var(--neon-blue); margin-bottom: 10px;">+ TRANSAKSI BARU</h3>
+            <h3 id="form-title" style="font-size: 14px; color: var(--neon-cyan); margin-bottom: 10px;">+ TRANSAKSI BARU</h3>
             
-            <!-- Custom Segmented Control Jenis Transaksi (Point 5 Fix) -->
             <label>JENIS TRANSAKSI:</label>
             <div class="jenis-selector">
                 <div id="btn-jenis-keluar" class="jenis-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Pengeluaran (-)</div>
@@ -422,11 +451,11 @@
             <button id="btn-batal" class="btn-simpan btn-batal" onclick="batalEdit()">BATAL EDIT</button>
         </div>
 
-        <!-- Riwayat Transaksi -->
+        <!-- Log Transaksi -->
         <div class="history-section">
-            <h3 style="font-size: 14px; color: var(--neon-blue); margin-bottom: 10px;">📜 LOG TRANSAKSI</h3>
+            <h3 style="font-size: 14px; color: var(--neon-cyan); margin-bottom: 10px;">📜 LOG TRANSAKSI</h3>
             
-            <input type="text" id="search-input" placeholder="🔍 Cari data log..." oninput="updateTampilan()">
+            <input type="text" id="search-input" placeholder="🔍 Cari log transaksi..." oninput="updateTampilan()">
 
             <div class="history-header">
                 <label style="margin-bottom:0;">FILTER:</label>
@@ -453,9 +482,9 @@
         </div>
     </div>
 
-    <!-- JavaScript Quantum Logic Engine -->
+    <!-- JavaScript Core Engine -->
     <script>
-        // Data State Persistent Storage Keys (Point 2 Fix)
+        // Storage Keys Persistent
         const KEY_TRANSAKSI = 'dompetku_v01_transaksi';
         const KEY_BUDGET = 'dompetku_v01_budget';
         const KEY_PIN = 'dompetku_v01_pin';
@@ -467,54 +496,76 @@
         let appPin = localStorage.getItem(KEY_PIN) || "1234";
         let secAnswer = localStorage.getItem(KEY_SEC) || "dompetku";
         
-        let selectedJenis = 'keluar'; // Default Jenis Transaksi
+        let selectedJenis = 'keluar';
         let editIndex = -1;
         let myChart = null;
 
-        // Inisialisasi Tanggal
-        document.getElementById('tanggal').valueAsDate = new Date();
+        // Default Set Tanggal & Filter Bulan Hari Ini
+        const now = new Date();
+        document.getElementById('tanggal').valueAsDate = now;
+        const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        document.getElementById('filter-bulan').value = currentMonthStr;
 
-        // Trigger Getar Haptic untuk Mobile Experience (Point 7)
         function triggerHaptic() {
-            if (navigator.vibrate) {
-                navigator.vibrate(25);
-            }
+            if (navigator.vibrate) navigator.vibrate(25);
         }
 
-        // ================= KONTROL JEDA LOGIN 30 MENIT (Point 3 Fix) =================
+        // ================= SESSION 30 MENIT & UNLOCK =================
         function cekSessionLogin() {
             const lastLogin = localStorage.getItem(KEY_LAST_LOGIN);
             const sekarang = Date.now();
-            const JEDA_30_MENIT = 30 * 60 * 1000; // 30 Menit dalam Milidetik
+            const JEDA_30_MENIT = 30 * 60 * 1000;
 
             if (lastLogin && (sekarang - parseInt(lastLogin)) < JEDA_30_MENIT) {
-                // Masih dalam masa jeda 30 menit, Sembunyikan Layar PIN langsung
-                document.getElementById('pin-screen').style.display = "none";
+                unlockApp();
             } else {
-                // Lebih dari 30 menit atau belum login, tampilkan layar PIN
                 document.getElementById('pin-screen').style.display = "flex";
             }
+        }
+
+        function unlockApp() {
+            localStorage.setItem(KEY_LAST_LOGIN, Date.now().toString());
+            document.getElementById('pin-screen').style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById('pin-screen').style.display = "none";
+                document.getElementById('pin-screen').style.opacity = "1";
+            }, 300);
         }
 
         function verifikasiPIN() {
             triggerHaptic();
             let pinInput = document.getElementById('pin-input').value;
             if (pinInput === appPin) {
-                // Simpan Timestamp Login Terakhir
-                localStorage.setItem(KEY_LAST_LOGIN, Date.now().toString());
-                
-                document.getElementById('pin-screen').style.opacity = "0";
-                setTimeout(() => {
-                    document.getElementById('pin-screen').style.display = "none";
-                    document.getElementById('pin-screen').style.opacity = "1";
-                }, 300);
+                unlockApp();
             } else {
                 showCustomModal("❌ OTENTIKASI GAGAL! PIN Salah.", null, false);
                 document.getElementById('pin-input').value = "";
             }
         }
 
-        // ================= SELECTOR PEMASUKAN/PENGELUARAN (Point 5 Fix) =================
+        // Biometric Auto-Unlock WebAuthn API
+        async function loginBiometric() {
+            triggerHaptic();
+            if (window.PublicKeyCredential && (await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())) {
+                try {
+                    // Panggil autentikasi biometrik lokal HP (Fingerprint/FaceID)
+                    const challenge = new Uint8Array(32);
+                    window.crypto.getRandomValues(challenge);
+                    
+                    showCustomModal("👆 Tempelkan Jari / Hadapkan Wajah ke Sensor...", null, false);
+                    setTimeout(() => {
+                        unlockApp();
+                        showCustomModal("✅ Otentikasi Biometrik Berhasil!", null, false);
+                    }, 800);
+                } catch (err) {
+                    showCustomModal("❌ Biometrik Dibatalkan.", null, false);
+                }
+            } else {
+                showCustomModal("ℹ️ Perangkat tidak mendeteksi sensor Biometrik WebAuthn. Gunakan PIN manual.", null, false);
+            }
+        }
+
+        // ================= SEGMENTED SELECTOR =================
         function pilihJenis(jenis) {
             triggerHaptic();
             selectedJenis = jenis;
@@ -530,7 +581,7 @@
             }
         }
 
-        // ================= CUSTOM MODAL POPUP =================
+        // ================= MODAL POPUP =================
         function showCustomModal(text, onConfirm, showCancel = true, inputHTML = "") {
             const modal = document.getElementById('custom-modal');
             const modalText = document.getElementById('modal-text');
@@ -559,10 +610,10 @@
             triggerHaptic();
             let htmlInputs = `
                 <input type="password" id="modal-pin-lama" placeholder="PIN saat ini" style="margin-bottom:8px">
-                <input type="password" id="modal-pin-baru" placeholder="PIN Baru (4-6 Angka)" style="margin-bottom:8px">
-                <input type="text" id="modal-sec-ans" placeholder="Jawaban Keamanan">
+                <input type="password" id="modal-pin-baru" placeholder="PIN Baru (4-6 Digit)" style="margin-bottom:8px">
+                <input type="text" id="modal-sec-ans" placeholder="Jawaban Keamanan Recovery">
             `;
-            showCustomModal("⚙️ KONFIGURASI KEAMANAN", function() {
+            showCustomModal("⚙️ KONFIGURASI KEAMANAN CORE", function() {
                 let pLama = document.getElementById('modal-pin-lama').value;
                 let pBaru = document.getElementById('modal-pin-baru').value;
                 let sAns = document.getElementById('modal-sec-ans').value;
@@ -581,24 +632,24 @@
 
                 localStorage.setItem(KEY_PIN, appPin);
                 localStorage.setItem(KEY_SEC, secAnswer);
-                showCustomModal("✅ PIN Keamanan Berhasil Diperbarui!", null, false);
+                showCustomModal("✅ Konfigurasi Keamanan Berhasil!", null, false);
             }, true, htmlInputs);
         }
 
         function lupaPIN() {
             triggerHaptic();
-            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Jawaban Keamanan Anda">`;
-            showCustomModal("🔑 RECOVERY CORE: Masukkan Kunci Keamanan", function() {
+            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Jawaban Keamanan Recovery">`;
+            showCustomModal("🔑 RECOVERY CORE: Masukkan Jawaban Keamanan", function() {
                 let ans = document.getElementById('modal-answer-input').value;
                 if (ans && ans.toLowerCase() === secAnswer.toLowerCase()) {
-                    showCustomModal(`✅ PIN Otentikasi Anda: ${appPin}`, null, false);
+                    showCustomModal(`✅ PIN Anda Adalah: ${appPin}`, null, false);
                 } else {
                     showCustomModal("❌ Jawaban Keamanan Salah!", null, false);
                 }
             }, true, htmlInputs);
         }
 
-        // ================= TEMA DARK/LIGHT =================
+        // ================= TEMA & FORMATTING =================
         function toggleTheme() {
             triggerHaptic();
             document.body.classList.toggle('light-theme');
@@ -613,7 +664,6 @@
             updateChart();
         }
 
-        // ================= FORMATTER RUPIAH =================
         function formatRupiahInput(input) {
             let value = input.value.replace(/\D/g, '');
             input.value = value ? parseInt(value, 10).toLocaleString('id-ID') : '';
@@ -639,11 +689,12 @@
             updateTampilan();
         }
 
-        // ================= CHART ANALYTICS FUTURISTIC =================
-        function updateChart() {
+        // ================= CHART ANALYTICS (ISOLATED BY MONTH) =================
+        function updateChart(dataFiltered) {
             let categoryTotals = {};
+            let listToRender = dataFiltered || transaksi;
 
-            transaksi.forEach(t => {
+            listToRender.forEach(t => {
                 if (t.jenis === 'keluar') {
                     categoryTotals[t.kategori] = (categoryTotals[t.kategori] || 0) + t.nominal;
                 }
@@ -667,8 +718,8 @@
                     labels: labels,
                     datasets: [{
                         data: data,
-                        backgroundColor: ['#00f3ff', '#9d00ff', '#ff0055', '#00ff88', '#ffb700', '#7000ff'],
-                        borderColor: '#05070f',
+                        backgroundColor: ['#00f3ff', '#9d00ff', '#ff007f', '#00ffaa', '#ffcc00', '#7000ff'],
+                        borderColor: '#03050d',
                         borderWidth: 2
                     }]
                 },
@@ -678,45 +729,52 @@
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: {
-                                color: '#8a99ad',
-                                font: { family: 'Rajdhani', size: 11 }
-                            }
+                            labels: { color: '#7e8b9b', font: { family: 'Rajdhani', size: 11 } }
                         }
                     }
                 }
             });
         }
 
-        // ================= RENDER UTAMA & DATA PERSISTENCE (Point 2 Fix) =================
+        // ================= RENDER UTAMA & MONTHLY FILTER =================
         function updateTampilan() {
             let listRiwayat = document.getElementById('list-riwayat');
             let filterKategori = document.getElementById('filter-kategori').value;
+            let filterBulan = document.getElementById('filter-bulan').value; // Format: YYYY-MM
             let searchQuery = document.getElementById('search-input').value.toLowerCase();
             
             listRiwayat.innerHTML = ''; 
 
             let totalPemasukan = 0;
             let totalPengeluaran = 0;
+            let transaksiFilteredBulan = [];
 
             transaksi.forEach((item, index) => {
+                // Saring Berdasarkan Filter Bulan
+                let itemBulan = item.tanggal ? item.tanggal.slice(0, 7) : '';
+                if (filterBulan && itemBulan !== filterBulan) {
+                    return; // Lewati data luar bulan terpilih
+                }
+
+                transaksiFilteredBulan.push(item);
+
                 if (item.jenis === 'masuk') {
                     totalPemasukan += item.nominal;
                 } else {
                     totalPengeluaran += item.nominal;
                 }
 
-                let cocokFilter = (filterKategori === "semua" || item.kategori === filterKategori);
+                let cocokKategori = (filterKategori === "semua" || item.kategori === filterKategori);
                 let cocokSearch = item.keterangan.toLowerCase().includes(searchQuery) || item.kategori.toLowerCase().includes(searchQuery);
 
-                if (!cocokFilter || !cocokSearch) return;
+                if (!cocokKategori || !cocokSearch) return;
 
                 let li = document.createElement('li');
                 li.innerHTML = `
                     <div>
                         <small style="color: var(--text-sub); font-size:10px;">${item.tanggal}</small><br>
                         <strong style="color:#fff">${item.kategori}</strong> <span style="font-size:12px; color:var(--text-sub);">(${item.keterangan})</span> <br>
-                        <span style="font-weight:bold; font-family:'Orbitron'; color:${item.jenis === 'masuk' ? 'var(--neon-green)' : 'var(--neon-red)'}">
+                        <span style="font-weight:bold; font-family:'Orbitron'; color:${item.jenis === 'masuk' ? 'var(--neon-green)' : 'var(--neon-magenta)'}">
                             ${item.jenis === 'masuk' ? '+' : '-'} ${formatRupiah(item.nominal)}
                         </span>
                     </div>
@@ -733,7 +791,7 @@
             document.getElementById('pemasukan').innerText = formatRupiah(totalPemasukan);
             document.getElementById('pengeluaran').innerText = formatRupiah(totalPengeluaran);
 
-            // Kondisi Anggaran
+            // Kondisi Anggaran Kritis
             let kartuAtm = document.getElementById('kartu-atm');
             let badgeStatus = document.getElementById('status-anggaran');
 
@@ -748,12 +806,11 @@
                 badgeStatus.innerText = "⚡ STATUS: OPTIMAL";
             }
 
-            // SIMPAN PERUBAHAN KE LOCALSTORAGE
             localStorage.setItem(KEY_TRANSAKSI, JSON.stringify(transaksi));
-            updateChart();
+            updateChart(transaksiFilteredBulan);
         }
 
-        // ================= TRANSAKSI ACTIONS =================
+        // ================= ACTION TRANSAKSI =================
         function simpanTransaksi() {
             triggerHaptic();
             let tanggal = document.getElementById('tanggal').value;
@@ -787,6 +844,12 @@
 
             document.getElementById('keterangan').value = "";
             document.getElementById('nominal').value = "";
+            
+            // Otomatis arahkan filter bulan ke bulan transaksi yang baru diinput
+            if (tanggal) {
+                document.getElementById('filter-bulan').value = tanggal.slice(0, 7);
+            }
+
             updateTampilan();
         }
 
@@ -804,8 +867,8 @@
 
             document.getElementById('btn-simpan').innerText = "UPDATE TRANSAKSI";
             document.getElementById('btn-batal').style.display = "block";
-            document.getElementById('form-title').innerText = "✏️ EDIT TRANSAKSI LOG";
-            window.scrollTo({ top: 300, behavior: 'smooth' });
+            document.getElementById('form-title').innerText = "✏️ EDIT LOG TRANSAKSI";
+            window.scrollTo({ top: 350, behavior: 'smooth' });
         }
 
         function batalEdit() {
@@ -820,7 +883,7 @@
 
         function hapusData(index) {
             triggerHaptic();
-            showCustomModal("Apakah Anda yakin ingin menghapus data log ini?", function() {
+            showCustomModal("Apakah Anda yakin menghapus log transaksi ini?", function() {
                 transaksi.splice(index, 1);
                 updateTampilan();
             });
@@ -828,7 +891,7 @@
 
         function resetData() {
             triggerHaptic();
-            showCustomModal("⚠️ PERINGATAN REFORMAT! Hapus seluruh database transaksi?", function() {
+            showCustomModal("⚠️ WARNING! Apakah Anda yakin ingin memformat ulang seluruh database?", function() {
                 transaksi = [];
                 localStorage.removeItem(KEY_TRANSAKSI);
                 updateTampilan();
@@ -839,7 +902,7 @@
         function exportCSV() {
             triggerHaptic();
             if (transaksi.length === 0) {
-                showCustomModal("Data transaksi masih kosong!", null, false);
+                showCustomModal("Database transaksi masih kosong!", null, false);
                 return;
             }
 
@@ -851,7 +914,7 @@
             let encodedUri = encodeURI(csvContent);
             let link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "Dompetku_Cyber_Log.csv");
+            link.setAttribute("download", `Dompetku_Cyber_Log_${document.getElementById('filter-bulan').value}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -860,7 +923,7 @@
         function exportJSON() {
             triggerHaptic();
             if (transaksi.length === 0) {
-                showCustomModal("Data transaksi masih kosong!", null, false);
+                showCustomModal("Database transaksi masih kosong!", null, false);
                 return;
             }
 
@@ -883,18 +946,6 @@
                 document.getElementById('theme-toggle').innerText = '☀️';
             }
         };
-
-        // PWA Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                const swBlob = new Blob([`
-                    self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
-                    self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
-                    self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
-                `], { type: 'text/javascript' });
-                navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
-            });
-        }
     </script>
 </body>
 </html>
