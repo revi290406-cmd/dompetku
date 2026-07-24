@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Dompetku v0.2 Standar - Dompet Finansial Masa Depan</title>
+    <title>Dompetku v0.2 Pro - Dompet Finansial Masa Depan</title>
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -75,6 +75,27 @@
             position: relative;
         }
 
+        /* 1. Gradien Aurora Bergerak (Animated Mesh Gradient) */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+                        radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.12) 0%, transparent 45%),
+                        radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.12) 0%, transparent 55%);
+            animation: auroraShift 12s ease infinite alternate;
+        }
+
+        @keyframes auroraShift {
+            0% { transform: scale(1) translate(0, 0); filter: hue-rotate(0deg); }
+            50% { transform: scale(1.1) translate(-20px, 15px); filter: hue-rotate(25deg); }
+            100% { transform: scale(1) translate(20px, -15px); filter: hue-rotate(-25deg); }
+        }
+
         /* Kanvas Latar Belakang Bintang Berkelap-kelip */
         #star-canvas {
             position: fixed;
@@ -137,6 +158,7 @@
             background: var(--input-bg); border: 1px solid var(--card-border);
             color: var(--text-primary); font-size: 16px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
         }
         .icon-btn-rounded:hover { background: var(--bg-card-hover); transform: scale(1.05); }
 
@@ -163,6 +185,7 @@
             display: flex; flex-direction: column; align-items: center; gap: 2px;
             color: var(--text-secondary); font-size: 10px; font-weight: 700;
             cursor: pointer; padding: 8px 12px; border-radius: 25px; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
         }
         .nav-item span.icon { font-size: 18px; }
         .nav-item.active {
@@ -194,6 +217,7 @@
             width: 100%; padding: 14px; border: none; border-radius: var(--radius-md);
             background: var(--accent-primary); color: white; font-weight: 700; font-size: 13px;
             cursor: pointer; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px;
+            position: relative; overflow: hidden;
         }
         .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
         .btn-primary:active { transform: scale(0.98); }
@@ -203,13 +227,35 @@
             color: var(--accent-emerald) !important;
         }
 
-        /* Kartu Saldo Utama */
+        /* 2. Efek Kilau Holografik pada Kartu (Holographic Foil Card) */
         .total-balance-card {
             background: linear-gradient(135deg, var(--accent-primary), #4338ca);
             color: white; border-radius: var(--radius-lg); padding: 24px;
             position: relative; overflow: hidden; margin-bottom: 20px;
             box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
+        .total-balance-card::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.25) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg) translateY(-100%);
+            animation: holoShine 6s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes holoShine {
+            0% { transform: translateY(-120%) rotate(30deg); }
+            20% { transform: translateY(120%) rotate(30deg); }
+            100% { transform: translateY(120%) rotate(30deg); }
+        }
+
         .balance-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-weight: 700; }
         .balance-amount { font-size: 34px; font-weight: 800; margin: 6px 0; letter-spacing: -1px; }
         .budget-status-pill {
@@ -229,6 +275,7 @@
         .pocket-card {
             background: var(--input-bg); border: 1px solid var(--card-border);
             padding: 14px 8px; border-radius: var(--radius-md); text-align: center; cursor: pointer;
+            position: relative; overflow: hidden;
         }
         .pocket-card:hover, .pocket-card.active {
             border-color: var(--accent-primary); background: var(--bg-card-hover);
@@ -283,6 +330,7 @@
             flex: 1; padding: 12px; border-radius: var(--radius-md); text-align: center;
             font-weight: 800; font-size: 12px; cursor: pointer; border: 1px solid var(--card-border);
             background: var(--input-bg); color: var(--text-secondary);
+            position: relative; overflow: hidden;
         }
         .type-btn.active-keluar { background: rgba(244, 63, 94, 0.15); border-color: var(--accent-rose); color: var(--accent-rose); }
         .type-btn.active-masuk { background: rgba(16, 185, 129, 0.15); border-color: var(--accent-emerald); color: var(--accent-emerald); }
@@ -303,7 +351,7 @@
         .item-info div { font-weight: 800; font-size: 13px; margin: 2px 0; }
         .item-val { font-weight: 800; font-size: 14px; }
         .item-actions { display: flex; gap: 6px; margin-top: 4px; }
-        .action-chip { border: none; padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        .action-chip { border: none; padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 800; cursor: pointer; text-transform: uppercase; position: relative; overflow: hidden; }
         .chip-edit { background: rgba(99, 102, 241, 0.15); color: var(--accent-primary); }
         .chip-del { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
 
@@ -319,12 +367,28 @@
             box-shadow: var(--shadow-main);
         }
         .modal-btns { display: flex; gap: 10px; margin-top: 16px; }
-        .modal-btns button { flex: 1; padding: 12px; border: none; border-radius: var(--radius-md); font-weight: 800; cursor: pointer; font-size: 11px; text-transform: uppercase; }
+        .modal-btns button { flex: 1; padding: 12px; border: none; border-radius: var(--radius-md); font-weight: 800; cursor: pointer; font-size: 11px; text-transform: uppercase; position: relative; overflow: hidden; }
         .btn-confirm { background: var(--accent-primary); color: white; }
         .btn-cancel { background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); }
+
+        /* 4. Efek Riak Sentuhan (Ripple Click Effect) */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: rippleAnim 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes rippleAnim {
+            to { transform: scale(4); opacity: 0; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Gradien Aurora Bergerak (Animated Mesh Gradient) -->
+    <div class="aurora-bg"></div>
 
     <!-- Latar Belakang Bintang Berkelap-kelip -->
     <canvas id="star-canvas"></canvas>
@@ -358,7 +422,7 @@
         <!-- Header -->
         <div class="header-bar">
             <div class="brand-title">
-                <h2>Dompetku <span>v0.2 Standar</span></h2>
+                <h2>Dompetku <span>v0.2 Pro Aurora</span></h2>
             </div>
             <div class="header-actions">
                 <button class="icon-btn-rounded" title="Transfer Antar Kantong" onclick="bukaModalTransfer()">🔄</button>
@@ -584,6 +648,47 @@
 
     <!-- JAVASCRIPT LOGIC ENGINE -->
     <script>
+        // --- 5. TEMA SUASANA BERDASARKAN WAKTU (Dynamic Time-based Ambient) ---
+        function applyTimeAmbient() {
+            const hour = new Date().getHours();
+            const root = document.documentElement;
+            if (hour >= 4 && hour < 10) {
+                // Nuansa fajar/pagi hangat
+                root.style.setProperty('--accent-primary', '#f59e0b');
+            } else if (hour >= 10 && hour < 17) {
+                // Nuansa siang hari cerah
+                root.style.setProperty('--accent-primary', '#0ea5e9');
+            } else {
+                // Nuansa malam aurora gelap
+                root.style.setProperty('--accent-primary', '#6366f1');
+            }
+        }
+        applyTimeAmbient();
+
+        // --- 4. EFEK RIAK SENTUHAN (Ripple Click Effect) ---
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('button, .pocket-card, .nav-item, .type-btn, .action-chip');
+            if (!target) return;
+            const circle = document.createElement('span');
+            const diameter = Math.max(target.clientWidth, target.clientHeight);
+            const radius = diameter / 2;
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${e.clientX - target.getBoundingClientRect().left - radius}px`;
+            circle.style.top = `${e.clientY - target.getBoundingClientRect().top - radius}px`;
+            circle.classList.add('ripple');
+            
+            const computedStyle = window.getComputedStyle(target);
+            if (computedStyle.position === 'static') {
+                target.style.position = 'relative';
+            }
+            if (computedStyle.overflow !== 'hidden') {
+                target.style.overflow = 'hidden';
+            }
+            
+            target.appendChild(circle);
+            setTimeout(() => circle.remove(), 600);
+        });
+
         // --- MESIN BINTANG LATAR BELAKANG ---
         const starCanvas = document.getElementById('star-canvas');
         const starCtx = starCanvas.getContext('2d');
@@ -601,7 +706,8 @@
                     radius: Math.random() * 1.5 + 0.5,
                     speed: Math.random() * 0.15 + 0.05,
                     alpha: Math.random(),
-                    alphaChange: (Math.random() * 0.01 + 0.003) * (Math.random() < 0.5 ? 1 : -1)
+                    alphaChange: (Math.random() * 0.01 + 0.003) * (Math.random() < 0.5 ? 1 : -1),
+                    color: '#ffffff'
                 });
             }
         }
@@ -609,13 +715,14 @@
         function animateStars() {
             starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
             stars.forEach(star => {
-                star.y -= star.speed;
+                star.y += star.speed; // Bisa bergerak ke atas/bawah sesuai speed
                 if (star.y < 0) star.y = starCanvas.height;
+                if (star.y > starCanvas.height) star.y = 0;
 
                 star.alpha += star.alphaChange;
                 if (star.alpha > 1 || star.alpha < 0.2) star.alphaChange *= -1;
 
-                starCtx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                starCtx.fillStyle = star.color || `rgba(255, 255, 255, ${star.alpha})`;
                 starCtx.beginPath();
                 starCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
                 starCtx.fill();
@@ -627,10 +734,25 @@
         initStars();
         animateStars();
 
+        // --- 3. PARTIKEL PERAYAAN TUJUAN (Achievement Confetti / Particle Burst) ---
+        function triggerConfetti() {
+            for (let i = 0; i < 35; i++) {
+                stars.push({
+                    x: window.innerWidth / 2 + (Math.random() - 0.5) * 150,
+                    y: window.innerHeight - 80,
+                    radius: Math.random() * 3 + 1.5,
+                    speed: -(Math.random() * 5 + 2),
+                    alpha: 1,
+                    alphaChange: -0.015,
+                    color: Math.random() < 0.5 ? '#f59e0b' : '#10b981'
+                });
+            }
+        }
+
         // --- SW & PWA ENGINE ---
         if ('serviceWorker' in navigator) {
             const swScript = `
-                const CACHE_NAME = 'dompetku-v02';
+                const CACHE_NAME = 'dompetku-v02-pro';
                 self.addEventListener('install', event => self.skipWaiting());
                 self.addEventListener('activate', event => event.waitUntil(self.clients.claim()));
                 self.addEventListener('fetch', event => {
@@ -761,6 +883,7 @@
                         pocket: 'utama'
                     });
                     document.getElementById('agent-command').value = '';
+                    triggerConfetti();
                     updateTampilan();
                     appendAgentLog(`Transaksi otonom senilai Rp ${nominalEstimasi.toLocaleString('id-ID')} berhasil dicatat.`);
                     showCustomModal("✅ Eksekusi Otonom Berhasil Diamankan!", null, false);
@@ -806,6 +929,7 @@
                 transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Transfer ke ${to}`, nominal: amt, jenis: 'keluar', pocket: from });
                 transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Transfer dari ${from}`, nominal: amt, jenis: 'masuk', pocket: to });
 
+                triggerConfetti();
                 updateTampilan();
                 showCustomModal("✅ Transfer Antar Kantong Berhasil!", null, false);
             }, true, htmlInputs);
@@ -1065,11 +1189,13 @@
 
             if (editIndex === -1) {
                 transaksi.push(dataTransaksi);
+                triggerConfetti();
             } else {
                 transaksi[editIndex] = dataTransaksi;
                 editIndex = -1;
                 document.getElementById('btn-simpan').innerText = "Simpan Transaksi";
                 document.getElementById('btn-batal').style.display = "none";
+                triggerConfetti();
             }
 
             document.getElementById('keterangan').value = "";
