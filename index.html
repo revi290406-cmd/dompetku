@@ -2,233 +2,346 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dompetku - Catatan Keuangan Premium</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dompetku v0.1 — Cyber Financial Core</title>
     
-    <!-- Chart.js CDN untuk Grafik -->
+    <!-- PWA & Mobile Meta Tags -->
+    <meta name="theme-color" content="#070a12">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Aplikasi Catatan Keuangan Futuristik Quantum Core v0.1">
+
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- CSS Internal -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    <!-- Google Fonts Sci-Fi Futuristic -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 
+    <style>
         :root {
-            --bg-body: #f0f2f5;
-            --bg-container: rgba(255, 255, 255, 0.95);
-            --text-utama: #2d3436;
-            --gold: #d4af37;
-            --glass: rgba(255, 255, 255, 0.7);
-            --card-bg: rgba(0,0,0,0.03);
-            --border-color: rgba(150,150,150,0.2);
+            --bg-body: #05070f;
+            --bg-card: rgba(13, 20, 38, 0.75);
+            --text-utama: #00f3ff;
+            --text-sub: #8a99ad;
+            --neon-blue: #00f3ff;
+            --neon-purple: #9d00ff;
+            --neon-green: #00ff88;
+            --neon-red: #ff0055;
+            --neon-gold: #ffb700;
+            --border-glow: rgba(0, 243, 255, 0.3);
+            --glass-blur: blur(16px);
         }
 
-        .dark-theme {
-            --bg-body: #0a0a0a;
-            --bg-container: rgba(20, 20, 20, 0.85);
-            --text-utama: #f1f1f1;
-            --gold: #d4af37;
-            --glass: rgba(30, 30, 30, 0.7);
-            --card-bg: rgba(255,255,255,0.05);
-            --border-color: rgba(255,255,255,0.1);
+        .light-theme {
+            --bg-body: #0d1527;
+            --bg-card: rgba(20, 30, 55, 0.85);
+            --text-utama: #ffffff;
+            --text-sub: #a0aec0;
+            --border-glow: rgba(0, 243, 255, 0.5);
         }
 
         * { 
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            font-family: 'Poppins', sans-serif; 
-            transition: background 0.3s, color 0.3s, border-color 0.3s; 
+            font-family: 'Rajdhani', sans-serif; 
+            transition: all 0.25s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body { 
-            background-color: var(--bg-body); 
+            background: var(--bg-body);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(157, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(0, 243, 255, 0.12) 0%, transparent 40%);
             min-height: 100vh; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            padding: 20px; 
+            padding: 15px; 
+            color: #fff;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3, h4, p, label { color: var(--text-utama); }
+        h1, h2, h3, h4 {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
 
         .container { 
             width: 100%; 
-            max-width: 420px; 
-            background: var(--bg-container); 
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
-            border-radius: 30px; 
-            padding: 25px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            max-width: 440px; 
+            background: var(--bg-card); 
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glow);
+            border-radius: 28px; 
+            padding: 22px; 
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.15), inset 0 0 15px rgba(0, 243, 255, 0.05);
+            position: relative;
         }
 
-        /* Header */
-        .header-app { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .header-app h2 { font-size: 22px; font-weight: 600; }
-        .header-actions { display: flex; gap: 10px; align-items: center; }
+        /* Header Cyber */
+        .header-app { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            padding-bottom: 12px;
+        }
+        .header-app h2 { 
+            font-size: 20px; 
+            color: var(--neon-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .version-badge {
+            font-size: 10px;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .header-actions { display: flex; gap: 8px; }
         .icon-btn { 
-            background: transparent; border: none; font-size: 22px; cursor: pointer; outline: none; 
-            -webkit-tap-highlight-color: transparent; 
+            background: rgba(0, 243, 255, 0.1); 
+            border: 1px solid var(--neon-blue); 
+            color: var(--neon-blue);
+            font-size: 16px; 
+            cursor: pointer; 
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
         }
+        .icon-btn:active { transform: scale(0.9); }
 
-        /* PIN Overlay */
+        /* PIN Screen Futuristic */
         .pin-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 9999;
+            background: rgba(5, 7, 15, 0.95); 
+            backdrop-filter: blur(25px);
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
         }
         .pin-box {
-            background: #151515; padding: 30px; border-radius: 25px; text-align: center;
-            width: 90%; max-width: 320px; color: white; border: 1px solid var(--gold);
+            background: rgba(13, 20, 38, 0.9); 
+            padding: 30px 25px; 
+            border-radius: 24px; 
+            text-align: center;
+            width: 90%; max-width: 340px; color: white; 
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.25);
         }
+        .pin-box h3 { color: var(--neon-blue); font-size: 18px; margin-bottom: 15px; }
         .pin-box input {
-            width: 100%; padding: 12px; margin: 15px 0; text-align: center; font-size: 20px;
-            letter-spacing: 10px; border-radius: 12px; border: 1px solid #333; background: #222; color: white; outline: none;
+            width: 100%; padding: 14px; margin: 15px 0; text-align: center; font-size: 24px;
+            letter-spacing: 12px; border-radius: 14px; border: 1px solid var(--neon-blue); 
+            background: rgba(0, 0, 0, 0.6); color: var(--neon-blue); outline: none;
+            box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.2);
+            font-family: 'Orbitron', sans-serif;
         }
         .pin-box button {
-            width: 100%; padding: 12px; background: var(--gold); color: #000; border: none;
-            border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 5px;
+            width: 100%; padding: 14px; 
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); 
+            color: #fff; border: none; border-radius: 12px; font-weight: 700; 
+            cursor: pointer; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
         }
-        .pin-link { font-size: 12px; color: var(--gold); cursor: pointer; text-decoration: underline; margin-top: 15px; display: inline-block; }
+        .pin-link { font-size: 13px; color: var(--neon-blue); cursor: pointer; text-decoration: underline; margin-top: 15px; display: inline-block; }
 
-        /* Kartu ATM Premium */
+        /* Quantum Hologram Card */
         .saldo { 
-            background: linear-gradient(135deg, #1a1a1a, #333); 
-            border: 1px solid var(--gold);
-            padding: 20px; border-radius: 25px; color: white; height: 190px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, rgba(157,0,255,0.3), rgba(0,243,255,0.15)); 
+            border: 1px solid var(--neon-blue);
+            padding: 20px; border-radius: 22px; color: white; height: 180px;
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.1);
             position: relative; overflow: hidden; margin-bottom: 20px;
             display: flex; flex-direction: column; justify-content: space-between;
         }
-        .saldo h1, .saldo h4, .saldo span { color: white; }
-        .card-top, .card-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 12px; opacity: 0.8; }
-        .card-middle { text-align: center; }
-        .card-middle h1 { font-size: 26px; margin: 5px 0; }
+        .saldo::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 243, 255, 0.08), transparent);
+            transform: rotate(45deg); animation: holoGlow 6s infinite linear;
+        }
+        @keyframes holoGlow { 0% { transform: translate(-30%, -30%) rotate(45deg); } 100% { transform: translate(30%, 30%) rotate(45deg); } }
+        
+        .card-top, .card-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-sub); }
+        .card-middle { text-align: center; z-index: 2; }
+        .card-middle h4 { font-size: 12px; color: var(--text-sub); font-weight: 500; }
+        .card-middle h1 { font-size: 28px; margin: 4px 0; color: #fff; text-shadow: 0 0 12px var(--neon-blue); }
         
         .status-badge {
-            display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600;
-            background: rgba(255,255,255,0.2); margin-top: 5px;
+            display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;
+            background: rgba(0, 255, 136, 0.2); border: 1px solid var(--neon-green); color: var(--neon-green);
         }
         .saldo.kritis {
-            background: linear-gradient(135deg, #4a0000, #800000);
-            border-color: #ff4757; box-shadow: 0 0 15px rgba(255, 71, 87, 0.5);
+            background: linear-gradient(135deg, rgba(255,0,85,0.4), rgba(40,0,15,0.8));
+            border-color: var(--neon-red); box-shadow: 0 0 25px rgba(255, 0, 85, 0.4);
+        }
+        .saldo.kritis .status-badge {
+            background: rgba(255, 0, 85, 0.2); border-color: var(--neon-red); color: var(--neon-red);
         }
 
-        /* Budget & Widgets */
-        .budget-section { margin-bottom: 15px; font-size: 13px; }
-        .card-group { display: flex; gap: 15px; margin-bottom: 20px; }
-        .card-group .card { 
-            flex: 1; padding: 15px; border-radius: 20px; text-align: center;
-            background: var(--card-bg); border: 1px solid var(--border-color);
-        }
-        .card-group .card h4 { font-size: 13px; opacity: 0.7; margin-bottom: 5px; }
-        .card-group .card p { font-size: 18px; font-weight: 600; }
-
-        /* Grafik Section */
-        .chart-section {
-            background: var(--card-bg); border: 1px solid var(--border-color);
-            padding: 15px; border-radius: 20px; margin-bottom: 20px; text-align: center;
-        }
-        .chart-section h3 { font-size: 14px; margin-bottom: 10px; }
-        .chart-container { position: relative; height: 200px; width: 100%; display: flex; justify-content: center; }
-
-        /* Inputs & Buttons */
-        .form-section h3, .history-section h3 { margin-bottom: 10px; font-size: 16px; }
+        /* Inputs & Controls High Contrast Mode Dark */
+        label { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; display: block; }
         input, select {
-            width: 100%; padding: 12px 15px; margin-bottom: 12px;
-            border: 1px solid var(--border-color); background: var(--card-bg);
-            border-radius: 12px; color: var(--text-utama); outline: none; font-size: 14px;
+            width: 100%; padding: 12px 14px; margin-bottom: 12px;
+            border: 1px solid rgba(0, 243, 255, 0.3); background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px; color: #ffffff; outline: none; font-size: 14px;
+            font-weight: 600;
         }
-        input:focus, select:focus { border-color: var(--gold); box-shadow: 0 0 8px rgba(212, 175, 55, 0.3); }
+        /* Memperbaiki tampilan dropdown agar teks terlihat jelas di Dark Mode */
+        select option {
+            background-color: #0b1120;
+            color: #ffffff;
+            padding: 10px;
+        }
+        input:focus, select:focus { 
+            border-color: var(--neon-blue); 
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.4); 
+        }
 
+        /* Custom Selector Segmented Pemasukan / Pengeluaran (Point 5 Fix) */
+        .jenis-selector {
+            display: flex; gap: 10px; margin-bottom: 14px;
+        }
+        .jenis-btn {
+            flex: 1; padding: 12px; border-radius: 12px; text-align: center;
+            font-weight: 700; font-size: 13px; cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4);
+            color: var(--text-sub); user-select: none;
+        }
+        .jenis-btn.active-masuk {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+            box-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+        }
+        .jenis-btn.active-keluar {
+            background: rgba(255, 0, 85, 0.2);
+            border-color: var(--neon-red);
+            color: var(--neon-red);
+            box-shadow: 0 0 12px rgba(255, 0, 85, 0.3);
+        }
+
+        /* Dashboard Summary Grid */
+        .card-group { display: flex; gap: 12px; margin-bottom: 20px; }
+        .card-group .card { 
+            flex: 1; padding: 14px; border-radius: 16px; text-align: center;
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.08);
+        }
+        .card-group .card h4 { font-size: 11px; color: var(--text-sub); margin-bottom: 4px; }
+        .card-group .card p { font-size: 16px; font-weight: 700; font-family: 'Orbitron', sans-serif; }
+
+        /* Chart Cyber Section */
+        .chart-section {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 16px; border-radius: 20px; margin-bottom: 20px; text-align: center;
+        }
+        .chart-section h3 { font-size: 13px; color: var(--neon-blue); margin-bottom: 12px; }
+        .chart-container { position: relative; height: 190px; width: 100%; display: flex; justify-content: center; }
+
+        /* Buttons Futuristic */
         .btn-simpan { 
             width: 100%; padding: 14px; border: none; border-radius: 12px; 
-            background: linear-gradient(135deg, var(--gold), #f3e5ab); 
-            color: #000; font-weight: 600; cursor: pointer; font-size: 14px; margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); 
+            color: #fff; font-weight: 700; cursor: pointer; font-size: 14px; 
+            font-family: 'Orbitron', sans-serif; margin-bottom: 10px;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
         }
-        .btn-batal { background: #e74c3c; color: white; display: none; }
+        .btn-batal { background: var(--neon-red); color: white; display: none; }
         .btn-simpan:active, .btn-batal:active { transform: scale(0.97); }
 
-        /* Riwayat Transaksi & Filter */
+        /* Riwayat Transaksi List */
         .history-section { margin-top: 25px; }
-        .search-box { margin-bottom: 10px; }
-        .history-header { display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .history-header { display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         
         ul { list-style: none; }
         li { 
-            background: var(--card-bg); padding: 12px 15px; border-radius: 15px; margin-bottom: 10px;
-            border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.4); padding: 12px 14px; border-radius: 14px; margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;
         }
+        li:hover { border-color: var(--neon-blue); }
         .action-btns { display: flex; gap: 6px; }
         .edit-btn, .delete-btn {
             border: none; padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; color: white;
+            font-weight: 600;
         }
-        .edit-btn { background: #3498db; }
-        .delete-btn { background: #e74c3c; }
+        .edit-btn { background: rgba(0, 243, 255, 0.2); border: 1px solid var(--neon-blue); color: var(--neon-blue); }
+        .delete-btn { background: rgba(255, 0, 85, 0.2); border: 1px solid var(--neon-red); color: var(--neon-red); }
 
-        /* Backup & Export Buttons */
+        /* Export / Reset */
         .export-group { display: flex; gap: 10px; margin-top: 15px; }
         .btn-export { 
-            flex: 1; padding: 10px; background: transparent; border: 1px solid var(--gold); 
-            color: var(--text-utama); border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer;
+            flex: 1; padding: 10px; background: rgba(0, 243, 255, 0.05); border: 1px solid var(--neon-blue); 
+            color: var(--neon-blue); border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer;
         }
-        .btn-export:hover { background: var(--gold); color: black; }
+        .btn-export:hover { background: var(--neon-blue); color: #000; }
 
         .reset-btn { 
             width: 100%; padding: 12px; margin-top: 15px; background: transparent; 
-            color: #ff4757; border: 1px solid #ff4757; border-radius: 12px; font-weight: 600; cursor: pointer;
+            color: var(--neon-red); border: 1px solid var(--neon-red); border-radius: 12px; font-weight: 700; cursor: pointer;
         }
-        .reset-btn:hover { background: #ff4757; color: white; }
+        .reset-btn:hover { background: var(--neon-red); color: white; }
 
-        /* Custom Modal Pop-up */
+        /* Custom Holographic Modal */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 10000;
+            background: rgba(5, 7, 15, 0.85); backdrop-filter: blur(15px); 
+            display: none; justify-content: center; align-items: center; z-index: 10000;
         }
         .modal-box {
-            background: var(--bg-container); border: 1px solid var(--gold);
-            padding: 20px; border-radius: 20px; width: 85%; max-width: 320px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: rgba(13, 20, 38, 0.95); border: 1px solid var(--neon-blue);
+            padding: 22px; border-radius: 20px; width: 85%; max-width: 320px; text-align: center;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
         }
-        .modal-box p { margin-bottom: 15px; font-size: 14px; }
+        .modal-box p { margin-bottom: 15px; font-size: 14px; color: #fff; }
         .modal-btns { display: flex; gap: 10px; justify-content: center; }
         .modal-btns button {
-            flex: 1; padding: 10px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;
+            flex: 1; padding: 10px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;
         }
-        .modal-btn-confirm { background: var(--gold); color: black; }
-        .modal-btn-cancel { background: #e74c3c; color: white; }
+        .modal-btn-confirm { background: var(--neon-blue); color: #000; }
+        .modal-btn-cancel { background: rgba(255, 0, 85, 0.2); border: 1px solid var(--neon-red); color: var(--neon-red); }
     </style>
 </head>
 <body>
 
-    <!-- Layar Kunci PIN Rahasia -->
+    <!-- Layar Kunci PIN Cyber (Point 1: Hapus Tulisan PIN bawaan 1234) -->
     <div id="pin-screen" class="pin-overlay">
         <div class="pin-box">
-            <h3 id="pin-title">🔒 Masukkan PIN Anda</h3>
-            <p id="pin-info" style="font-size: 11px; color: gray; margin-top: 5px;">PIN bawaan: 1234</p>
+            <h3>🔒 CYBER CORE SECURITY</h3>
+            <!-- Tulisan PIN Bawaan Sudah Dihapus Total -->
             <input type="password" id="pin-input" maxlength="6" placeholder="••••" autocomplete="off">
-            <button onclick="verifikasiPIN()">Buka Dompet</button>
+            <button onclick="verifikasiPIN()">OTENTIKASI</button>
             <div>
                 <span class="pin-link" onclick="lupaPIN()">Lupa PIN?</span>
             </div>
         </div>
     </div>
 
-    <!-- Custom Modal Popup -->
+    <!-- Custom Modal Hologram -->
     <div id="custom-modal" class="modal-overlay">
         <div class="modal-box">
-            <p id="modal-text">Pesan Konfirmasi</p>
+            <p id="modal-text">Notifikasi Sistem</p>
             <div id="modal-input-container"></div>
             <div class="modal-btns">
                 <button id="modal-cancel-btn" class="modal-btn-cancel">Batal</button>
-                <button id="modal-confirm-btn" class="modal-btn-confirm">Ya</button>
+                <button id="modal-confirm-btn" class="modal-btn-confirm">Proses</button>
             </div>
         </div>
     </div>
 
-    <!-- Main Container -->
+    <!-- Main App Container -->
     <div class="container">
         <div class="header-app">
-            <h2>Dompetku</h2>
+            <h2>DOMPETKU <span class="version-badge">v0.1</span></h2>
             <div class="header-actions">
                 <button class="icon-btn" title="Pengaturan PIN" onclick="bukaAturPIN()">⚙️</button>
                 <button id="theme-toggle" class="icon-btn" onclick="toggleTheme()">🌙</button>
@@ -236,43 +349,43 @@
         </div>
         
         <div class="dashboard">
-            <!-- Kartu ATM -->
+            <!-- Quantum ATM Card -->
             <div class="card saldo" id="kartu-atm">
                 <div class="card-top">
-                    <span class="card-label">Digital Wallet</span>
-                    <span class="card-chip">🪙</span>
+                    <span>QUANTUM CORE</span>
+                    <span>⚡ HYPER-VAULT</span>
                 </div>
                 <div class="card-middle">
-                    <h4>Total Saldo</h4>
+                    <h4>TOTAL SALDO TERSEDIA</h4>
                     <h1 id="saldo">Rp 0</h1>
-                    <span id="status-anggaran" class="status-badge">Aman</span>
+                    <span id="status-anggaran" class="status-badge">STATUS: OPTIMAL</span>
                 </div>
                 <div class="card-bottom">
-                    <span>**** **** **** 2026</span>
-                    <span class="card-brand">PREMIUM</span>
+                    <span>ID: **** 2076</span>
+                    <span style="color: var(--neon-blue); font-weight: bold;">v0.1 GACOR</span>
                 </div>
             </div>
 
             <!-- Batas Anggaran -->
-            <div class="budget-section">
-                <label for="input-budget">🎯 Batas Anggaran Pengeluaran:</label>
+            <div style="margin-bottom: 15px;">
+                <label for="input-budget">🎯 BATAS ANGGARAN (PENGELUARAN):</label>
                 <input type="text" id="input-budget" placeholder="Set Batas (Misal: 1.000.000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
             </div>
 
             <div class="card-group">
-                <div class="card masuk">
-                    <h4>Pemasukan</h4>
-                    <p id="pemasukan" style="color: #28a745;">Rp 0</p>
+                <div class="card">
+                    <h4>PEMASUKAN</h4>
+                    <p id="pemasukan" style="color: var(--neon-green);">Rp 0</p>
                 </div>
-                <div class="card keluar">
-                    <h4>Pengeluaran</h4>
-                    <p id="pengeluaran" style="color: #dc3545;">Rp 0</p>
+                <div class="card">
+                    <h4>PENGELUARAN</h4>
+                    <p id="pengeluaran" style="color: var(--neon-red);">Rp 0</p>
                 </div>
             </div>
 
-            <!-- Visualisasi Chart.js -->
+            <!-- Visualisasi Chart.js Futuristic -->
             <div class="chart-section">
-                <h3>📊 Analisis Pengeluaran</h3>
+                <h3>📊 ANALISIS STRUKTUR KEUANGAN</h3>
                 <div class="chart-container">
                     <canvas id="chartPengeluaran"></canvas>
                 </div>
@@ -281,8 +394,18 @@
 
         <!-- Form Input & Edit Transaksi -->
         <div class="form-section">
-            <h3 id="form-title">Tambah Transaksi</h3>
+            <h3 id="form-title" style="font-size: 14px; color: var(--neon-blue); margin-bottom: 10px;">+ TRANSAKSI BARU</h3>
+            
+            <!-- Custom Segmented Control Jenis Transaksi (Point 5 Fix) -->
+            <label>JENIS TRANSAKSI:</label>
+            <div class="jenis-selector">
+                <div id="btn-jenis-keluar" class="jenis-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Pengeluaran (-)</div>
+                <div id="btn-jenis-masuk" class="jenis-btn" onclick="pilihJenis('masuk')">🟢 Pemasukan (+)</div>
+            </div>
+
             <input type="date" id="tanggal">
+            
+            <label for="kategori">KATEGORI:</label>
             <select id="kategori">
                 <option value="Makanan 🍔">Makanan 🍔</option>
                 <option value="Transportasi 🚗">Transportasi 🚗</option>
@@ -292,29 +415,23 @@
                 <option value="Lainnya 📌">Lainnya 📌</option>
             </select>
             
-            <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi)">
+            <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi Cyber)">
             <input type="text" id="nominal" placeholder="Nominal (Misal: 50.000)" oninput="formatRupiahInput(this)">
-            <select id="jenis">
-                <option value="masuk">Pemasukan (+)</option>
-                <option value="keluar">Pengeluaran (-)</option>
-            </select>
             
-            <button id="btn-simpan" class="btn-simpan" onclick="simpanTransaksi()">Simpan Transaksi</button>
-            <button id="btn-batal" class="btn-simpan btn-batal" onclick="batalEdit()">Batal Edit</button>
+            <button id="btn-simpan" class="btn-simpan" onclick="simpanTransaksi()">EKSEKUSI TRANSAKSI</button>
+            <button id="btn-batal" class="btn-simpan btn-batal" onclick="batalEdit()">BATAL EDIT</button>
         </div>
 
         <!-- Riwayat Transaksi -->
         <div class="history-section">
-            <h3>Riwayat Transaksi</h3>
+            <h3 style="font-size: 14px; color: var(--neon-blue); margin-bottom: 10px;">📜 LOG TRANSAKSI</h3>
             
-            <div class="search-box">
-                <input type="text" id="search-input" placeholder="🔍 Cari keterangan/kategori..." oninput="updateTampilan()">
-            </div>
+            <input type="text" id="search-input" placeholder="🔍 Cari data log..." oninput="updateTampilan()">
 
             <div class="history-header">
-                <label style="font-size: 12px;">Filter Kategori:</label>
-                <select id="filter-kategori" onchange="updateTampilan()" style="margin-bottom:0; width: 60%;">
-                    <option value="semua">Semua 📑</option>
+                <label style="margin-bottom:0;">FILTER:</label>
+                <select id="filter-kategori" onchange="updateTampilan()" style="margin-bottom:0; width: 70%;">
+                    <option value="semua">Semua Kategori 📑</option>
                     <option value="Makanan 🍔">Makanan 🍔</option>
                     <option value="Transportasi 🚗">Transportasi 🚗</option>
                     <option value="Belanja 🛍️">Belanja 🛍️</option>
@@ -326,30 +443,94 @@
 
             <ul id="list-riwayat"></ul>
 
-            <!-- Export / Backup Data -->
+            <!-- Backup & Export -->
             <div class="export-group">
-                <button class="btn-export" onclick="exportCSV()">📁 Export CSV</button>
-                <button class="btn-export" onclick="exportJSON()">💾 Backup JSON</button>
+                <button class="btn-export" onclick="exportCSV()">📁 EXPORT CSV</button>
+                <button class="btn-export" onclick="exportJSON()">💾 BACKUP JSON</button>
             </div>
 
-            <button class="reset-btn" onclick="resetData()">🗑️ Hapus Semua Data</button>
+            <button class="reset-btn" onclick="resetData()">🗑️ REFORMAT ALL DATA</button>
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- JavaScript Quantum Logic Engine -->
     <script>
-        // State Variabel Utama
-        let transaksi = JSON.parse(localStorage.getItem('transaksi_keuangan')) || [];
-        let batasBudget = parseInt(localStorage.getItem('batas_anggaran')) || 0;
-        let appPin = localStorage.getItem('app_pin') || "1234";
-        let secAnswer = localStorage.getItem('sec_answer') || "dompetku";
+        // Data State Persistent Storage Keys (Point 2 Fix)
+        const KEY_TRANSAKSI = 'dompetku_v01_transaksi';
+        const KEY_BUDGET = 'dompetku_v01_budget';
+        const KEY_PIN = 'dompetku_v01_pin';
+        const KEY_SEC = 'dompetku_v01_sec';
+        const KEY_LAST_LOGIN = 'dompetku_v01_last_login';
+
+        let transaksi = JSON.parse(localStorage.getItem(KEY_TRANSAKSI)) || [];
+        let batasBudget = parseInt(localStorage.getItem(KEY_BUDGET)) || 0;
+        let appPin = localStorage.getItem(KEY_PIN) || "1234";
+        let secAnswer = localStorage.getItem(KEY_SEC) || "dompetku";
+        
+        let selectedJenis = 'keluar'; // Default Jenis Transaksi
         let editIndex = -1;
         let myChart = null;
 
-        // Inisialisasi Tanggal Hari Ini
+        // Inisialisasi Tanggal
         document.getElementById('tanggal').valueAsDate = new Date();
 
-        // ================= KONTROL MODAL CUSTOM =================
+        // Trigger Getar Haptic untuk Mobile Experience (Point 7)
+        function triggerHaptic() {
+            if (navigator.vibrate) {
+                navigator.vibrate(25);
+            }
+        }
+
+        // ================= KONTROL JEDA LOGIN 30 MENIT (Point 3 Fix) =================
+        function cekSessionLogin() {
+            const lastLogin = localStorage.getItem(KEY_LAST_LOGIN);
+            const sekarang = Date.now();
+            const JEDA_30_MENIT = 30 * 60 * 1000; // 30 Menit dalam Milidetik
+
+            if (lastLogin && (sekarang - parseInt(lastLogin)) < JEDA_30_MENIT) {
+                // Masih dalam masa jeda 30 menit, Sembunyikan Layar PIN langsung
+                document.getElementById('pin-screen').style.display = "none";
+            } else {
+                // Lebih dari 30 menit atau belum login, tampilkan layar PIN
+                document.getElementById('pin-screen').style.display = "flex";
+            }
+        }
+
+        function verifikasiPIN() {
+            triggerHaptic();
+            let pinInput = document.getElementById('pin-input').value;
+            if (pinInput === appPin) {
+                // Simpan Timestamp Login Terakhir
+                localStorage.setItem(KEY_LAST_LOGIN, Date.now().toString());
+                
+                document.getElementById('pin-screen').style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById('pin-screen').style.display = "none";
+                    document.getElementById('pin-screen').style.opacity = "1";
+                }, 300);
+            } else {
+                showCustomModal("❌ OTENTIKASI GAGAL! PIN Salah.", null, false);
+                document.getElementById('pin-input').value = "";
+            }
+        }
+
+        // ================= SELECTOR PEMASUKAN/PENGELUARAN (Point 5 Fix) =================
+        function pilihJenis(jenis) {
+            triggerHaptic();
+            selectedJenis = jenis;
+            const btnKeluar = document.getElementById('btn-jenis-keluar');
+            const btnMasuk = document.getElementById('btn-jenis-masuk');
+
+            if (jenis === 'keluar') {
+                btnKeluar.className = "jenis-btn active-keluar";
+                btnMasuk.className = "jenis-btn";
+            } else {
+                btnKeluar.className = "jenis-btn";
+                btnMasuk.className = "jenis-btn active-masuk";
+            }
+        }
+
+        // ================= CUSTOM MODAL POPUP =================
         function showCustomModal(text, onConfirm, showCancel = true, inputHTML = "") {
             const modal = document.getElementById('custom-modal');
             const modalText = document.getElementById('modal-text');
@@ -363,97 +544,79 @@
             modal.style.display = "flex";
 
             modalConfirmBtn.onclick = function() {
+                triggerHaptic();
                 modal.style.display = "none";
                 if (onConfirm) onConfirm();
             };
 
             modalCancelBtn.onclick = function() {
+                triggerHaptic();
                 modal.style.display = "none";
             };
         }
 
-        // ================= VERIFIKASI & PENGATURAN PIN =================
-        function verifikasiPIN() {
-            let pinInput = document.getElementById('pin-input').value;
-            if (pinInput === appPin) {
-                document.getElementById('pin-screen').style.opacity = "0";
-                setTimeout(() => {
-                    document.getElementById('pin-screen').style.display = "none";
-                }, 300);
-            } else {
-                showCustomModal("❌ PIN Salah! Coba lagi.", null, false);
-                document.getElementById('pin-input').value = "";
-            }
-        }
-
         function bukaAturPIN() {
+            triggerHaptic();
             let htmlInputs = `
-                <input type="password" id="modal-pin-lama" placeholder="PIN Saat Ini" style="margin-bottom:8px">
+                <input type="password" id="modal-pin-lama" placeholder="PIN saat ini" style="margin-bottom:8px">
                 <input type="password" id="modal-pin-baru" placeholder="PIN Baru (4-6 Angka)" style="margin-bottom:8px">
-                <input type="text" id="modal-sec-ans" placeholder="Jawaban Keamanan (Misal: nama ibu)">
+                <input type="text" id="modal-sec-ans" placeholder="Jawaban Keamanan">
             `;
-            showCustomModal("⚙️ Ubah PIN & Keamanan", function() {
+            showCustomModal("⚙️ KONFIGURASI KEAMANAN", function() {
                 let pLama = document.getElementById('modal-pin-lama').value;
                 let pBaru = document.getElementById('modal-pin-baru').value;
                 let sAns = document.getElementById('modal-sec-ans').value;
 
                 if (pLama !== appPin) {
-                    showCustomModal("❌ PIN saat ini tidak cocok!", null, false);
+                    showCustomModal("❌ PIN Lama Tidak Cocok!", null, false);
                     return;
                 }
                 if (!pBaru || pBaru.length < 4) {
-                    showCustomModal("❌ PIN baru minimal 4 angka!", null, false);
+                    showCustomModal("❌ PIN Baru Minimal 4 Angka!", null, false);
                     return;
                 }
 
                 appPin = pBaru;
                 if (sAns) secAnswer = sAns.toLowerCase();
 
-                localStorage.setItem('app_pin', appPin);
-                localStorage.setItem('sec_answer', secAnswer);
-                showCustomModal("✅ PIN Berhasil Diubah!", null, false);
+                localStorage.setItem(KEY_PIN, appPin);
+                localStorage.setItem(KEY_SEC, secAnswer);
+                showCustomModal("✅ PIN Keamanan Berhasil Diperbarui!", null, false);
             }, true, htmlInputs);
         }
 
         function lupaPIN() {
-            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Masukkan Jawaban Keamanan">`;
-            showCustomModal("🔑 Pertanyaan Keamanan: Siapa kata kunci keamanan Anda?", function() {
+            triggerHaptic();
+            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Jawaban Keamanan Anda">`;
+            showCustomModal("🔑 RECOVERY CORE: Masukkan Kunci Keamanan", function() {
                 let ans = document.getElementById('modal-answer-input').value;
                 if (ans && ans.toLowerCase() === secAnswer.toLowerCase()) {
-                    showCustomModal(`✅ PIN Anda adalah: ${appPin}`, null, false);
+                    showCustomModal(`✅ PIN Otentikasi Anda: ${appPin}`, null, false);
                 } else {
-                    showCustomModal("❌ Jawaban keamanan salah!", null, false);
+                    showCustomModal("❌ Jawaban Keamanan Salah!", null, false);
                 }
             }, true, htmlInputs);
         }
 
-        // ================= TEMA GELAP/TERANG =================
-        if (localStorage.getItem('tema_aplikasi') === 'dark') {
-            document.body.classList.add('dark-theme');
-            document.getElementById('theme-toggle').innerText = '☀️';
-        }
-
+        // ================= TEMA DARK/LIGHT =================
         function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
+            triggerHaptic();
+            document.body.classList.toggle('light-theme');
             let tombol = document.getElementById('theme-toggle');
-            if (document.body.classList.contains('dark-theme')) {
-                localStorage.setItem('tema_aplikasi', 'dark');
+            if (document.body.classList.contains('light-theme')) {
+                localStorage.setItem('dompetku_v01_tema', 'light');
                 tombol.innerText = '☀️';
             } else {
-                localStorage.setItem('tema_aplikasi', 'light');
+                localStorage.setItem('dompetku_v01_tema', 'dark');
                 tombol.innerText = '🌙';
             }
             updateChart();
         }
 
-        // ================= INPUT RUPIAH REAL-TIME =================
+        // ================= FORMATTER RUPIAH =================
         function formatRupiahInput(input) {
             let value = input.value.replace(/\D/g, '');
-            if (value) {
-                input.value = parseInt(value, 10).toLocaleString('id-ID');
-            } else {
-                input.value = '';
-            }
+            input.value = value ? parseInt(value, 10).toLocaleString('id-ID') : '';
         }
 
         function getUnformattedNumber(val) {
@@ -464,7 +627,7 @@
             return "Rp " + angka.toLocaleString('id-ID');
         }
 
-        // ================= BUDGET MANAGEMENT =================
+        // ================= BUDGET =================
         if (batasBudget > 0) {
             document.getElementById('input-budget').value = batasBudget.toLocaleString('id-ID');
         }
@@ -472,11 +635,11 @@
         function simpanBudget() {
             let nilaiBudget = document.getElementById('input-budget').value;
             batasBudget = getUnformattedNumber(nilaiBudget);
-            localStorage.setItem('batas_anggaran', batasBudget);
+            localStorage.setItem(KEY_BUDGET, batasBudget.toString());
             updateTampilan();
         }
 
-        // ================= CHART.JS ANALYTICS =================
+        // ================= CHART ANALYTICS FUTURISTIC =================
         function updateChart() {
             let categoryTotals = {};
 
@@ -491,12 +654,10 @@
 
             let ctx = document.getElementById('chartPengeluaran').getContext('2d');
 
-            if (myChart) {
-                myChart.destroy();
-            }
+            if (myChart) myChart.destroy();
 
             if (labels.length === 0) {
-                labels = ["Belum ada pengeluaran"];
+                labels = ["Belum Ada Data"];
                 data = [1];
             }
 
@@ -506,8 +667,9 @@
                     labels: labels,
                     datasets: [{
                         data: data,
-                        backgroundColor: ['#ff6b6b', '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd', '#1dd1a1'],
-                        borderWidth: 1
+                        backgroundColor: ['#00f3ff', '#9d00ff', '#ff0055', '#00ff88', '#ffb700', '#7000ff'],
+                        borderColor: '#05070f',
+                        borderWidth: 2
                     }]
                 },
                 options: {
@@ -517,8 +679,8 @@
                         legend: {
                             position: 'bottom',
                             labels: {
-                                color: document.body.classList.contains('dark-theme') ? '#fff' : '#333',
-                                font: { size: 10 }
+                                color: '#8a99ad',
+                                font: { family: 'Rajdhani', size: 11 }
                             }
                         }
                     }
@@ -526,7 +688,7 @@
             });
         }
 
-        // ================= RENDER TAMPILAN UTAMA =================
+        // ================= RENDER UTAMA & DATA PERSISTENCE (Point 2 Fix) =================
         function updateTampilan() {
             let listRiwayat = document.getElementById('list-riwayat');
             let filterKategori = document.getElementById('filter-kategori').value;
@@ -544,20 +706,17 @@
                     totalPengeluaran += item.nominal;
                 }
 
-                // Filter Kategori & Search
                 let cocokFilter = (filterKategori === "semua" || item.kategori === filterKategori);
                 let cocokSearch = item.keterangan.toLowerCase().includes(searchQuery) || item.kategori.toLowerCase().includes(searchQuery);
 
-                if (!cocokFilter || !cocokSearch) {
-                    return;
-                }
+                if (!cocokFilter || !cocokSearch) return;
 
                 let li = document.createElement('li');
                 li.innerHTML = `
                     <div>
-                        <small style="color: gray;">${item.tanggal}</small><br>
-                        <strong>${item.kategori}</strong> <span style="font-size:12px">(${item.keterangan})</span> <br>
-                        <span style="font-weight:bold; color:${item.jenis === 'masuk' ? '#28a745' : '#dc3545'}">
+                        <small style="color: var(--text-sub); font-size:10px;">${item.tanggal}</small><br>
+                        <strong style="color:#fff">${item.kategori}</strong> <span style="font-size:12px; color:var(--text-sub);">(${item.keterangan})</span> <br>
+                        <span style="font-weight:bold; font-family:'Orbitron'; color:${item.jenis === 'masuk' ? 'var(--neon-green)' : 'var(--neon-red)'}">
                             ${item.jenis === 'masuk' ? '+' : '-'} ${formatRupiah(item.nominal)}
                         </span>
                     </div>
@@ -574,36 +733,37 @@
             document.getElementById('pemasukan').innerText = formatRupiah(totalPemasukan);
             document.getElementById('pengeluaran').innerText = formatRupiah(totalPengeluaran);
 
-            // LOGIKA KONDISI ANGGARAN
+            // Kondisi Anggaran
             let kartuAtm = document.getElementById('kartu-atm');
             let badgeStatus = document.getElementById('status-anggaran');
 
             if (batasBudget > 0 && totalPengeluaran > batasBudget) {
                 kartuAtm.classList.add('kritis');
-                badgeStatus.innerText = "🚨 DOMPET KRITIS!";
+                badgeStatus.innerText = "🚨 STATUS: OVER BUDGET!";
             } else if (batasBudget > 0 && totalPengeluaran >= batasBudget * 0.8) {
                 kartuAtm.classList.remove('kritis');
-                badgeStatus.innerText = "⚠️ Siaga (80%)";
+                badgeStatus.innerText = "⚠️ STATUS: WASPADA (80%)";
             } else {
                 kartuAtm.classList.remove('kritis');
-                badgeStatus.innerText = "💸 Saldo Aman";
+                badgeStatus.innerText = "⚡ STATUS: OPTIMAL";
             }
 
-            localStorage.setItem('transaksi_keuangan', JSON.stringify(transaksi));
+            // SIMPAN PERUBAHAN KE LOCALSTORAGE
+            localStorage.setItem(KEY_TRANSAKSI, JSON.stringify(transaksi));
             updateChart();
         }
 
-        // ================= TAMBAH & EDIT TRANSAKSI =================
+        // ================= TRANSAKSI ACTIONS =================
         function simpanTransaksi() {
+            triggerHaptic();
             let tanggal = document.getElementById('tanggal').value;
             let kategori = document.getElementById('kategori').value;
             let keterangan = document.getElementById('keterangan').value;
             let nominalRaw = document.getElementById('nominal').value;
-            let jenis = document.getElementById('jenis').value;
             let nominal = getUnformattedNumber(nominalRaw);
 
             if (nominal <= 0) {
-                showCustomModal("Nominal transaksi harus lebih dari 0!", null, false);
+                showCustomModal("❌ Nominal transaksi harus lebih dari 0!", null, false);
                 return;
             }
 
@@ -612,7 +772,7 @@
                 kategori: kategori,
                 keterangan: keterangan || "-",
                 nominal: nominal, 
-                jenis: jenis
+                jenis: selectedJenis
             };
 
             if (editIndex === -1) {
@@ -620,9 +780,9 @@
             } else {
                 transaksi[editIndex] = dataTransaksi;
                 editIndex = -1;
-                document.getElementById('btn-simpan').innerText = "Simpan Transaksi";
+                document.getElementById('btn-simpan').innerText = "EKSEKUSI TRANSAKSI";
                 document.getElementById('btn-batal').style.display = "none";
-                document.getElementById('form-title').innerText = "Tambah Transaksi";
+                document.getElementById('form-title').innerText = "+ TRANSAKSI BARU";
             }
 
             document.getElementById('keterangan').value = "";
@@ -631,6 +791,7 @@
         }
 
         function editData(index) {
+            triggerHaptic();
             editIndex = index;
             let item = transaksi[index];
 
@@ -638,40 +799,45 @@
             document.getElementById('kategori').value = item.kategori;
             document.getElementById('keterangan').value = item.keterangan;
             document.getElementById('nominal').value = item.nominal.toLocaleString('id-ID');
-            document.getElementById('jenis').value = item.jenis;
+            
+            pilihJenis(item.jenis);
 
-            document.getElementById('btn-simpan').innerText = "Update Transaksi";
+            document.getElementById('btn-simpan').innerText = "UPDATE TRANSAKSI";
             document.getElementById('btn-batal').style.display = "block";
-            document.getElementById('form-title').innerText = "Edit Transaksi";
+            document.getElementById('form-title').innerText = "✏️ EDIT TRANSAKSI LOG";
             window.scrollTo({ top: 300, behavior: 'smooth' });
         }
 
         function batalEdit() {
+            triggerHaptic();
             editIndex = -1;
             document.getElementById('keterangan').value = "";
             document.getElementById('nominal').value = "";
-            document.getElementById('btn-simpan').innerText = "Simpan Transaksi";
+            document.getElementById('btn-simpan').innerText = "EKSEKUSI TRANSAKSI";
             document.getElementById('btn-batal').style.display = "none";
-            document.getElementById('form-title').innerText = "Tambah Transaksi";
+            document.getElementById('form-title').innerText = "+ TRANSAKSI BARU";
         }
 
         function hapusData(index) {
-            showCustomModal("Apakah Anda yakin ingin menghapus catatan ini?", function() {
+            triggerHaptic();
+            showCustomModal("Apakah Anda yakin ingin menghapus data log ini?", function() {
                 transaksi.splice(index, 1);
                 updateTampilan();
             });
         }
 
         function resetData() {
-            showCustomModal("PERINGATAN! Anda yakin ingin menghapus seluruh data transaksi?", function() {
+            triggerHaptic();
+            showCustomModal("⚠️ PERINGATAN REFORMAT! Hapus seluruh database transaksi?", function() {
                 transaksi = [];
-                localStorage.removeItem('transaksi_keuangan');
+                localStorage.removeItem(KEY_TRANSAKSI);
                 updateTampilan();
             });
         }
 
         // ================= EXPORT & BACKUP =================
         function exportCSV() {
+            triggerHaptic();
             if (transaksi.length === 0) {
                 showCustomModal("Data transaksi masih kosong!", null, false);
                 return;
@@ -685,13 +851,14 @@
             let encodedUri = encodeURI(csvContent);
             let link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "catatan_dompetku.csv");
+            link.setAttribute("download", "Dompetku_Cyber_Log.csv");
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
 
         function exportJSON() {
+            triggerHaptic();
             if (transaksi.length === 0) {
                 showCustomModal("Data transaksi masih kosong!", null, false);
                 return;
@@ -700,15 +867,34 @@
             let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(transaksi, null, 2));
             let dlAnchor = document.createElement('a');
             dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", "backup_dompetku.json");
+            dlAnchor.setAttribute("download", "Dompetku_Backup_Core.json");
             document.body.appendChild(dlAnchor);
             dlAnchor.click();
             dlAnchor.remove();
         }
 
+        // ================= INITIAL LOAD =================
         window.onload = function() {
+            cekSessionLogin();
             updateTampilan();
+
+            if (localStorage.getItem('dompetku_v01_tema') === 'light') {
+                document.body.classList.add('light-theme');
+                document.getElementById('theme-toggle').innerText = '☀️';
+            }
         };
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swBlob = new Blob([`
+                    self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
+                    self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
+                    self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
+                `], { type: 'text/javascript' });
+                navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+            });
+        }
     </script>
 </body>
 </html>
