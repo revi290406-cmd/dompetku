@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dompetku v0.1 (gacor banget wakkk)</title>
+    <title>Dompetku v0.2 (Catalog Navigation Version)</title>
     
     <!-- Meta Tags & Theme Color -->
     <meta name="theme-color" content="#0f172a">
@@ -59,6 +59,7 @@
             justify-content: center;
             align-items: flex-start;
             padding: 16px;
+            padding-bottom: 90px;
             overflow-x: hidden;
             position: relative;
         }
@@ -94,7 +95,7 @@
             border-radius: var(--radius-xl);
             padding: 24px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-            margin-bottom: 80px;
+            margin-bottom: 20px;
             animation: popUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -118,6 +119,15 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .brand-title span {
+            font-size: 10px;
+            background: var(--accent-violet);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 6px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
         .header-actions { display: flex; gap: 10px; }
         .icon-btn-rounded {
             width: 42px; height: 42px; border-radius: 50%;
@@ -127,6 +137,62 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .icon-btn-rounded:active { transform: scale(0.88); }
+
+        /* TAB / CATALOG SYSTEM STYLES */
+        .tab-content {
+            display: none;
+            animation: fadeInTab 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Bottom Fixed Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 440px;
+            background: var(--card-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 35px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            z-index: 990;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            color: var(--text-secondary);
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .nav-item span.icon { font-size: 18px; }
+        .nav-item.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--accent-violet), #6366f1);
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+            transform: translateY(-2px);
+        }
 
         /* Lock Screen PIN & Biometric */
         .pin-overlay {
@@ -273,12 +339,12 @@
 
         /* Floating AI Advisor Widget */
         .ai-floating-btn {
-            position: fixed; bottom: 20px; right: 20px; z-index: 999;
-            width: 56px; height: 56px; border-radius: 50%;
+            position: fixed; bottom: 85px; right: 20px; z-index: 999;
+            width: 52px; height: 52px; border-radius: 50%;
             background: linear-gradient(135deg, var(--accent-violet), var(--accent-sky));
             box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5);
             display: flex; align-items: center; justify-content: center;
-            font-size: 26px; cursor: pointer; border: 2px solid rgba(255,255,255,0.4);
+            font-size: 24px; cursor: pointer; border: 2px solid rgba(255,255,255,0.4);
             animation: pulseGlow 3s infinite;
         }
         @keyframes pulseGlow {
@@ -287,7 +353,7 @@
         }
 
         .ai-chat-drawer {
-            position: fixed; bottom: 86px; right: 20px; width: 90%; max-width: 360px;
+            position: fixed; bottom: 150px; right: 20px; width: 90%; max-width: 360px;
             background: var(--card-glass); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border: 1px solid var(--card-border); border-radius: var(--radius-lg);
             padding: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
@@ -363,12 +429,12 @@
         </div>
     </div>
 
-    <!-- Main Application UI -->
+    <!-- Main Application UI Container -->
     <div class="app-container">
         <!-- Header Bar -->
         <div class="header-bar">
             <div class="brand-title">
-                <h2>DOMPETKU</h2>
+                <h2>DOMPETKU <span>v0.2</span></h2>
             </div>
             <div class="header-actions">
                 <button class="icon-btn-rounded" title="Kelola Kantong & Transfer" onclick="bukaModalTransfer()">🔄</button>
@@ -377,118 +443,82 @@
             </div>
         </div>
 
-        <!-- Total Balance Card -->
-        <div class="total-balance-card">
-            <div class="balance-label">Total Neraca Seluruh Kantong</div>
-            <div id="saldo" class="balance-amount">Rp 0</div>
-            <div id="status-anggaran" class="budget-status-pill">⚡ Status: Optimal</div>
-        </div>
-
-        <!-- Multi-Pocket / Dompet Terpisah -->
-        <div class="pocket-section-title">
-            <span>🎯 KANTONG DANA</span>
-            <span style="color: var(--accent-violet); cursor: pointer;" onclick="bukaModalTransfer()">+ Transfer Antar Kantong</span>
-        </div>
-        <div class="pocket-grid">
-            <div class="pocket-card active" id="pocket-card-utama" onclick="pilihFilterPocket('utama')">
-                <div class="pocket-icon">💳</div>
-                <div class="pocket-name">Utama</div>
-                <div class="pocket-val" id="val-pocket-utama">Rp 0</div>
+        <!-- KATALOG 1: BERANDA / UTAMA -->
+        <div id="tab-beranda" class="tab-content active">
+            <!-- Total Balance Card -->
+            <div class="total-balance-card">
+                <div class="balance-label">Total Neraca Seluruh Kantong</div>
+                <div id="saldo" class="balance-amount">Rp 0</div>
+                <div id="status-anggaran" class="budget-status-pill">⚡ Status: Optimal</div>
             </div>
-            <div class="pocket-card" id="pocket-card-tabungan" onclick="pilihFilterPocket('tabungan')">
-                <div class="pocket-icon">🎯</div>
-                <div class="pocket-name">Tabungan</div>
-                <div class="pocket-val" id="val-pocket-tabungan">Rp 0</div>
-            </div>
-            <div class="pocket-card" id="pocket-card-darurat" onclick="pilihFilterPocket('darurat')">
-                <div class="pocket-icon">🚨</div>
-                <div class="pocket-name">Darurat</div>
-                <div class="pocket-val" id="val-pocket-darurat">Rp 0</div>
-            </div>
-        </div>
 
-        <!-- Filter Bulan & Set Budget -->
-        <div class="filter-row">
-            <label for="filter-bulan">📅 PERIODE:</label>
-            <input type="month" id="filter-bulan" onchange="updateTampilan()">
-        </div>
-
-        <div style="margin-bottom: 16px;">
-            <label for="input-budget">🎯 BATAS PENGELUARAN BULANAN:</label>
-            <input type="text" id="input-budget" placeholder="Set Batas (misal: 2.000.000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
-        </div>
-
-        <!-- Metrics Grid -->
-        <div class="inc-exp-grid">
-            <div class="inc-card">
-                <h5>PEMASUKAN</h5>
-                <p id="pemasukan">Rp 0</p>
+            <!-- Multi-Pocket / Dompet Terpisah -->
+            <div class="pocket-section-title">
+                <span>🎯 KANTONG DANA</span>
+                <span style="color: var(--accent-violet); cursor: pointer;" onclick="bukaModalTransfer()">+ Transfer</span>
             </div>
-            <div class="exp-card">
-                <h5>PENGELUARAN</h5>
-                <p id="pengeluaran">Rp 0</p>
+            <div class="pocket-grid">
+                <div class="pocket-card active" id="pocket-card-utama" onclick="pilihFilterPocket('utama')">
+                    <div class="pocket-icon">💳</div>
+                    <div class="pocket-name">Utama</div>
+                    <div class="pocket-val" id="val-pocket-utama">Rp 0</div>
+                </div>
+                <div class="pocket-card" id="pocket-card-tabungan" onclick="pilihFilterPocket('tabungan')">
+                    <div class="pocket-icon">🎯</div>
+                    <div class="pocket-name">Tabungan</div>
+                    <div class="pocket-val" id="val-pocket-tabungan">Rp 0</div>
+                </div>
+                <div class="pocket-card" id="pocket-card-darurat" onclick="pilihFilterPocket('darurat')">
+                    <div class="pocket-icon">🚨</div>
+                    <div class="pocket-name">Darurat</div>
+                    <div class="pocket-val" id="val-pocket-darurat">Rp 0</div>
+                </div>
             </div>
-        </div>
 
-        <!-- Chart Visualization -->
-        <div class="chart-box">
-            <h4>📊 ANALISIS STRUKTUR PENGELUARAN</h4>
-            <div class="chart-wrapper">
-                <canvas id="chartPengeluaran"></canvas>
+            <!-- Metrics Grid -->
+            <div class="inc-exp-grid">
+                <div class="inc-card">
+                    <h5>PEMASUKAN BULAN INI</h5>
+                    <p id="pemasukan">Rp 0</p>
+                </div>
+                <div class="exp-card">
+                    <h5>PENGELUARAN BULAN INI</h5>
+                    <p id="pengeluaran">Rp 0</p>
+                </div>
+            </div>
+
+            <!-- Chart Visualization -->
+            <div class="chart-box">
+                <h4>📊 ANALISIS STRUKTUR PENGELUARAN</h4>
+                <div class="chart-wrapper">
+                    <canvas id="chartPengeluaran"></canvas>
+                </div>
             </div>
         </div>
 
-        <!-- Input Form Transaksi -->
-        <div style="background: rgba(0,0,0,0.15); padding: 16px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 20px;">
-            <h4 id="form-title" style="font-size: 13px; font-weight: 800; color: var(--accent-violet); margin-bottom: 12px;">+ TRANSAKSI BARU</h4>
-            
-            <div class="type-selector">
-                <div id="btn-jenis-keluar" class="type-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Pengeluaran (-)</div>
-                <div id="btn-jenis-masuk" class="type-btn" onclick="pilihJenis('masuk')">🟢 Pemasukan (+)</div>
-            </div>
+        <!-- KATALOG 2: TAMBAH TRANSAKSI -->
+        <div id="tab-transaksi" class="tab-content">
+            <!-- Input Form Transaksi -->
+            <div style="background: rgba(0,0,0,0.15); padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 16px;">
+                <h4 id="form-title" style="font-size: 14px; font-weight: 800; color: var(--accent-violet); margin-bottom: 14px;">+ CATAT TRANSAKSI BARU</h4>
+                
+                <div class="type-selector">
+                    <div id="btn-jenis-keluar" class="type-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Pengeluaran (-)</div>
+                    <div id="btn-jenis-masuk" class="type-btn" onclick="pilihJenis('masuk')">🟢 Pemasukan (+)</div>
+                </div>
 
-            <label for="select-pocket-target">SIMPAN KE KANTONG:</label>
-            <select id="select-pocket-target">
-                <option value="utama">Dompet Utama 💳</option>
-                <option value="tabungan">Tabungan Masa Depan 🎯</option>
-                <option value="darurat">Dana Darurat 🚨</option>
-            </select>
+                <label for="select-pocket-target">SIMPAN KE KANTONG:</label>
+                <select id="select-pocket-target">
+                    <option value="utama">Dompet Utama 💳</option>
+                    <option value="tabungan">Tabungan Masa Depan 🎯</option>
+                    <option value="darurat">Dana Darurat 🚨</option>
+                </select>
 
-            <label for="tanggal">TANGGAL TRANSAKSI:</label>
-            <input type="date" id="tanggal">
-            
-            <label for="kategori">KATEGORI:</label>
-            <select id="kategori">
-                <option value="Makanan 🍔">Makanan 🍔</option>
-                <option value="Transportasi 🚗">Transportasi 🚗</option>
-                <option value="Belanja 🛍️">Belanja 🛍️</option>
-                <option value="Tagihan 📄">Tagihan 📄</option>
-                <option value="Gaji 💰">Gaji 💰</option>
-                <option value="Lainnya 📌">Lainnya 📌</option>
-            </select>
-            
-            <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi)">
-            <input type="text" id="nominal" placeholder="Nominal (misal: 50.000)" oninput="formatRupiahInput(this)">
-            
-            <button id="btn-simpan" class="btn-primary" onclick="simpanTransaksi()">TAMBAHKAN TRANSAKSI</button>
-            <button id="btn-batal" class="btn-primary" style="background: rgba(255,255,255,0.1); margin-top:8px; display:none;" onclick="batalEdit()">BATAL</button>
-        </div>
-
-        <!-- Transaksi Berulang Otomatis (Recurring) -->
-        <div style="background: rgba(139, 92, 246, 0.08); padding: 14px; border-radius: var(--radius-md); border: 1px dashed var(--accent-violet); margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 12px; font-weight: 700; color: var(--accent-violet);">📅 TAGIHAN/PEMASUKAN RUTIN</span>
-                <button class="action-chip chip-edit" onclick="bukaModalRecurring()">+ Kelola Rutin</button>
-            </div>
-            <small style="font-size: 10px; color: var(--text-secondary); display:block; margin-top: 4px;">Otomatis ditambahkan setiap bulan saat tanggal penagihan tiba.</small>
-        </div>
-
-        <!-- Transaction Log -->
-        <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-                <h4 style="font-size: 13px; font-weight: 700; color: var(--text-secondary);">📜 LOG TRANSAKSI</h4>
-                <select id="filter-kategori" onchange="updateTampilan()" style="width: auto; padding: 6px 10px; margin-bottom:0; font-size:12px;">
-                    <option value="semua">Semua Kategori 📑</option>
+                <label for="tanggal">TANGGAL TRANSAKSI:</label>
+                <input type="date" id="tanggal">
+                
+                <label for="kategori">KATEGORI:</label>
+                <select id="kategori">
                     <option value="Makanan 🍔">Makanan 🍔</option>
                     <option value="Transportasi 🚗">Transportasi 🚗</option>
                     <option value="Belanja 🛍️">Belanja 🛍️</option>
@@ -496,17 +526,97 @@
                     <option value="Gaji 💰">Gaji 💰</option>
                     <option value="Lainnya 📌">Lainnya 📌</option>
                 </select>
+                
+                <label for="keterangan">KETERANGAN:</label>
+                <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi)">
+                
+                <label for="nominal">NOMINAL (RP):</label>
+                <input type="text" id="nominal" placeholder="Nominal (misal: 50.000)" oninput="formatRupiahInput(this)">
+                
+                <button id="btn-simpan" class="btn-primary" onclick="simpanTransaksi()">TAMBAHKAN TRANSAKSI</button>
+                <button id="btn-batal" class="btn-primary" style="background: rgba(255,255,255,0.1); margin-top:8px; display:none;" onclick="batalEdit()">BATAL</button>
             </div>
 
-            <input type="text" id="search-input" placeholder="🔍 Cari transaksi..." oninput="updateTampilan()">
-
-            <ul id="list-riwayat" class="history-list"></ul>
-
-            <div class="action-group">
-                <button class="btn-sub" onclick="exportCSV()">📁 Export CSV</button>
-                <button class="btn-sub" onclick="exportJSON()">💾 Backup JSON</button>
+            <!-- Transaksi Berulang Otomatis (Recurring) -->
+            <div style="background: rgba(139, 92, 246, 0.08); padding: 14px; border-radius: var(--radius-md); border: 1px dashed var(--accent-violet);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 12px; font-weight: 700; color: var(--accent-violet);">📅 TAGIHAN/PEMASUKAN RUTIN</span>
+                    <button class="action-chip chip-edit" onclick="bukaModalRecurring()">+ Kelola Rutin</button>
+                </div>
+                <small style="font-size: 10px; color: var(--text-secondary); display:block; margin-top: 4px;">Otomatis ditambahkan setiap bulan saat tanggal penagihan tiba.</small>
             </div>
-            <button class="btn-sub btn-danger" onclick="resetData()">🗑️ Reset Seluruh Database</button>
+        </div>
+
+        <!-- KATALOG 3: RIWAYAT & LAPORAN -->
+        <div id="tab-riwayat" class="tab-content">
+            <!-- Filter Bulan -->
+            <div class="filter-row">
+                <label for="filter-bulan">📅 PERIODE:</label>
+                <input type="month" id="filter-bulan" onchange="updateTampilan()">
+            </div>
+
+            <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+                    <h4 style="font-size: 13px; font-weight: 700; color: var(--text-secondary);">📜 LOG TRANSAKSI</h4>
+                    <select id="filter-kategori" onchange="updateTampilan()" style="width: auto; padding: 6px 10px; margin-bottom:0; font-size:12px;">
+                        <option value="semua">Semua Kategori 📑</option>
+                        <option value="Makanan 🍔">Makanan 🍔</option>
+                        <option value="Transportasi 🚗">Transportasi 🚗</option>
+                        <option value="Belanja 🛍️">Belanja 🛍️</option>
+                        <option value="Tagihan 📄">Tagihan 📄</option>
+                        <option value="Gaji 💰">Gaji 💰</option>
+                        <option value="Lainnya 📌">Lainnya 📌</option>
+                    </select>
+                </div>
+
+                <input type="text" id="search-input" placeholder="🔍 Cari transaksi..." oninput="updateTampilan()">
+
+                <ul id="list-riwayat" class="history-list"></ul>
+
+                <div class="action-group">
+                    <button class="btn-sub" onclick="exportCSV()">📁 Export CSV</button>
+                    <button class="btn-sub" onclick="exportJSON()">💾 Backup JSON</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- KATALOG 4: PENGATURAN & LAINNYA -->
+        <div id="tab-pengaturan" class="tab-content">
+            <h4 style="font-size: 14px; font-weight: 800; color: var(--accent-violet); margin-bottom: 16px;">⚙️ PENGATURAN & ANGGARAN</h4>
+
+            <!-- Set Budget Section -->
+            <div style="margin-bottom: 20px; background: rgba(0,0,0,0.15); padding: 16px; border-radius: var(--radius-lg); border: 1px solid var(--card-border);">
+                <label for="input-budget">🎯 BATAS PENGELUARAN BULANAN:</label>
+                <input type="text" id="input-budget" placeholder="Set Batas (misal: 2.000.000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
+                <small style="font-size: 11px; color: var(--text-secondary);">Peringatan otomatis akan aktif jika pengeluaran melebihi angka ini.</small>
+            </div>
+
+            <!-- Management Tools -->
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn-sub" onclick="bukaModalTransfer()" style="padding: 14px; text-align: left;">🔄 Transfer Antar Kantong Dana</button>
+                <button class="btn-sub" onclick="bukaAturPIN()" style="padding: 14px; text-align: left;">🔐 Ubah PIN Keamanan & Recovery</button>
+                <button class="btn-sub btn-danger" onclick="resetData()">🗑️ Reset Seluruh Database</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIXED BOTTOM NAVIGATION BAR (KATALOG SWITCHER) -->
+    <div class="bottom-nav">
+        <div class="nav-item active" id="nav-beranda" onclick="switchTab('beranda')">
+            <span class="icon">🏠</span>
+            <span>Beranda</span>
+        </div>
+        <div class="nav-item" id="nav-transaksi" onclick="switchTab('transaksi')">
+            <span class="icon">➕</span>
+            <span>Catat</span>
+        </div>
+        <div class="nav-item" id="nav-riwayat" onclick="switchTab('riwayat')">
+            <span class="icon">📜</span>
+            <span>Riwayat</span>
+        </div>
+        <div class="nav-item" id="nav-pengaturan" onclick="switchTab('pengaturan')">
+            <span class="icon">⚙️</span>
+            <span>Pengaturan</span>
         </div>
     </div>
 
@@ -558,6 +668,29 @@
 
         function triggerHaptic() {
             if (navigator.vibrate) navigator.vibrate(20);
+        }
+
+        // ================= TAB / CATALOG SWITCHER =================
+        function switchTab(tabName) {
+            triggerHaptic();
+            
+            // Hide all tab content
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Remove active status on bottom nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Activate chosen tab and nav item
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`nav-${tabName}`).classList.add('active');
+
+            // Refresh chart if switching to beranda
+            if (tabName === 'beranda') {
+                setTimeout(() => updateTampilan(), 50);
+            }
         }
 
         // ================= AUTH & SECURITY =================
@@ -914,12 +1047,15 @@
             if (tanggal) document.getElementById('filter-bulan').value = tanggal.slice(0, 7);
 
             updateTampilan();
+            switchTab('riwayat'); // Otomatis pindah ke katalog riwayat setelah simpan
         }
 
         function editData(index) {
             triggerHaptic();
             editIndex = index;
             let item = transaksi[index];
+
+            switchTab('transaksi'); // Pindah ke tab transaksi untuk edit
 
             document.getElementById('tanggal').value = item.tanggal;
             document.getElementById('kategori').value = item.kategori;
@@ -930,7 +1066,6 @@
             pilihJenis(item.jenis);
             document.getElementById('btn-simpan').innerText = "UPDATE TRANSAKSI";
             document.getElementById('btn-batal').style.display = "block";
-            window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
         function batalEdit() {
