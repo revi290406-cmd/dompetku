@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dompetku v0.2 (Catalog Navigation Version)</title>
+    <title>Dompetku v0.2 - Quantum Wealth Engine</title>
     
     <!-- Meta Tags & Theme Color -->
     <meta name="theme-color" content="#0f172a">
@@ -26,6 +26,7 @@
             --accent-violet: #8b5cf6;
             --accent-amber: #f59e0b;
             --accent-sky: #0284c7;
+            --accent-cyan: #06b6d4;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --radius-xl: 28px;
@@ -59,7 +60,7 @@
             justify-content: center;
             align-items: flex-start;
             padding: 16px;
-            padding-bottom: 90px;
+            padding-bottom: 95px;
             overflow-x: hidden;
             position: relative;
         }
@@ -76,7 +77,7 @@
         }
         .aurora-1 { width: 320px; height: 320px; background: var(--accent-violet); top: -80px; left: -60px; }
         .aurora-2 { width: 360px; height: 360px; background: var(--accent-emerald); bottom: -100px; right: -80px; animation-delay: -5s; }
-        .aurora-3 { width: 280px; height: 280px; background: var(--accent-rose); top: 40%; left: 30%; animation-delay: -10s; }
+        .aurora-3 { width: 280px; height: 280px; background: var(--accent-cyan); top: 40%; left: 30%; animation-delay: -10s; }
 
         @keyframes floatAurora {
             0% { transform: translate(0, 0) scale(1); }
@@ -87,7 +88,7 @@
         /* Container Layout */
         .app-container {
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
             background: var(--card-glass);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
@@ -114,7 +115,7 @@
         .brand-title h2 {
             font-size: 22px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            background: linear-gradient(135deg, #06b6d4, var(--accent-violet));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -128,11 +129,11 @@
             margin-left: 6px;
             vertical-align: middle;
         }
-        .header-actions { display: flex; gap: 10px; }
+        .header-actions { display: flex; gap: 8px; }
         .icon-btn-rounded {
-            width: 42px; height: 42px; border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             background: rgba(255, 255, 255, 0.08); border: 1px solid var(--card-border);
-            color: var(--text-primary); font-size: 16px; cursor: pointer;
+            color: var(--text-primary); font-size: 15px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
@@ -158,8 +159,8 @@
             bottom: 16px;
             left: 50%;
             transform: translateX(-50%);
-            width: 92%;
-            max-width: 440px;
+            width: 94%;
+            max-width: 460px;
             background: var(--card-glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -168,7 +169,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 8px 12px;
+            padding: 6px 8px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             z-index: 990;
         }
@@ -177,16 +178,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3px;
+            gap: 2px;
             color: var(--text-secondary);
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 700;
             cursor: pointer;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 20px;
             transition: all 0.3s ease;
         }
-        .nav-item span.icon { font-size: 18px; }
+        .nav-item span.icon { font-size: 16px; }
         .nav-item.active {
             color: #ffffff;
             background: linear-gradient(135deg, var(--accent-violet), #6366f1);
@@ -249,7 +250,7 @@
             background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); border-color: rgba(244, 63, 94, 0.3);
         }
 
-        /* Multi-Pocket Carousel / Grid */
+        /* Pocket System */
         .pocket-section-title {
             display: flex; justify-content: space-between; align-items: center;
             font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 10px;
@@ -270,7 +271,7 @@
         .pocket-name { font-size: 11px; font-weight: 700; color: var(--text-primary); }
         .pocket-val { font-size: 12px; font-weight: 800; color: var(--accent-emerald); margin-top: 2px; }
 
-        /* Segmented Filter Bulan & Inputs */
+        /* Filter Row & Input */
         .filter-row {
             display: flex; gap: 10px; align-items: center; margin-bottom: 18px;
             background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: var(--radius-md);
@@ -282,7 +283,7 @@
             font-size: 13px; font-weight: 700; outline: none; width: 100%; cursor: pointer;
         }
 
-        /* Income vs Expense Quick Cards */
+        /* Metrics Cards */
         .inc-exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .inc-card, .exp-card {
             background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
@@ -292,15 +293,26 @@
         .inc-card p { font-size: 16px; font-weight: 800; color: var(--accent-emerald); }
         .exp-card p { font-size: 16px; font-weight: 800; color: var(--accent-rose); }
 
-        /* Chart Section */
+        /* Quantum Metrics Grid */
+        .quantum-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px;
+        }
+        .quantum-card {
+            background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.25);
+            padding: 12px; border-radius: var(--radius-md); text-align: center;
+        }
+        .quantum-card h6 { font-size: 10px; color: var(--text-secondary); margin-bottom: 4px; }
+        .quantum-card p { font-size: 13px; font-weight: 800; color: var(--accent-cyan); }
+
+        /* Chart Box */
         .chart-box {
             background: rgba(0, 0, 0, 0.2); border: 1px solid var(--card-border);
             padding: 16px; border-radius: var(--radius-lg); margin-bottom: 22px;
         }
         .chart-box h4 { font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 12px; text-align: center; }
-        .chart-wrapper { position: relative; height: 180px; width: 100%; }
+        .chart-wrapper { position: relative; height: 190px; width: 100%; }
 
-        /* Form Inputs */
+        /* Form Controls */
         label { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block; }
         input, select {
             width: 100%; padding: 12px 14px; margin-bottom: 12px;
@@ -319,7 +331,7 @@
         .type-btn.active-keluar { background: rgba(244, 63, 94, 0.15); border-color: var(--accent-rose); color: var(--accent-rose); }
         .type-btn.active-masuk { background: rgba(16, 185, 129, 0.15); border-color: var(--accent-emerald); color: var(--accent-emerald); }
 
-        /* History Log List */
+        /* History List */
         .history-list { list-style: none; margin-top: 10px; }
         .history-item {
             background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border);
@@ -331,7 +343,7 @@
         
         .item-info small { font-size: 10px; color: var(--text-secondary); }
         .item-info div { font-weight: 700; font-size: 14px; margin: 2px 0; }
-        .item-val { font-weight: 800; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .item-val { font-weight: 800; font-size: 14px; }
         .item-actions { display: flex; gap: 6px; margin-top: 4px; }
         .action-chip { border: none; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; }
         .chip-edit { background: rgba(139, 92, 246, 0.2); color: var(--accent-violet); }
@@ -372,7 +384,7 @@
         }
         .ai-chip-btn:hover { background: var(--accent-violet); color: white; }
 
-        /* Export/Reset Button Group */
+        /* Action Buttons Group */
         .action-group { display: flex; gap: 10px; margin-top: 18px; }
         .btn-sub {
             flex: 1; padding: 11px; background: rgba(255,255,255,0.05); border: 1px solid var(--card-border);
@@ -398,7 +410,7 @@
 </head>
 <body>
 
-    <!-- Ambient Aurora Background -->
+    <!-- Ambient Background Aurora -->
     <div class="aurora-container">
         <div class="aurora-blob aurora-1"></div>
         <div class="aurora-blob aurora-2"></div>
@@ -429,7 +441,7 @@
         </div>
     </div>
 
-    <!-- Main Application UI Container -->
+    <!-- Main Container -->
     <div class="app-container">
         <!-- Header Bar -->
         <div class="header-bar">
@@ -445,14 +457,13 @@
 
         <!-- KATALOG 1: BERANDA / UTAMA -->
         <div id="tab-beranda" class="tab-content active">
-            <!-- Total Balance Card -->
             <div class="total-balance-card">
                 <div class="balance-label">Total Neraca Seluruh Kantong</div>
                 <div id="saldo" class="balance-amount">Rp 0</div>
                 <div id="status-anggaran" class="budget-status-pill">⚡ Status: Optimal</div>
             </div>
 
-            <!-- Multi-Pocket / Dompet Terpisah -->
+            <!-- Multi-Pocket Dana -->
             <div class="pocket-section-title">
                 <span>🎯 KANTONG DANA</span>
                 <span style="color: var(--accent-violet); cursor: pointer;" onclick="bukaModalTransfer()">+ Transfer</span>
@@ -475,7 +486,6 @@
                 </div>
             </div>
 
-            <!-- Metrics Grid -->
             <div class="inc-exp-grid">
                 <div class="inc-card">
                     <h5>PEMASUKAN BULAN INI</h5>
@@ -487,7 +497,6 @@
                 </div>
             </div>
 
-            <!-- Chart Visualization -->
             <div class="chart-box">
                 <h4>📊 ANALISIS STRUKTUR PENGELUARAN</h4>
                 <div class="chart-wrapper">
@@ -496,9 +505,59 @@
             </div>
         </div>
 
-        <!-- KATALOG 2: TAMBAH TRANSAKSI -->
+        <!-- KATALOG 2: QUANTUM LIFETIME WEALTH SIMULATION -->
+        <div id="tab-quantum" class="tab-content">
+            <div style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.15)); padding: 18px; border-radius: var(--radius-lg); border: 1px solid rgba(6, 182, 212, 0.3); margin-bottom: 16px;">
+                <h4 style="font-size: 14px; font-weight: 800; color: var(--accent-cyan); margin-bottom: 6px;">⚛️ QUANTUM LIFETIME WEALTH SIMULATOR</h4>
+                <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin-bottom: 14px;">
+                    Prediksi probabilitas nilai kekayaan pribadi 50–100 tahun ke depan memperhitungkan siklus hiper-inflasi, krisis makro iklim, dan akumulasi warisan generasional.
+                </p>
+
+                <label for="sim-horizon">HORIZON WAKTU SIMULASI:</label>
+                <select id="sim-horizon">
+                    <option value="50">50 Tahun Mendatang (1 Generasi)</option>
+                    <option value="100">100 Tahun Mendatang (Multi Generasi)</option>
+                </select>
+
+                <label for="sim-climate">RISIKO SHOCK MAKRO IKLIM & KRISIS:</label>
+                <select id="sim-climate">
+                    <option value="0.03">Rendah (Pertumbuhan Stabil ~3% Impak)</option>
+                    <option value="0.08" selected>Sedang (Shock Iklim & Inflasi Agresif ~8%)</option>
+                    <option value="0.15">Ekstrem (Siklus Hiper-Inflasi & Krisis Iklim ~15%)</option>
+                </select>
+
+                <label for="sim-inheritance">ALOKASI WARISAN LINTAS GENERASI (%):</label>
+                <input type="number" id="sim-inheritance" value="40" min="10" max="100" placeholder="Contoh: 40">
+
+                <button class="btn-primary" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet)); border:none;" onclick="jalankanSimulasiKuantum()">⚡ JALANKAN MESIN QUANTUM SIMULATION</button>
+            </div>
+
+            <!-- Ringkasan Hasil Quantum Simulation -->
+            <div class="quantum-grid">
+                <div class="quantum-card">
+                    <h6>ESTIMASI NILAIASET (MEDIAN)</h6>
+                    <p id="q-val-50">Rp 0</p>
+                </div>
+                <div class="quantum-card">
+                    <h6>LEGACY SCORE</h6>
+                    <p id="q-legacy-score">0 / 100</p>
+                </div>
+                <div class="quantum-card">
+                    <h6>KETAHANAN KRISIS</h6>
+                    <p id="q-survival-rate">0%</p>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <h4>📈 TRAJEKTORI BEBAS SEPANJANG ABAD (MONTE CARLO PROBABILITY)</h4>
+                <div class="chart-wrapper">
+                    <canvas id="chartQuantum"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- KATALOG 3: TAMBAH TRANSAKSI -->
         <div id="tab-transaksi" class="tab-content">
-            <!-- Input Form Transaksi -->
             <div style="background: rgba(0,0,0,0.15); padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 16px;">
                 <h4 id="form-title" style="font-size: 14px; font-weight: 800; color: var(--accent-violet); margin-bottom: 14px;">+ CATAT TRANSAKSI BARU</h4>
                 
@@ -547,9 +606,8 @@
             </div>
         </div>
 
-        <!-- KATALOG 3: RIWAYAT & LAPORAN -->
+        <!-- KATALOG 4: RIWAYAT & LAPORAN -->
         <div id="tab-riwayat" class="tab-content">
-            <!-- Filter Bulan -->
             <div class="filter-row">
                 <label for="filter-bulan">📅 PERIODE:</label>
                 <input type="month" id="filter-bulan" onchange="updateTampilan()">
@@ -580,18 +638,16 @@
             </div>
         </div>
 
-        <!-- KATALOG 4: PENGATURAN & LAINNYA -->
+        <!-- KATALOG 5: PENGATURAN -->
         <div id="tab-pengaturan" class="tab-content">
             <h4 style="font-size: 14px; font-weight: 800; color: var(--accent-violet); margin-bottom: 16px;">⚙️ PENGATURAN & ANGGARAN</h4>
 
-            <!-- Set Budget Section -->
             <div style="margin-bottom: 20px; background: rgba(0,0,0,0.15); padding: 16px; border-radius: var(--radius-lg); border: 1px solid var(--card-border);">
                 <label for="input-budget">🎯 BATAS PENGELUARAN BULANAN:</label>
                 <input type="text" id="input-budget" placeholder="Set Batas (misal: 2.000.000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
                 <small style="font-size: 11px; color: var(--text-secondary);">Peringatan otomatis akan aktif jika pengeluaran melebihi angka ini.</small>
             </div>
 
-            <!-- Management Tools -->
             <div style="display: flex; flex-direction: column; gap: 10px;">
                 <button class="btn-sub" onclick="bukaModalTransfer()" style="padding: 14px; text-align: left;">🔄 Transfer Antar Kantong Dana</button>
                 <button class="btn-sub" onclick="bukaAturPIN()" style="padding: 14px; text-align: left;">🔐 Ubah PIN Keamanan & Recovery</button>
@@ -600,11 +656,15 @@
         </div>
     </div>
 
-    <!-- FIXED BOTTOM NAVIGATION BAR (KATALOG SWITCHER) -->
+    <!-- FIXED BOTTOM NAVIGATION BAR -->
     <div class="bottom-nav">
         <div class="nav-item active" id="nav-beranda" onclick="switchTab('beranda')">
             <span class="icon">🏠</span>
             <span>Beranda</span>
+        </div>
+        <div class="nav-item" id="nav-quantum" onclick="switchTab('quantum')">
+            <span class="icon">⚛️</span>
+            <span>Quantum</span>
         </div>
         <div class="nav-item" id="nav-transaksi" onclick="switchTab('transaksi')">
             <span class="icon">➕</span>
@@ -616,7 +676,7 @@
         </div>
         <div class="nav-item" id="nav-pengaturan" onclick="switchTab('pengaturan')">
             <span class="icon">⚙️</span>
-            <span>Pengaturan</span>
+            <span>Atur</span>
         </div>
     </div>
 
@@ -659,6 +719,7 @@
         let selectedFilterPocket = 'semua';
         let editIndex = -1;
         let myChart = null;
+        let quantumChart = null;
 
         // Init Dates
         const now = new Date();
@@ -670,26 +731,19 @@
             if (navigator.vibrate) navigator.vibrate(20);
         }
 
-        // ================= TAB / CATALOG SWITCHER =================
+        // ================= TAB SWITCHER =================
         function switchTab(tabName) {
             triggerHaptic();
-            
-            // Hide all tab content
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            // Remove active status on bottom nav items
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
 
-            // Activate chosen tab and nav item
             document.getElementById(`tab-${tabName}`).classList.add('active');
             document.getElementById(`nav-${tabName}`).classList.add('active');
 
-            // Refresh chart if switching to beranda
             if (tabName === 'beranda') {
                 setTimeout(() => updateTampilan(), 50);
+            } else if (tabName === 'quantum') {
+                jalankanSimulasiKuantum();
             }
         }
 
@@ -708,6 +762,7 @@
             localStorage.setItem(KEY_LAST_LOGIN, Date.now().toString());
             document.getElementById('pin-screen').style.display = "none";
             prosesRecurringOtomatis();
+            updateTampilan();
         }
 
         function verifikasiPIN() {
@@ -764,16 +819,9 @@
                 let to = document.getElementById('modal-trans-to').value;
                 let amt = getUnformattedNumber(document.getElementById('modal-trans-amount').value);
 
-                if (from === to) {
-                    showCustomModal("❌ Kantong asal dan tujuan tidak boleh sama!", null, false);
-                    return;
-                }
-                if (amt <= 0) {
-                    showCustomModal("❌ Nominal transfer harus lebih dari 0!", null, false);
-                    return;
-                }
+                if (from === to) { showCustomModal("❌ Kantong asal dan tujuan tidak boleh sama!", null, false); return; }
+                if (amt <= 0) { showCustomModal("❌ Nominal transfer harus lebih dari 0!", null, false); return; }
 
-                // Buat 2 transaksi pengimbang
                 const tgl = new Date().toISOString().split('T')[0];
                 transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Transfer ke ${to}`, nominal: amt, jenis: 'keluar', pocket: from });
                 transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Transfer dari ${from}`, nominal: amt, jenis: 'masuk', pocket: to });
@@ -828,19 +876,12 @@
                 let jenis = document.getElementById('rec-jenis').value;
                 let day = parseInt(document.getElementById('rec-day').value) || 1;
 
-                if (!title || amt <= 0) {
-                    showCustomModal("❌ Data transaksi rutin tidak valid!", null, false);
-                    return;
-                }
+                if (!title || amt <= 0) { showCustomModal("❌ Data transaksi rutin tidak valid!", null, false); return; }
 
                 recurring.push({
-                    keterangan: title,
-                    nominal: amt,
-                    jenis: jenis,
+                    keterangan: title, nominal: amt, jenis: jenis,
                     kategori: jenis === 'keluar' ? 'Tagihan 📄' : 'Gaji 💰',
-                    day: day,
-                    pocket: 'utama',
-                    lastProcessed: ''
+                    day: day, pocket: 'utama', lastProcessed: ''
                 });
 
                 localStorage.setItem(KEY_RECURRING, JSON.stringify(recurring));
@@ -849,16 +890,98 @@
             }, true, htmlInputs);
         }
 
+        // ================= QUANTUM LIFETIME WEALTH ENGINE =================
+        function jalankanSimulasiKuantum() {
+            triggerHaptic();
+            let totalSaldoNet = (pockets.utama || 0) + (pockets.tabungan || 0) + (pockets.darurat || 0);
+
+            let totalMasuk = transaksi.filter(t => t.jenis === 'masuk').reduce((a, b) => a + b.nominal, 0);
+            let totalKeluar = transaksi.filter(t => t.jenis === 'keluar').reduce((a, b) => a + b.nominal, 0);
+
+            let estNetMonthly = totalMasuk > 0 ? (totalMasuk - totalKeluar) : 1500000;
+            let estAnnualFlow = Math.max(0, estNetMonthly * 12);
+
+            let horizonYears = parseInt(document.getElementById('sim-horizon').value) || 50;
+            let climateRiskDrag = parseFloat(document.getElementById('sim-climate').value) || 0.08;
+            let inheritanceRatio = (parseFloat(document.getElementById('sim-inheritance').value) || 40) / 100;
+
+            let yearsLabels = [];
+            let optimisticPath = [];
+            let medianPath = [];
+            let pessimisticPath = [];
+
+            let currOpt = totalSaldoNet;
+            let currMed = totalSaldoNet;
+            let currPes = totalSaldoNet;
+
+            for (let y = 1; y <= horizonYears; y++) {
+                if (horizonYears === 50 || y % 2 === 0) yearsLabels.push(`Thn ${y}`);
+
+                let optReturn = 0.09 - (climateRiskDrag * 0.2);
+                let medReturn = 0.06 - climateRiskDrag;
+                let pesReturn = 0.02 - (climateRiskDrag * 1.5);
+
+                currOpt = (currOpt + estAnnualFlow) * (1 + optReturn);
+                currMed = (currMed + estAnnualFlow) * (1 + medReturn);
+                currPes = (currPes + estAnnualFlow) * (1 + pesReturn);
+
+                // Transfer warisan generasi tiap 30 tahun
+                if (y % 30 === 0) {
+                    currOpt *= (1 - (1 - inheritanceRatio) * 0.15);
+                    currMed *= (1 - (1 - inheritanceRatio) * 0.25);
+                    currPes *= (1 - (1 - inheritanceRatio) * 0.35);
+                }
+
+                if (horizonYears === 50 || y % 2 === 0) {
+                    optimisticPath.push(Math.round(currOpt));
+                    medianPath.push(Math.round(currMed));
+                    pessimisticPath.push(Math.round(Math.max(0, currPes)));
+                }
+            }
+
+            document.getElementById('q-val-50').innerText = formatRupiah(currMed);
+            let score = Math.min(99, Math.max(12, Math.round((currMed / (totalSaldoNet + 1000000)) * 8)));
+            document.getElementById('q-legacy-score').innerText = `${score} / 100`;
+            let survivalRate = Math.min(98, Math.max(20, Math.round(100 - (climateRiskDrag * 400))));
+            document.getElementById('q-survival-rate').innerText = `${survivalRate}%`;
+
+            renderChartKuantum(yearsLabels, optimisticPath, medianPath, pessimisticPath);
+        }
+
+        function renderChartKuantum(labels, opt, med, pes) {
+            let ctx = document.getElementById('chartQuantum').getContext('2d');
+            if (quantumChart) quantumChart.destroy();
+
+            quantumChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Optimis (Superposition Best)', data: opt, borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.1)', fill: false, tension: 0.3 },
+                        { label: 'Median (Proyeksi Normal)', data: med, borderColor: '#8b5cf6', backgroundColor: 'rgba(139, 92, 246, 0.1)', fill: false, tension: 0.3 },
+                        { label: 'Pessimistic (Shock Iklim)', data: pes, borderColor: '#f43f5e', backgroundColor: 'rgba(244, 63, 94, 0.1)', fill: false, tension: 0.3 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 9 } } }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#94a3b8', font: { size: 9 } }, grid: { display: false } },
+                        y: { ticks: { color: '#94a3b8', font: { size: 8 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+        }
+
         // ================= AI FINANCIAL ADVISOR =================
         function toggleAIChat() {
             triggerHaptic();
             const drawer = document.getElementById('ai-chat-drawer');
-            if (drawer.style.display === 'flex') {
-                drawer.style.display = 'none';
-            } else {
-                drawer.style.display = 'flex';
-                tanyaAI('analisis');
-            }
+            if (drawer.style.display === 'flex') drawer.style.display = 'none';
+            else { drawer.style.display = 'flex'; tanyaAI('analisis'); }
         }
 
         function tanyaAI(tipe) {
@@ -877,20 +1000,20 @@
 
             if (tipe === 'analisis') {
                 if (dataBulan.length === 0) {
-                    aiBody.innerHTML = `Woi wakkk, bulan <b>${filterBulan}</b> ini belum ada transaksi sama sekali! Yuk mulai catat pengeluaran atau pemasukanmu biar gak gaib dompetnya. 🔥`;
+                    aiBody.innerHTML = `Woi wakkk, bulan <b>${filterBulan}</b> ini belum ada transaksi! Yuk mulai catat pengeluaran atau pemasukanmu biar gak gaib dompetnya. 🔥`;
                 } else if (batasBudget > 0 && totalKeluar > batasBudget) {
-                    aiBody.innerHTML = `🚨 <b>ALAMAK WAKKK!</b> Pengeluaran kamu bulan ini udah <b>${formatRupiah(totalKeluar)}</b>, melebihi batas budget (${formatRupiah(batasBudget)})! Paling banyak habis di <b>${topKat}</b> (${persenTop}%). Rem dulu jajan kamu wakkk! 🛑`;
+                    aiBody.innerHTML = `🚨 <b>ALAMAK WAKKK!</b> Pengeluaran kamu bulan ini <b>${formatRupiah(totalKeluar)}</b> melebih batas budget (${formatRupiah(batasBudget)})! Paling boros di <b>${topKat}</b> (${persenTop}%). Rem dulu jajan kamu wakkk! 🛑`;
                 } else {
-                    aiBody.innerHTML = `Woi wakkk! Bulan ini pengeluaranmu terdeteksi <b>${formatRupiah(totalKeluar)}</b>. Pengeluaran paling boros ada di kategori <b>${topKat}</b> sebesar ${persenTop}%. Masih aman dan terkendali, mantap wakkk! 💪`;
+                    aiBody.innerHTML = `Woi wakkk! Bulan ini pengeluaranmu <b>${formatRupiah(totalKeluar)}</b>. Pengeluaran terbanyak ada di kategori <b>${topKat}</b> (${persenTop}%). Masih terkendali mantap wakkk! 💪`;
                 }
             } else if (tipe === 'tips') {
-                aiBody.innerHTML = `💡 <b>Tips Hemat Wakkk:</b><br>1. Alokasikan 20% pemasukan langsung ke <b>Dana Darurat</b>.<br>2. Kalau mau beli barang hobi, tunggu 3 hari dulu wakkk biar gak impulsif.<br>3. Catat sekecil apapun pengeluaran di Dompetku!`;
+                aiBody.innerHTML = `💡 <b>Tips Quantum Wakkk:</b><br>1. Alokasikan 20% pemasukan langsung ke <b>Dana Darurat</b>.<br>2. Gunakan Simulasi Quantum untuk memastikan kekayaanmu mampu bertahan hingga 50-100 tahun ke depan!`;
             } else if (tipe === 'kantong') {
-                aiBody.innerHTML = `🎯 <b>Ringkasan Kantong Kamu:</b><br>• Utama: ${document.getElementById('val-pocket-utama').innerText}<br>• Tabungan: ${document.getElementById('val-pocket-tabungan').innerText}<br>• Darurat: ${document.getElementById('val-pocket-darurat').innerText}<br><br>Gunakan fitur transfer antar kantong biar tabungan gak kepakai!`;
+                aiBody.innerHTML = `🎯 <b>Ringkasan Kantong Kamu:</b><br>• Utama: ${document.getElementById('val-pocket-utama').innerText}<br>• Tabungan: ${document.getElementById('val-pocket-tabungan').innerText}<br>• Darurat: ${document.getElementById('val-pocket-darurat').innerText}`;
             }
         }
 
-        // ================= CORE RENDER & ENGINE =================
+        // ================= CORE RENDER ENGINE =================
         function updateTampilan() {
             let listRiwayat = document.getElementById('list-riwayat');
             let filterKategori = document.getElementById('filter-kategori').value;
@@ -941,7 +1064,9 @@
                 listRiwayat.appendChild(li);
             });
 
-            // Update Pocket Visuals
+            pockets = pBal;
+            localStorage.setItem(KEY_POCKETS, JSON.stringify(pockets));
+
             document.getElementById('val-pocket-utama').innerText = formatRupiah(pBal.utama || 0);
             document.getElementById('val-pocket-tabungan').innerText = formatRupiah(pBal.tabungan || 0);
             document.getElementById('val-pocket-darurat').innerText = formatRupiah(pBal.darurat || 0);
@@ -997,7 +1122,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 10 } } }
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } }
                     }
                 }
             });
@@ -1019,18 +1144,11 @@
             let nominal = getUnformattedNumber(document.getElementById('nominal').value);
             let pocketTarget = document.getElementById('select-pocket-target').value;
 
-            if (nominal <= 0) {
-                showCustomModal("❌ Nominal transaksi harus lebih dari 0!", null, false);
-                return;
-            }
+            if (nominal <= 0) { showCustomModal("❌ Nominal transaksi harus lebih dari 0!", null, false); return; }
 
             let dataTransaksi = {
-                tanggal: tanggal,
-                kategori: kategori,
-                keterangan: keterangan || "-",
-                nominal: nominal,
-                jenis: selectedJenis,
-                pocket: pocketTarget
+                tanggal: tanggal, kategori: kategori, keterangan: keterangan || "-",
+                nominal: nominal, jenis: selectedJenis, pocket: pocketTarget
             };
 
             if (editIndex === -1) {
@@ -1047,7 +1165,7 @@
             if (tanggal) document.getElementById('filter-bulan').value = tanggal.slice(0, 7);
 
             updateTampilan();
-            switchTab('riwayat'); // Otomatis pindah ke katalog riwayat setelah simpan
+            switchTab('riwayat');
         }
 
         function editData(index) {
@@ -1055,7 +1173,7 @@
             editIndex = index;
             let item = transaksi[index];
 
-            switchTab('transaksi'); // Pindah ke tab transaksi untuk edit
+            switchTab('transaksi');
 
             document.getElementById('tanggal').value = item.tanggal;
             document.getElementById('kategori').value = item.kategori;
@@ -1107,13 +1225,10 @@
             modal.style.display = "flex";
 
             document.getElementById('modal-confirm-btn').onclick = function() {
-                triggerHaptic();
-                modal.style.display = "none";
-                if (onConfirm) onConfirm();
+                triggerHaptic(); modal.style.display = "none"; if (onConfirm) onConfirm();
             };
             document.getElementById('modal-cancel-btn').onclick = function() {
-                triggerHaptic();
-                modal.style.display = "none";
+                triggerHaptic(); modal.style.display = "none";
             };
         }
 
@@ -1184,17 +1299,18 @@
             showCustomModal("⚠️ WARNING! Yakin hapus seluruh database?", function() {
                 transaksi = [];
                 recurring = [];
+                pockets = { utama: 0, tabungan: 0, darurat: 0 };
                 localStorage.removeItem(KEY_TRANSAKSI);
                 localStorage.removeItem(KEY_RECURRING);
+                localStorage.removeItem(KEY_POCKETS);
                 updateTampilan();
             });
         }
 
-        // App Init
+        // Init App
         window.onload = function() {
             cekSessionLogin();
             if (batasBudget > 0) document.getElementById('input-budget').value = batasBudget.toLocaleString('id-ID');
-            updateTampilan();
         };
     </script>
 </body>
