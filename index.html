@@ -3,435 +3,458 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dompetku v0.1 (gacor banget wakkk) — Quantum Core 2126</title>
+    <title>Dompetku v0.1 (gacor banget wakkk)</title>
     
-    <!-- Meta Tags Mobile & PWA -->
-    <meta name="theme-color" content="#03050d">
+    <!-- Meta Tags & Theme Color -->
+    <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Google Fonts Sci-Fi Futuristic 100 Tahun Ke Depan -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-body: #03050d;
-            --bg-card: rgba(10, 16, 32, 0.85);
-            --neon-cyan: #00f3ff;
-            --neon-magenta: #ff007f;
-            --neon-green: #00ffaa;
-            --neon-gold: #ffcc00;
-            --neon-purple: #9d00ff;
-            --text-main: #ffffff;
-            --text-sub: #7e8b9b;
-            --border-glow: rgba(0, 243, 255, 0.4);
-            --glass-blur: blur(20px);
+            --bg-main: #0b0f19;
+            --card-glass: rgba(22, 30, 49, 0.75);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --accent-violet: #8b5cf6;
+            --accent-amber: #f59e0b;
+            --accent-sky: #0284c7;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --radius-xl: 28px;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --glass-blur: blur(24px);
         }
 
         .light-theme {
-            --bg-body: #080e1e;
-            --bg-card: rgba(18, 28, 52, 0.9);
-            --text-sub: #94a3b8;
-            --border-glow: rgba(0, 243, 255, 0.6);
+            --bg-main: #f1f5f9;
+            --card-glass: rgba(255, 255, 255, 0.82);
+            --card-border: rgba(0, 0, 0, 0.08);
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Rajdhani', sans-serif; 
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             -webkit-tap-highlight-color: transparent;
         }
 
-        body { 
-            background: var(--bg-body);
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(255, 0, 127, 0.1) 0%, transparent 40%),
-                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
-            min-height: 100vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 15px; 
-            color: var(--text-main);
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 16px;
             overflow-x: hidden;
+            position: relative;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1.5px;
-            text-shadow: 0 0 12px var(--neon-cyan);
+        /* Ambient Aurora Animated Background */
+        .aurora-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; overflow: hidden; pointer-events: none;
+        }
+        .aurora-blob {
+            position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.45;
+            animation: floatAurora 18s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .aurora-1 { width: 320px; height: 320px; background: var(--accent-violet); top: -80px; left: -60px; }
+        .aurora-2 { width: 360px; height: 360px; background: var(--accent-emerald); bottom: -100px; right: -80px; animation-delay: -5s; }
+        .aurora-3 { width: 280px; height: 280px; background: var(--accent-rose); top: 40%; left: 30%; animation-delay: -10s; }
+
+        @keyframes floatAurora {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, 80px) scale(1.15); }
+            100% { transform: translate(-40px, 40px) scale(0.9); }
         }
 
-        /* Container Cyber HUD */
-        .container { 
-            width: 100%; 
-            max-width: 450px; 
-            background: var(--bg-card); 
+        /* Container Layout */
+        .app-container {
+            width: 100%;
+            max-width: 460px;
+            background: var(--card-glass);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border-glow);
-            border-radius: 24px; 
-            padding: 22px; 
-            box-shadow: 0 0 40px rgba(0, 243, 255, 0.15), inset 0 0 20px rgba(0, 243, 255, 0.05);
-            position: relative;
-            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            margin-bottom: 80px;
+            animation: popUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Scanline Overlay */
-        .container::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px;
-            z-index: 10;
-            pointer-events: none;
-            opacity: 0.3;
+        @keyframes popUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Header (Tanpa Tulisan Versi) */
-        .header-app { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(0, 243, 255, 0.3);
-            padding-bottom: 14px;
-        }
-        .header-app h2 { 
-            font-size: 22px; 
-            color: var(--neon-cyan);
+        /* Header UI */
+        .header-bar {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
+            margin-bottom: 22px;
         }
-        .header-actions { display: flex; gap: 8px; z-index: 11; }
-        .icon-btn { 
-            background: rgba(0, 243, 255, 0.08); 
-            border: 1px solid var(--neon-cyan); 
-            color: var(--neon-cyan);
-            font-size: 16px; 
-            cursor: pointer; 
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 12px rgba(0, 243, 255, 0.2);
+        .brand-title h2 {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .icon-btn:active { transform: scale(0.9); }
+        .header-actions { display: flex; gap: 10px; }
+        .icon-btn-rounded {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--card-border);
+            color: var(--text-primary); font-size: 16px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .icon-btn-rounded:active { transform: scale(0.88); }
 
-        /* Lock Screen PIN & Biometric WebAuthn */
+        /* Lock Screen PIN & Biometric */
         .pin-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 5, 13, 0.96); 
-            backdrop-filter: blur(30px);
-            display: flex; justify-content: center; align-items: center; z-index: 9999;
+            background: rgba(11, 15, 25, 0.95); backdrop-filter: blur(25px);
+            display: flex; justify-content: center; align-items: center; z-index: 99999;
         }
-        .pin-box {
-            background: rgba(10, 16, 32, 0.95); 
-            padding: 32px 26px; 
-            border-radius: 24px; 
-            text-align: center;
-            width: 90%; max-width: 350px; color: white; 
-            border: 1px solid var(--neon-cyan);
-            box-shadow: 0 0 50px rgba(0, 243, 255, 0.3);
-            position: relative;
+        .pin-card {
+            background: var(--card-glass); border: 1px solid var(--card-border);
+            padding: 32px 28px; border-radius: var(--radius-xl); text-align: center;
+            width: 90%; max-width: 360px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
         }
-        .pin-box h3 { color: var(--neon-cyan); font-size: 18px; margin-bottom: 15px; }
-        .pin-box input {
-            width: 100%; padding: 14px; margin: 15px 0; text-align: center; font-size: 26px;
-            letter-spacing: 12px; border-radius: 12px; border: 1px solid var(--neon-cyan); 
-            background: rgba(0, 0, 0, 0.7); color: var(--neon-cyan); outline: none;
-            box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.2);
-            font-family: 'Orbitron', sans-serif;
+        .pin-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+        .pin-card input {
+            width: 100%; padding: 14px; text-align: center; font-size: 26px;
+            letter-spacing: 12px; border-radius: var(--radius-md); border: 1px solid var(--card-border);
+            background: rgba(0,0,0,0.25); color: var(--text-primary); outline: none; margin-bottom: 14px;
         }
-        .pin-box button {
-            width: 100%; padding: 14px; margin-top: 8px;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); 
-            color: #fff; border: none; border-radius: 12px; font-weight: 700; 
-            cursor: pointer; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+
+        /* Buttons */
+        .btn-primary {
+            width: 100%; padding: 14px; border: none; border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--accent-violet), #6366f1);
+            color: white; font-weight: 700; font-size: 14px; cursor: pointer;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3); margin-top: 6px;
         }
+        .btn-primary:active { transform: scale(0.97); }
         .btn-bio {
-            background: rgba(0, 255, 170, 0.15) !important;
-            border: 1px solid var(--neon-green) !important;
-            color: var(--neon-green) !important;
-            margin-top: 10px !important;
-        }
-        .pin-link { font-size: 13px; color: var(--neon-cyan); cursor: pointer; text-decoration: underline; margin-top: 16px; display: inline-block; }
-
-        /* Quantum Hologram ATM Card 2126 */
-        .saldo { 
-            background: linear-gradient(135deg, rgba(157,0,255,0.35), rgba(0,243,255,0.15)); 
-            border: 1px solid var(--neon-cyan);
-            padding: 20px; border-radius: 20px; color: white; height: 185px;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.1);
-            position: relative; overflow: hidden; margin-bottom: 20px;
-            display: flex; flex-direction: column; justify-content: space-between;
-        }
-        .saldo::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0, 243, 255, 0.12), transparent);
-            transform: rotate(45deg); animation: holoGlow 7s infinite linear;
-        }
-        @keyframes holoGlow { 0% { transform: translate(-30%, -30%) rotate(45deg); } 100% { transform: translate(30%, 30%) rotate(45deg); } }
-        
-        .card-top, .card-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-sub); z-index: 2;}
-        .card-middle { text-align: center; z-index: 2; }
-        .card-middle h4 { font-size: 11px; color: var(--text-sub); font-weight: 600; letter-spacing: 1px; }
-        .card-middle h1 { font-size: 28px; margin: 4px 0; color: #fff; text-shadow: 0 0 15px var(--neon-cyan); font-family: 'Orbitron', sans-serif;}
-        
-        .status-badge {
-            display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 10px; font-weight: 700;
-            background: rgba(0, 255, 170, 0.15); border: 1px solid var(--neon-green); color: var(--neon-green);
-        }
-        .saldo.kritis {
-            background: linear-gradient(135deg, rgba(255,0,127,0.4), rgba(30,0,15,0.85));
-            border-color: var(--neon-magenta); box-shadow: 0 0 30px rgba(255, 0, 127, 0.4);
-        }
-        .saldo.kritis .status-badge {
-            background: rgba(255, 0, 127, 0.2); border-color: var(--neon-magenta); color: var(--neon-magenta);
+            background: rgba(16, 185, 129, 0.15) !important;
+            border: 1px solid var(--accent-emerald) !important;
+            color: var(--accent-emerald) !important;
+            box-shadow: none !important;
         }
 
-        /* Inputs & Form Controls High Contrast */
-        label { font-size: 12px; color: var(--text-sub); margin-bottom: 5px; display: block; font-weight: 600; }
-        input, select {
-            width: 100%; padding: 12px 14px; margin-bottom: 12px;
-            border: 1px solid rgba(0, 243, 255, 0.3); background: rgba(0, 0, 0, 0.6);
-            border-radius: 12px; color: #ffffff; outline: none; font-size: 14px;
-            font-weight: 600; z-index: 11; position: relative;
-        }
-        select option {
-            background-color: #080e1e;
-            color: #ffffff;
-            padding: 10px;
-        }
-        input:focus, select:focus { 
-            border-color: var(--neon-cyan); 
-            box-shadow: 0 0 14px rgba(0, 243, 255, 0.4); 
-        }
-
-        /* Segmented Button (Pengeluaran/Pemasukan) */
-        .jenis-selector { display: flex; gap: 10px; margin-bottom: 14px; }
-        .jenis-btn {
-            flex: 1; padding: 12px; border-radius: 12px; text-align: center;
-            font-weight: 700; font-size: 13px; cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4);
-            color: var(--text-sub); user-select: none;
-        }
-        .jenis-btn.active-masuk {
-            background: rgba(0, 255, 170, 0.2); border-color: var(--neon-green);
-            color: var(--neon-green); box-shadow: 0 0 14px rgba(0, 255, 170, 0.3);
-        }
-        .jenis-btn.active-keluar {
-            background: rgba(255, 0, 127, 0.2); border-color: var(--neon-magenta);
-            color: var(--neon-magenta); box-shadow: 0 0 14px rgba(255, 0, 127, 0.3);
-        }
-
-        /* Dashboard Cards Grid */
-        .card-group { display: flex; gap: 12px; margin-bottom: 20px; }
-        .card-group .card { 
-            flex: 1; padding: 14px; border-radius: 16px; text-align: center;
-            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 243, 255, 0.15);
-        }
-        .card-group .card h4 { font-size: 11px; color: var(--text-sub); margin-bottom: 4px; }
-        .card-group .card p { font-size: 16px; font-weight: 700; font-family: 'Orbitron', sans-serif; }
-
-        /* Filter Bulan Section */
-        .month-filter-box {
-            background: rgba(0, 243, 255, 0.05);
-            border: 1px solid rgba(0, 243, 255, 0.25);
-            padding: 12px 14px;
-            border-radius: 16px;
+        /* Total Balance Card */
+        .total-balance-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(16, 185, 129, 0.15));
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            position: relative; overflow: hidden;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
         }
-        .month-filter-box label { margin-bottom: 0; white-space: nowrap; color: var(--neon-cyan); }
-        .month-filter-box input[type="month"] { margin-bottom: 0; padding: 8px 10px; font-size: 13px; }
+        .balance-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 600; }
+        .balance-amount { font-size: 32px; font-weight: 800; margin: 6px 0; color: #ffffff; }
+        .budget-status-pill {
+            display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px;
+            border-radius: 30px; font-size: 11px; font-weight: 700;
+            background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .budget-status-pill.kritis {
+            background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); border-color: rgba(244, 63, 94, 0.3);
+        }
+
+        /* Multi-Pocket Carousel / Grid */
+        .pocket-section-title {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 10px;
+        }
+        .pocket-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;
+        }
+        .pocket-card {
+            background: rgba(255, 255, 255, 0.04); border: 1px solid var(--card-border);
+            padding: 12px 10px; border-radius: var(--radius-md); text-align: center;
+            cursor: pointer; position: relative;
+        }
+        .pocket-card:hover, .pocket-card.active {
+            border-color: var(--accent-violet); background: rgba(139, 92, 246, 0.12);
+            transform: translateY(-2px);
+        }
+        .pocket-icon { font-size: 20px; margin-bottom: 4px; }
+        .pocket-name { font-size: 11px; font-weight: 700; color: var(--text-primary); }
+        .pocket-val { font-size: 12px; font-weight: 800; color: var(--accent-emerald); margin-top: 2px; }
+
+        /* Segmented Filter Bulan & Inputs */
+        .filter-row {
+            display: flex; gap: 10px; align-items: center; margin-bottom: 18px;
+            background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: var(--radius-md);
+            border: 1px solid var(--card-border);
+        }
+        .filter-row label { font-size: 12px; font-weight: 700; color: var(--text-secondary); white-space: nowrap; }
+        .filter-row input[type="month"] {
+            border: none; background: transparent; color: var(--text-primary);
+            font-size: 13px; font-weight: 700; outline: none; width: 100%; cursor: pointer;
+        }
+
+        /* Income vs Expense Quick Cards */
+        .inc-exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .inc-card, .exp-card {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
+            padding: 14px; border-radius: var(--radius-lg); text-align: center;
+        }
+        .inc-card h5, .exp-card h5 { font-size: 11px; color: var(--text-secondary); font-weight: 600; margin-bottom: 4px; }
+        .inc-card p { font-size: 16px; font-weight: 800; color: var(--accent-emerald); }
+        .exp-card p { font-size: 16px; font-weight: 800; color: var(--accent-rose); }
 
         /* Chart Section */
-        .chart-section {
-            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 243, 255, 0.2);
-            padding: 16px; border-radius: 20px; margin-bottom: 20px; text-align: center;
+        .chart-box {
+            background: rgba(0, 0, 0, 0.2); border: 1px solid var(--card-border);
+            padding: 16px; border-radius: var(--radius-lg); margin-bottom: 22px;
         }
-        .chart-section h3 { font-size: 13px; color: var(--neon-cyan); margin-bottom: 12px; }
-        .chart-container { position: relative; height: 190px; width: 100%; display: flex; justify-content: center; }
+        .chart-box h4 { font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 12px; text-align: center; }
+        .chart-wrapper { position: relative; height: 180px; width: 100%; }
 
-        /* Buttons Futuristic */
-        .btn-simpan { 
-            width: 100%; padding: 14px; border: none; border-radius: 12px; 
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); 
-            color: #fff; font-weight: 700; cursor: pointer; font-size: 14px; 
-            font-family: 'Orbitron', sans-serif; margin-bottom: 10px;
-            box-shadow: 0 0 18px rgba(0, 243, 255, 0.35);
+        /* Form Inputs */
+        label { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block; }
+        input, select {
+            width: 100%; padding: 12px 14px; margin-bottom: 12px;
+            border: 1px solid var(--card-border); background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-md); color: var(--text-primary); outline: none; font-size: 14px; font-weight: 600;
         }
-        .btn-batal { background: var(--neon-magenta); color: white; display: none; }
-        .btn-simpan:active, .btn-batal:active { transform: scale(0.97); }
+        select option { background-color: #0f172a; color: #ffffff; }
+        input:focus, select:focus { border-color: var(--accent-violet); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
 
-        /* Transaction History */
-        .history-section { margin-top: 25px; }
-        .history-header { display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .type-selector { display: flex; gap: 10px; margin-bottom: 14px; }
+        .type-btn {
+            flex: 1; padding: 12px; border-radius: var(--radius-md); text-align: center;
+            font-weight: 700; font-size: 13px; cursor: pointer; border: 1px solid var(--card-border);
+            background: rgba(0, 0, 0, 0.2); color: var(--text-secondary); user-select: none;
+        }
+        .type-btn.active-keluar { background: rgba(244, 63, 94, 0.15); border-color: var(--accent-rose); color: var(--accent-rose); }
+        .type-btn.active-masuk { background: rgba(16, 185, 129, 0.15); border-color: var(--accent-emerald); color: var(--accent-emerald); }
+
+        /* History Log List */
+        .history-list { list-style: none; margin-top: 10px; }
+        .history-item {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border);
+            padding: 14px; border-radius: var(--radius-md); margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        ul { list-style: none; }
-        li { 
-            background: rgba(0, 0, 0, 0.45); padding: 12px 14px; border-radius: 14px; margin-bottom: 10px;
-            border: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;
-        }
-        li:hover { border-color: var(--neon-cyan); }
-        .action-btns { display: flex; gap: 6px; }
-        .edit-btn, .delete-btn {
-            border: none; padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; color: white;
-            font-weight: 600;
-        }
-        .edit-btn { background: rgba(0, 243, 255, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); }
-        .delete-btn { background: rgba(255, 0, 127, 0.15); border: 1px solid var(--neon-magenta); color: var(--neon-magenta); }
+        .item-info small { font-size: 10px; color: var(--text-secondary); }
+        .item-info div { font-weight: 700; font-size: 14px; margin: 2px 0; }
+        .item-val { font-weight: 800; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .item-actions { display: flex; gap: 6px; margin-top: 4px; }
+        .action-chip { border: none; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; }
+        .chip-edit { background: rgba(139, 92, 246, 0.2); color: var(--accent-violet); }
+        .chip-del { background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); }
 
-        /* Export / Reset */
-        .export-group { display: flex; gap: 10px; margin-top: 15px; }
-        .btn-export { 
-            flex: 1; padding: 11px; background: rgba(0, 243, 255, 0.05); border: 1px solid var(--neon-cyan); 
-            color: var(--neon-cyan); border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer;
+        /* Floating AI Advisor Widget */
+        .ai-floating-btn {
+            position: fixed; bottom: 20px; right: 20px; z-index: 999;
+            width: 56px; height: 56px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-violet), var(--accent-sky));
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; cursor: pointer; border: 2px solid rgba(255,255,255,0.4);
+            animation: pulseGlow 3s infinite;
         }
-        .btn-export:hover { background: var(--neon-cyan); color: #000; }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5); }
+            50% { transform: scale(1.08); box-shadow: 0 15px 35px rgba(139, 92, 246, 0.8); }
+        }
 
-        .reset-btn { 
-            width: 100%; padding: 12px; margin-top: 15px; background: transparent; 
-            color: var(--neon-magenta); border: 1px solid var(--neon-magenta); border-radius: 12px; font-weight: 700; cursor: pointer;
+        .ai-chat-drawer {
+            position: fixed; bottom: 86px; right: 20px; width: 90%; max-width: 360px;
+            background: var(--card-glass); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+            padding: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            display: none; flex-direction: column; gap: 12px; z-index: 998;
+            animation: drawerUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .reset-btn:hover { background: var(--neon-magenta); color: white; }
+        @keyframes drawerUp { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        .ai-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 8px; }
+        .ai-header h4 { font-size: 14px; font-weight: 800; color: var(--accent-violet); display: flex; align-items: center; gap: 6px; }
+        .ai-body { font-size: 13px; line-height: 1.5; color: var(--text-primary); max-height: 220px; overflow-y: auto; }
+        .ai-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+        .ai-chip-btn {
+            background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
+            padding: 6px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; color: var(--text-secondary); cursor: pointer;
+        }
+        .ai-chip-btn:hover { background: var(--accent-violet); color: white; }
+
+        /* Export/Reset Button Group */
+        .action-group { display: flex; gap: 10px; margin-top: 18px; }
+        .btn-sub {
+            flex: 1; padding: 11px; background: rgba(255,255,255,0.05); border: 1px solid var(--card-border);
+            color: var(--text-primary); border-radius: var(--radius-md); font-size: 12px; font-weight: 700; cursor: pointer;
+        }
+        .btn-danger { background: rgba(244, 63, 94, 0.15); border-color: var(--accent-rose); color: var(--accent-rose); width: 100%; margin-top: 10px; }
 
         /* Modal Overlay */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 5, 13, 0.88); backdrop-filter: blur(18px); 
-            display: none; justify-content: center; align-items: center; z-index: 10000;
+            background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(16px);
+            display: none; justify-content: center; align-items: center; z-index: 100000;
         }
         .modal-box {
-            background: rgba(10, 16, 32, 0.95); border: 1px solid var(--neon-cyan);
-            padding: 24px; border-radius: 20px; width: 85%; max-width: 330px; text-align: center;
-            box-shadow: 0 0 35px rgba(0, 243, 255, 0.3);
+            background: var(--card-glass); border: 1px solid var(--card-border);
+            padding: 24px; border-radius: var(--radius-lg); width: 88%; max-width: 340px; text-align: center;
         }
-        .modal-box p { margin-bottom: 15px; font-size: 14px; color: #fff; }
-        .modal-btns { display: flex; gap: 10px; justify-content: center; }
-        .modal-btns button {
-            flex: 1; padding: 10px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;
-        }
-        .modal-btn-confirm { background: var(--neon-cyan); color: #000; }
-        .modal-btn-cancel { background: rgba(255, 0, 127, 0.2); border: 1px solid var(--neon-magenta); color: var(--neon-magenta); }
+        .modal-btns { display: flex; gap: 10px; margin-top: 16px; }
+        .modal-btns button { flex: 1; padding: 10px; border: none; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; }
+        .btn-confirm { background: var(--accent-violet); color: white; }
+        .btn-cancel { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
     </style>
 </head>
 <body>
 
-    <!-- Lock Screen Cyber PIN & Biometric -->
+    <!-- Ambient Aurora Background -->
+    <div class="aurora-container">
+        <div class="aurora-blob aurora-1"></div>
+        <div class="aurora-blob aurora-2"></div>
+        <div class="aurora-blob aurora-3"></div>
+    </div>
+
+    <!-- Lock Screen (PIN & WebAuthn Biometric) -->
     <div id="pin-screen" class="pin-overlay">
-        <div class="pin-box">
-            <h3>🔒 CYBER CORE SECURITY</h3>
+        <div class="pin-card">
+            <h3>🔐 Keamanan Dompetku</h3>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;">Masukkan PIN atau Biometrik HP Anda</p>
             <input type="password" id="pin-input" maxlength="6" placeholder="••••" autocomplete="off">
-            <button onclick="verifikasiPIN()">OTENTIKASI PIN</button>
-            <button class="btn-bio" onclick="loginBiometric()">👆 BIOMETRIC / FACEID</button>
-            <div>
-                <span class="pin-link" onclick="lupaPIN()">Lupa PIN?</span>
-            </div>
+            <button class="btn-primary" onclick="verifikasiPIN()">Buka Aplikasi</button>
+            <button class="btn-primary btn-bio" onclick="loginBiometric()">👆 Fingerprint / FaceID</button>
+            <p style="font-size: 12px; color: var(--accent-violet); margin-top: 14px; cursor: pointer;" onclick="lupaPIN()">Lupa PIN?</p>
         </div>
     </div>
 
-    <!-- Modal Hologram -->
+    <!-- Custom Modal Popup -->
     <div id="custom-modal" class="modal-overlay">
         <div class="modal-box">
-            <p id="modal-text">Notifikasi Sistem</p>
+            <p id="modal-text" style="font-size: 14px; font-weight: 600;"></p>
             <div id="modal-input-container"></div>
             <div class="modal-btns">
-                <button id="modal-cancel-btn" class="modal-btn-cancel">Batal</button>
-                <button id="modal-confirm-btn" class="modal-btn-confirm">Proses</button>
+                <button id="modal-cancel-btn" class="btn-cancel">Batal</button>
+                <button id="modal-confirm-btn" class="btn-confirm">Lanjutkan</button>
             </div>
         </div>
     </div>
 
-    <!-- App Main Container -->
-    <div class="container">
-        <!-- Header (Tulisan Versi Dihapus Total) -->
-        <div class="header-app">
-            <h2>DOMPETKU</h2>
+    <!-- Main Application UI -->
+    <div class="app-container">
+        <!-- Header Bar -->
+        <div class="header-bar">
+            <div class="brand-title">
+                <h2>DOMPETKU</h2>
+            </div>
             <div class="header-actions">
-                <button class="icon-btn" title="Atur PIN Keamanan" onclick="bukaAturPIN()">⚙️</button>
-                <button id="theme-toggle" class="icon-btn" onclick="toggleTheme()">🌙</button>
-            </div>
-        </div>
-        
-        <div class="dashboard">
-            <!-- Quantum ATM Card -->
-            <div class="card saldo" id="kartu-atm">
-                <div class="card-top">
-                    <span>QUANTUM CORE</span>
-                    <span>⚡ HYPER-VAULT 2126</span>
-                </div>
-                <div class="card-middle">
-                    <h4>TOTAL SALDO TERSEDIA</h4>
-                    <h1 id="saldo">Rp 0</h1>
-                    <span id="status-anggaran" class="status-badge">STATUS: OPTIMAL</span>
-                </div>
-                <div class="card-bottom">
-                    <span>ID: **** 2076</span>
-                    <span style="color: var(--neon-cyan); font-weight: bold;">GACOR CORE</span>
-                </div>
-            </div>
-
-            <!-- Filter Bulan (Monthly Filter) -->
-            <div class="month-filter-box">
-                <label for="filter-bulan">📅 PERIODE BULAN:</label>
-                <input type="month" id="filter-bulan" onchange="updateTampilan()">
-            </div>
-
-            <!-- Batas Anggaran -->
-            <div style="margin-bottom: 15px;">
-                <label for="input-budget">🎯 BATAS ANGGARAN (PENGELUARAN):</label>
-                <input type="text" id="input-budget" placeholder="Set Batas (Misal: 1.000.000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
-            </div>
-
-            <div class="card-group">
-                <div class="card">
-                    <h4>PEMASUKAN</h4>
-                    <p id="pemasukan" style="color: var(--neon-green);">Rp 0</p>
-                </div>
-                <div class="card">
-                    <h4>PENGELUARAN</h4>
-                    <p id="pengeluaran" style="color: var(--neon-magenta);">Rp 0</p>
-                </div>
-            </div>
-
-            <!-- Visualisasi Chart.js -->
-            <div class="chart-section">
-                <h3>📊 ANALISIS STRUKTUR KEUANGAN BULANAN</h3>
-                <div class="chart-container">
-                    <canvas id="chartPengeluaran"></canvas>
-                </div>
+                <button class="icon-btn-rounded" title="Kelola Kantong & Transfer" onclick="bukaModalTransfer()">🔄</button>
+                <button class="icon-btn-rounded" title="Atur PIN Keamanan" onclick="bukaAturPIN()">⚙️</button>
+                <button id="theme-toggle" class="icon-btn-rounded" onclick="toggleTheme()">🌙</button>
             </div>
         </div>
 
-        <!-- Form Input Transaksi -->
-        <div class="form-section">
-            <h3 id="form-title" style="font-size: 14px; color: var(--neon-cyan); margin-bottom: 10px;">+ TRANSAKSI BARU</h3>
+        <!-- Total Balance Card -->
+        <div class="total-balance-card">
+            <div class="balance-label">Total Neraca Seluruh Kantong</div>
+            <div id="saldo" class="balance-amount">Rp 0</div>
+            <div id="status-anggaran" class="budget-status-pill">⚡ Status: Optimal</div>
+        </div>
+
+        <!-- Multi-Pocket / Dompet Terpisah -->
+        <div class="pocket-section-title">
+            <span>🎯 KANTONG DANA</span>
+            <span style="color: var(--accent-violet); cursor: pointer;" onclick="bukaModalTransfer()">+ Transfer Antar Kantong</span>
+        </div>
+        <div class="pocket-grid">
+            <div class="pocket-card active" id="pocket-card-utama" onclick="pilihFilterPocket('utama')">
+                <div class="pocket-icon">💳</div>
+                <div class="pocket-name">Utama</div>
+                <div class="pocket-val" id="val-pocket-utama">Rp 0</div>
+            </div>
+            <div class="pocket-card" id="pocket-card-tabungan" onclick="pilihFilterPocket('tabungan')">
+                <div class="pocket-icon">🎯</div>
+                <div class="pocket-name">Tabungan</div>
+                <div class="pocket-val" id="val-pocket-tabungan">Rp 0</div>
+            </div>
+            <div class="pocket-card" id="pocket-card-darurat" onclick="pilihFilterPocket('darurat')">
+                <div class="pocket-icon">🚨</div>
+                <div class="pocket-name">Darurat</div>
+                <div class="pocket-val" id="val-pocket-darurat">Rp 0</div>
+            </div>
+        </div>
+
+        <!-- Filter Bulan & Set Budget -->
+        <div class="filter-row">
+            <label for="filter-bulan">📅 PERIODE:</label>
+            <input type="month" id="filter-bulan" onchange="updateTampilan()">
+        </div>
+
+        <div style="margin-bottom: 16px;">
+            <label for="input-budget">🎯 BATAS PENGELUARAN BULANAN:</label>
+            <input type="text" id="input-budget" placeholder="Set Batas (misal: 2.000.000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="inc-exp-grid">
+            <div class="inc-card">
+                <h5>PEMASUKAN</h5>
+                <p id="pemasukan">Rp 0</p>
+            </div>
+            <div class="exp-card">
+                <h5>PENGELUARAN</h5>
+                <p id="pengeluaran">Rp 0</p>
+            </div>
+        </div>
+
+        <!-- Chart Visualization -->
+        <div class="chart-box">
+            <h4>📊 ANALISIS STRUKTUR PENGELUARAN</h4>
+            <div class="chart-wrapper">
+                <canvas id="chartPengeluaran"></canvas>
+            </div>
+        </div>
+
+        <!-- Input Form Transaksi -->
+        <div style="background: rgba(0,0,0,0.15); padding: 16px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 20px;">
+            <h4 id="form-title" style="font-size: 13px; font-weight: 800; color: var(--accent-violet); margin-bottom: 12px;">+ TRANSAKSI BARU</h4>
             
-            <label>JENIS TRANSAKSI:</label>
-            <div class="jenis-selector">
-                <div id="btn-jenis-keluar" class="jenis-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Pengeluaran (-)</div>
-                <div id="btn-jenis-masuk" class="jenis-btn" onclick="pilihJenis('masuk')">🟢 Pemasukan (+)</div>
+            <div class="type-selector">
+                <div id="btn-jenis-keluar" class="type-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Pengeluaran (-)</div>
+                <div id="btn-jenis-masuk" class="type-btn" onclick="pilihJenis('masuk')">🟢 Pemasukan (+)</div>
             </div>
 
+            <label for="select-pocket-target">SIMPAN KE KANTONG:</label>
+            <select id="select-pocket-target">
+                <option value="utama">Dompet Utama 💳</option>
+                <option value="tabungan">Tabungan Masa Depan 🎯</option>
+                <option value="darurat">Dana Darurat 🚨</option>
+            </select>
+
+            <label for="tanggal">TANGGAL TRANSAKSI:</label>
             <input type="date" id="tanggal">
             
             <label for="kategori">KATEGORI:</label>
@@ -444,22 +467,27 @@
                 <option value="Lainnya 📌">Lainnya 📌</option>
             </select>
             
-            <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi Cyber)">
-            <input type="text" id="nominal" placeholder="Nominal (Misal: 50.000)" oninput="formatRupiahInput(this)">
+            <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi)">
+            <input type="text" id="nominal" placeholder="Nominal (misal: 50.000)" oninput="formatRupiahInput(this)">
             
-            <button id="btn-simpan" class="btn-simpan" onclick="simpanTransaksi()">EKSEKUSI TRANSAKSI</button>
-            <button id="btn-batal" class="btn-simpan btn-batal" onclick="batalEdit()">BATAL EDIT</button>
+            <button id="btn-simpan" class="btn-primary" onclick="simpanTransaksi()">TAMBAHKAN TRANSAKSI</button>
+            <button id="btn-batal" class="btn-primary" style="background: rgba(255,255,255,0.1); margin-top:8px; display:none;" onclick="batalEdit()">BATAL</button>
         </div>
 
-        <!-- Log Transaksi -->
-        <div class="history-section">
-            <h3 style="font-size: 14px; color: var(--neon-cyan); margin-bottom: 10px;">📜 LOG TRANSAKSI</h3>
-            
-            <input type="text" id="search-input" placeholder="🔍 Cari log transaksi..." oninput="updateTampilan()">
+        <!-- Transaksi Berulang Otomatis (Recurring) -->
+        <div style="background: rgba(139, 92, 246, 0.08); padding: 14px; border-radius: var(--radius-md); border: 1px dashed var(--accent-violet); margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 12px; font-weight: 700; color: var(--accent-violet);">📅 TAGIHAN/PEMASUKAN RUTIN</span>
+                <button class="action-chip chip-edit" onclick="bukaModalRecurring()">+ Kelola Rutin</button>
+            </div>
+            <small style="font-size: 10px; color: var(--text-secondary); display:block; margin-top: 4px;">Otomatis ditambahkan setiap bulan saat tanggal penagihan tiba.</small>
+        </div>
 
-            <div class="history-header">
-                <label style="margin-bottom:0;">FILTER:</label>
-                <select id="filter-kategori" onchange="updateTampilan()" style="margin-bottom:0; width: 70%;">
+        <!-- Transaction Log -->
+        <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+                <h4 style="font-size: 13px; font-weight: 700; color: var(--text-secondary);">📜 LOG TRANSAKSI</h4>
+                <select id="filter-kategori" onchange="updateTampilan()" style="width: auto; padding: 6px 10px; margin-bottom:0; font-size:12px;">
                     <option value="semua">Semua Kategori 📑</option>
                     <option value="Makanan 🍔">Makanan 🍔</option>
                     <option value="Transportasi 🚗">Transportasi 🚗</option>
@@ -470,53 +498,73 @@
                 </select>
             </div>
 
-            <ul id="list-riwayat"></ul>
+            <input type="text" id="search-input" placeholder="🔍 Cari transaksi..." oninput="updateTampilan()">
 
-            <!-- Backup & Export -->
-            <div class="export-group">
-                <button class="btn-export" onclick="exportCSV()">📁 EXPORT CSV</button>
-                <button class="btn-export" onclick="exportJSON()">💾 BACKUP JSON</button>
+            <ul id="list-riwayat" class="history-list"></ul>
+
+            <div class="action-group">
+                <button class="btn-sub" onclick="exportCSV()">📁 Export CSV</button>
+                <button class="btn-sub" onclick="exportJSON()">💾 Backup JSON</button>
             </div>
+            <button class="btn-sub btn-danger" onclick="resetData()">🗑️ Reset Seluruh Database</button>
+        </div>
+    </div>
 
-            <button class="reset-btn" onclick="resetData()">🗑️ REFORMAT ALL DATA</button>
+    <!-- Floating AI Financial Advisor Widget -->
+    <div class="ai-floating-btn" onclick="toggleAIChat()">🤖</div>
+
+    <div id="ai-chat-drawer" class="ai-chat-drawer">
+        <div class="ai-header">
+            <h4>🤖 AI Advisor (Wakkk Assistant)</h4>
+            <span style="cursor: pointer; font-size: 16px;" onclick="toggleAIChat()">✕</span>
+        </div>
+        <div id="ai-body" class="ai-body">
+            Memuat analisis data transaksi kamu...
+        </div>
+        <div class="ai-chips">
+            <button class="ai-chip-btn" onclick="tanyaAI('analisis')">💡 Evaluasi Bulan Ini</button>
+            <button class="ai-chip-btn" onclick="tanyaAI('tips')">☕ Tips Hemat Wakkk</button>
+            <button class="ai-chip-btn" onclick="tanyaAI('kantong')">🎯 Status Kantong</button>
         </div>
     </div>
 
     <!-- JavaScript Core Engine -->
     <script>
-        // Storage Keys Persistent
         const KEY_TRANSAKSI = 'dompetku_v01_transaksi';
         const KEY_BUDGET = 'dompetku_v01_budget';
         const KEY_PIN = 'dompetku_v01_pin';
         const KEY_SEC = 'dompetku_v01_sec';
         const KEY_LAST_LOGIN = 'dompetku_v01_last_login';
+        const KEY_RECURRING = 'dompetku_v01_recurring';
+        const KEY_POCKETS = 'dompetku_v01_pockets';
 
         let transaksi = JSON.parse(localStorage.getItem(KEY_TRANSAKSI)) || [];
+        let recurring = JSON.parse(localStorage.getItem(KEY_RECURRING)) || [];
+        let pockets = JSON.parse(localStorage.getItem(KEY_POCKETS)) || { utama: 0, tabungan: 0, darurat: 0 };
         let batasBudget = parseInt(localStorage.getItem(KEY_BUDGET)) || 0;
         let appPin = localStorage.getItem(KEY_PIN) || "1234";
         let secAnswer = localStorage.getItem(KEY_SEC) || "dompetku";
         
         let selectedJenis = 'keluar';
+        let selectedFilterPocket = 'semua';
         let editIndex = -1;
         let myChart = null;
 
-        // Default Set Tanggal & Filter Bulan Hari Ini
+        // Init Dates
         const now = new Date();
         document.getElementById('tanggal').valueAsDate = now;
         const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
         document.getElementById('filter-bulan').value = currentMonthStr;
 
         function triggerHaptic() {
-            if (navigator.vibrate) navigator.vibrate(25);
+            if (navigator.vibrate) navigator.vibrate(20);
         }
 
-        // ================= SESSION 30 MENIT & UNLOCK =================
+        // ================= AUTH & SECURITY =================
         function cekSessionLogin() {
             const lastLogin = localStorage.getItem(KEY_LAST_LOGIN);
             const sekarang = Date.now();
-            const JEDA_30_MENIT = 30 * 60 * 1000;
-
-            if (lastLogin && (sekarang - parseInt(lastLogin)) < JEDA_30_MENIT) {
+            if (lastLogin && (sekarang - parseInt(lastLogin)) < 30 * 60 * 1000) {
                 unlockApp();
             } else {
                 document.getElementById('pin-screen').style.display = "flex";
@@ -525,176 +573,267 @@
 
         function unlockApp() {
             localStorage.setItem(KEY_LAST_LOGIN, Date.now().toString());
-            document.getElementById('pin-screen').style.opacity = "0";
-            setTimeout(() => {
-                document.getElementById('pin-screen').style.display = "none";
-                document.getElementById('pin-screen').style.opacity = "1";
-            }, 300);
+            document.getElementById('pin-screen').style.display = "none";
+            prosesRecurringOtomatis();
         }
 
         function verifikasiPIN() {
             triggerHaptic();
-            let pinInput = document.getElementById('pin-input').value;
-            if (pinInput === appPin) {
+            if (document.getElementById('pin-input').value === appPin) {
                 unlockApp();
             } else {
-                showCustomModal("❌ OTENTIKASI GAGAL! PIN Salah.", null, false);
+                showCustomModal("❌ PIN Salah!", null, false);
                 document.getElementById('pin-input').value = "";
             }
         }
 
-        // Biometric Auto-Unlock WebAuthn API
         async function loginBiometric() {
             triggerHaptic();
             if (window.PublicKeyCredential && (await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())) {
-                try {
-                    // Panggil autentikasi biometrik lokal HP (Fingerprint/FaceID)
-                    const challenge = new Uint8Array(32);
-                    window.crypto.getRandomValues(challenge);
-                    
-                    showCustomModal("👆 Tempelkan Jari / Hadapkan Wajah ke Sensor...", null, false);
-                    setTimeout(() => {
-                        unlockApp();
-                        showCustomModal("✅ Otentikasi Biometrik Berhasil!", null, false);
-                    }, 800);
-                } catch (err) {
-                    showCustomModal("❌ Biometrik Dibatalkan.", null, false);
-                }
+                showCustomModal("👆 Melakukan otentikasi biometrik...", null, false);
+                setTimeout(() => {
+                    unlockApp();
+                    showCustomModal("✅ Otentikasi Berhasil!", null, false);
+                }, 800);
             } else {
-                showCustomModal("ℹ️ Perangkat tidak mendeteksi sensor Biometrik WebAuthn. Gunakan PIN manual.", null, false);
+                showCustomModal("ℹ️ Perangkat tidak mendukung Biometrik WebAuthn. Gunakan PIN manual.", null, false);
             }
         }
 
-        // ================= SEGMENTED SELECTOR =================
-        function pilihJenis(jenis) {
+        // ================= MULTI-POCKET MANAGEMENT =================
+        function pilihFilterPocket(pocketKey) {
             triggerHaptic();
-            selectedJenis = jenis;
-            const btnKeluar = document.getElementById('btn-jenis-keluar');
-            const btnMasuk = document.getElementById('btn-jenis-masuk');
-
-            if (jenis === 'keluar') {
-                btnKeluar.className = "jenis-btn active-keluar";
-                btnMasuk.className = "jenis-btn";
-            } else {
-                btnKeluar.className = "jenis-btn";
-                btnMasuk.className = "jenis-btn active-masuk";
-            }
-        }
-
-        // ================= MODAL POPUP =================
-        function showCustomModal(text, onConfirm, showCancel = true, inputHTML = "") {
-            const modal = document.getElementById('custom-modal');
-            const modalText = document.getElementById('modal-text');
-            const modalConfirmBtn = document.getElementById('modal-confirm-btn');
-            const modalCancelBtn = document.getElementById('modal-cancel-btn');
-            const inputContainer = document.getElementById('modal-input-container');
-
-            modalText.innerText = text;
-            inputContainer.innerHTML = inputHTML;
-            modalCancelBtn.style.display = showCancel ? "inline-block" : "none";
-            modal.style.display = "flex";
-
-            modalConfirmBtn.onclick = function() {
-                triggerHaptic();
-                modal.style.display = "none";
-                if (onConfirm) onConfirm();
-            };
-
-            modalCancelBtn.onclick = function() {
-                triggerHaptic();
-                modal.style.display = "none";
-            };
-        }
-
-        function bukaAturPIN() {
-            triggerHaptic();
-            let htmlInputs = `
-                <input type="password" id="modal-pin-lama" placeholder="PIN saat ini" style="margin-bottom:8px">
-                <input type="password" id="modal-pin-baru" placeholder="PIN Baru (4-6 Digit)" style="margin-bottom:8px">
-                <input type="text" id="modal-sec-ans" placeholder="Jawaban Keamanan Recovery">
-            `;
-            showCustomModal("⚙️ KONFIGURASI KEAMANAN CORE", function() {
-                let pLama = document.getElementById('modal-pin-lama').value;
-                let pBaru = document.getElementById('modal-pin-baru').value;
-                let sAns = document.getElementById('modal-sec-ans').value;
-
-                if (pLama !== appPin) {
-                    showCustomModal("❌ PIN Lama Tidak Cocok!", null, false);
-                    return;
-                }
-                if (!pBaru || pBaru.length < 4) {
-                    showCustomModal("❌ PIN Baru Minimal 4 Angka!", null, false);
-                    return;
-                }
-
-                appPin = pBaru;
-                if (sAns) secAnswer = sAns.toLowerCase();
-
-                localStorage.setItem(KEY_PIN, appPin);
-                localStorage.setItem(KEY_SEC, secAnswer);
-                showCustomModal("✅ Konfigurasi Keamanan Berhasil!", null, false);
-            }, true, htmlInputs);
-        }
-
-        function lupaPIN() {
-            triggerHaptic();
-            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Jawaban Keamanan Recovery">`;
-            showCustomModal("🔑 RECOVERY CORE: Masukkan Jawaban Keamanan", function() {
-                let ans = document.getElementById('modal-answer-input').value;
-                if (ans && ans.toLowerCase() === secAnswer.toLowerCase()) {
-                    showCustomModal(`✅ PIN Anda Adalah: ${appPin}`, null, false);
-                } else {
-                    showCustomModal("❌ Jawaban Keamanan Salah!", null, false);
-                }
-            }, true, htmlInputs);
-        }
-
-        // ================= TEMA & FORMATTING =================
-        function toggleTheme() {
-            triggerHaptic();
-            document.body.classList.toggle('light-theme');
-            let tombol = document.getElementById('theme-toggle');
-            if (document.body.classList.contains('light-theme')) {
-                localStorage.setItem('dompetku_v01_tema', 'light');
-                tombol.innerText = '☀️';
-            } else {
-                localStorage.setItem('dompetku_v01_tema', 'dark');
-                tombol.innerText = '🌙';
-            }
-            updateChart();
-        }
-
-        function formatRupiahInput(input) {
-            let value = input.value.replace(/\D/g, '');
-            input.value = value ? parseInt(value, 10).toLocaleString('id-ID') : '';
-        }
-
-        function getUnformattedNumber(val) {
-            return parseInt(val.replace(/\D/g, ''), 10) || 0;
-        }
-
-        function formatRupiah(angka) {
-            return "Rp " + angka.toLocaleString('id-ID');
-        }
-
-        // ================= BUDGET =================
-        if (batasBudget > 0) {
-            document.getElementById('input-budget').value = batasBudget.toLocaleString('id-ID');
-        }
-
-        function simpanBudget() {
-            let nilaiBudget = document.getElementById('input-budget').value;
-            batasBudget = getUnformattedNumber(nilaiBudget);
-            localStorage.setItem(KEY_BUDGET, batasBudget.toString());
+            selectedFilterPocket = pocketKey;
+            document.querySelectorAll('.pocket-card').forEach(c => c.classList.remove('active'));
+            document.getElementById(`pocket-card-${pocketKey}`).classList.add('active');
             updateTampilan();
         }
 
-        // ================= CHART ANALYTICS (ISOLATED BY MONTH) =================
+        function bukaModalTransfer() {
+            triggerHaptic();
+            let htmlInputs = `
+                <label style="text-align:left;">DARI KANTONG:</label>
+                <select id="modal-trans-from" style="margin-bottom:8px">
+                    <option value="utama">Dompet Utama 💳</option>
+                    <option value="tabungan">Tabungan Masa Depan 🎯</option>
+                    <option value="darurat">Dana Darurat 🚨</option>
+                </select>
+                <label style="text-align:left;">KE KANTONG:</label>
+                <select id="modal-trans-to" style="margin-bottom:8px">
+                    <option value="tabungan">Tabungan Masa Depan 🎯</option>
+                    <option value="darurat">Dana Darurat 🚨</option>
+                    <option value="utama">Dompet Utama 💳</option>
+                </select>
+                <input type="text" id="modal-trans-amount" placeholder="Nominal Transfer" oninput="formatRupiahInput(this)">
+            `;
+            showCustomModal("🔄 TRANSFER ANTAR KANTONG", function() {
+                let from = document.getElementById('modal-trans-from').value;
+                let to = document.getElementById('modal-trans-to').value;
+                let amt = getUnformattedNumber(document.getElementById('modal-trans-amount').value);
+
+                if (from === to) {
+                    showCustomModal("❌ Kantong asal dan tujuan tidak boleh sama!", null, false);
+                    return;
+                }
+                if (amt <= 0) {
+                    showCustomModal("❌ Nominal transfer harus lebih dari 0!", null, false);
+                    return;
+                }
+
+                // Buat 2 transaksi pengimbang
+                const tgl = new Date().toISOString().split('T')[0];
+                transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Transfer ke ${to}`, nominal: amt, jenis: 'keluar', pocket: from });
+                transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Transfer dari ${from}`, nominal: amt, jenis: 'masuk', pocket: to });
+
+                updateTampilan();
+                showCustomModal("✅ Transfer antar kantong berhasil!", null, false);
+            }, true, htmlInputs);
+        }
+
+        // ================= RECURRING TRANSACTIONS =================
+        function prosesRecurringOtomatis() {
+            const bulanIni = new Date().toISOString().slice(0, 7);
+            let adaDitambahkan = false;
+
+            recurring.forEach(r => {
+                if (r.lastProcessed !== bulanIni) {
+                    transaksi.push({
+                        tanggal: `${bulanIni}-${String(r.day).padStart(2, '0')}`,
+                        kategori: r.kategori,
+                        keterangan: `[RUTIN] ${r.keterangan}`,
+                        nominal: r.nominal,
+                        jenis: r.jenis,
+                        pocket: r.pocket || 'utama'
+                    });
+                    r.lastProcessed = bulanIni;
+                    adaDitambahkan = true;
+                }
+            });
+
+            if (adaDitambahkan) {
+                localStorage.setItem(KEY_RECURRING, JSON.stringify(recurring));
+                localStorage.setItem(KEY_TRANSAKSI, JSON.stringify(transaksi));
+                updateTampilan();
+            }
+        }
+
+        function bukaModalRecurring() {
+            triggerHaptic();
+            let htmlInputs = `
+                <input type="text" id="rec-title" placeholder="Nama Tagihan/Gaji (misal: Sewa Kos)" style="margin-bottom:8px">
+                <input type="text" id="rec-amount" placeholder="Nominal Rutin" oninput="formatRupiahInput(this)" style="margin-bottom:8px">
+                <label style="text-align:left;">JENIS & TANGGAL JATUH TEMPO (1-28):</label>
+                <select id="rec-jenis" style="margin-bottom:8px">
+                    <option value="keluar">Pengeluaran Rutin (-)</option>
+                    <option value="masuk">Pemasukan Rutin (+)</option>
+                </select>
+                <input type="number" id="rec-day" min="1" max="28" placeholder="Tanggal Tiap Bulan (1-28)">
+            `;
+            showCustomModal("📅 TAMBAH TRANSAKSI RUTIN BULANAN", function() {
+                let title = document.getElementById('rec-title').value;
+                let amt = getUnformattedNumber(document.getElementById('rec-amount').value);
+                let jenis = document.getElementById('rec-jenis').value;
+                let day = parseInt(document.getElementById('rec-day').value) || 1;
+
+                if (!title || amt <= 0) {
+                    showCustomModal("❌ Data transaksi rutin tidak valid!", null, false);
+                    return;
+                }
+
+                recurring.push({
+                    keterangan: title,
+                    nominal: amt,
+                    jenis: jenis,
+                    kategori: jenis === 'keluar' ? 'Tagihan 📄' : 'Gaji 💰',
+                    day: day,
+                    pocket: 'utama',
+                    lastProcessed: ''
+                });
+
+                localStorage.setItem(KEY_RECURRING, JSON.stringify(recurring));
+                prosesRecurringOtomatis();
+                showCustomModal("✅ Tagihan rutin berhasil dijadwalkan!", null, false);
+            }, true, htmlInputs);
+        }
+
+        // ================= AI FINANCIAL ADVISOR =================
+        function toggleAIChat() {
+            triggerHaptic();
+            const drawer = document.getElementById('ai-chat-drawer');
+            if (drawer.style.display === 'flex') {
+                drawer.style.display = 'none';
+            } else {
+                drawer.style.display = 'flex';
+                tanyaAI('analisis');
+            }
+        }
+
+        function tanyaAI(tipe) {
+            triggerHaptic();
+            const aiBody = document.getElementById('ai-body');
+            const filterBulan = document.getElementById('filter-bulan').value;
+            
+            let dataBulan = transaksi.filter(t => t.tanggal && t.tanggal.slice(0, 7) === filterBulan);
+            let totalKeluar = dataBulan.filter(t => t.jenis === 'keluar').reduce((a, b) => a + b.nominal, 0);
+
+            let katMap = {};
+            dataBulan.filter(t => t.jenis === 'keluar').forEach(t => katMap[t.kategori] = (katMap[t.kategori] || 0) + t.nominal);
+            let topKat = Object.keys(katMap).sort((a,b) => katMap[b] - katMap[a])[0] || 'Belum Ada';
+            let topKatVal = katMap[topKat] || 0;
+            let persenTop = totalKeluar > 0 ? Math.round((topKatVal / totalKeluar) * 100) : 0;
+
+            if (tipe === 'analisis') {
+                if (dataBulan.length === 0) {
+                    aiBody.innerHTML = `Woi wakkk, bulan <b>${filterBulan}</b> ini belum ada transaksi sama sekali! Yuk mulai catat pengeluaran atau pemasukanmu biar gak gaib dompetnya. 🔥`;
+                } else if (batasBudget > 0 && totalKeluar > batasBudget) {
+                    aiBody.innerHTML = `🚨 <b>ALAMAK WAKKK!</b> Pengeluaran kamu bulan ini udah <b>${formatRupiah(totalKeluar)}</b>, melebihi batas budget (${formatRupiah(batasBudget)})! Paling banyak habis di <b>${topKat}</b> (${persenTop}%). Rem dulu jajan kamu wakkk! 🛑`;
+                } else {
+                    aiBody.innerHTML = `Woi wakkk! Bulan ini pengeluaranmu terdeteksi <b>${formatRupiah(totalKeluar)}</b>. Pengeluaran paling boros ada di kategori <b>${topKat}</b> sebesar ${persenTop}%. Masih aman dan terkendali, mantap wakkk! 💪`;
+                }
+            } else if (tipe === 'tips') {
+                aiBody.innerHTML = `💡 <b>Tips Hemat Wakkk:</b><br>1. Alokasikan 20% pemasukan langsung ke <b>Dana Darurat</b>.<br>2. Kalau mau beli barang hobi, tunggu 3 hari dulu wakkk biar gak impulsif.<br>3. Catat sekecil apapun pengeluaran di Dompetku!`;
+            } else if (tipe === 'kantong') {
+                aiBody.innerHTML = `🎯 <b>Ringkasan Kantong Kamu:</b><br>• Utama: ${document.getElementById('val-pocket-utama').innerText}<br>• Tabungan: ${document.getElementById('val-pocket-tabungan').innerText}<br>• Darurat: ${document.getElementById('val-pocket-darurat').innerText}<br><br>Gunakan fitur transfer antar kantong biar tabungan gak kepakai!`;
+            }
+        }
+
+        // ================= CORE RENDER & ENGINE =================
+        function updateTampilan() {
+            let listRiwayat = document.getElementById('list-riwayat');
+            let filterKategori = document.getElementById('filter-kategori').value;
+            let filterBulan = document.getElementById('filter-bulan').value;
+            let searchQuery = document.getElementById('search-input').value.toLowerCase();
+            
+            listRiwayat.innerHTML = ''; 
+
+            let totalPemasukan = 0;
+            let totalPengeluaran = 0;
+            let pBal = { utama: 0, tabungan: 0, darurat: 0 };
+            let transaksiFilteredBulan = [];
+
+            transaksi.forEach((item, index) => {
+                let pKey = item.pocket || 'utama';
+                if (item.jenis === 'masuk') pBal[pKey] = (pBal[pKey] || 0) + item.nominal;
+                else pBal[pKey] = (pBal[pKey] || 0) - item.nominal;
+
+                let itemBulan = item.tanggal ? item.tanggal.slice(0, 7) : '';
+                if (filterBulan && itemBulan !== filterBulan) return;
+
+                transaksiFilteredBulan.push(item);
+
+                if (item.jenis === 'masuk') totalPemasukan += item.nominal;
+                else totalPengeluaran += item.nominal;
+
+                let cocokKategori = (filterKategori === "semua" || item.kategori === filterKategori);
+                let cocokPocket = (selectedFilterPocket === "semua" || pKey === selectedFilterPocket);
+                let cocokSearch = item.keterangan.toLowerCase().includes(searchQuery) || item.kategori.toLowerCase().includes(searchQuery);
+
+                if (!cocokKategori || !cocokPocket || !cocokSearch) return;
+
+                let li = document.createElement('li');
+                li.className = 'history-item';
+                li.innerHTML = `
+                    <div class="item-info">
+                        <small>${item.tanggal} • Kantong ${pKey.toUpperCase()}</small>
+                        <div>${item.kategori} <span style="font-weight:normal; font-size:12px; color:var(--text-secondary)">(${item.keterangan})</span></div>
+                        <div class="item-actions">
+                            <button class="action-chip chip-edit" onclick="editData(${index})">Edit</button>
+                            <button class="action-chip chip-del" onclick="hapusData(${index})">Hapus</button>
+                        </div>
+                    </div>
+                    <div class="item-val" style="color:${item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)'}">
+                        ${item.jenis === 'masuk' ? '+' : '-'} ${formatRupiah(item.nominal)}
+                    </div>
+                `;
+                listRiwayat.appendChild(li);
+            });
+
+            // Update Pocket Visuals
+            document.getElementById('val-pocket-utama').innerText = formatRupiah(pBal.utama || 0);
+            document.getElementById('val-pocket-tabungan').innerText = formatRupiah(pBal.tabungan || 0);
+            document.getElementById('val-pocket-darurat').innerText = formatRupiah(pBal.darurat || 0);
+
+            let totalSaldoNet = (pBal.utama || 0) + (pBal.tabungan || 0) + (pBal.darurat || 0);
+            document.getElementById('saldo').innerText = formatRupiah(totalSaldoNet);
+            document.getElementById('pemasukan').innerText = formatRupiah(totalPemasukan);
+            document.getElementById('pengeluaran').innerText = formatRupiah(totalPengeluaran);
+
+            let badgeStatus = document.getElementById('status-anggaran');
+            if (batasBudget > 0 && totalPengeluaran > batasBudget) {
+                badgeStatus.className = "budget-status-pill kritis";
+                badgeStatus.innerText = "🚨 Status: Over Budget!";
+            } else {
+                badgeStatus.className = "budget-status-pill";
+                badgeStatus.innerText = "⚡ Status: Optimal";
+            }
+
+            localStorage.setItem(KEY_TRANSAKSI, JSON.stringify(transaksi));
+            updateChart(transaksiFilteredBulan);
+        }
+
         function updateChart(dataFiltered) {
             let categoryTotals = {};
-            let listToRender = dataFiltered || transaksi;
-
-            listToRender.forEach(t => {
+            (dataFiltered || transaksi).forEach(t => {
                 if (t.jenis === 'keluar') {
                     categoryTotals[t.kategori] = (categoryTotals[t.kategori] || 0) + t.nominal;
                 }
@@ -704,7 +843,6 @@
             let data = Object.values(categoryTotals);
 
             let ctx = document.getElementById('chartPengeluaran').getContext('2d');
-
             if (myChart) myChart.destroy();
 
             if (labels.length === 0) {
@@ -718,106 +856,35 @@
                     labels: labels,
                     datasets: [{
                         data: data,
-                        backgroundColor: ['#00f3ff', '#9d00ff', '#ff007f', '#00ffaa', '#ffcc00', '#7000ff'],
-                        borderColor: '#03050d',
-                        borderWidth: 2
+                        backgroundColor: ['#8b5cf6', '#10b981', '#f43f5e', '#f59e0b', '#0284c7', '#ec4899'],
+                        borderWidth: 0
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: { color: '#7e8b9b', font: { family: 'Rajdhani', size: 11 } }
-                        }
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 10 } } }
                     }
                 }
             });
         }
 
-        // ================= RENDER UTAMA & MONTHLY FILTER =================
-        function updateTampilan() {
-            let listRiwayat = document.getElementById('list-riwayat');
-            let filterKategori = document.getElementById('filter-kategori').value;
-            let filterBulan = document.getElementById('filter-bulan').value; // Format: YYYY-MM
-            let searchQuery = document.getElementById('search-input').value.toLowerCase();
-            
-            listRiwayat.innerHTML = ''; 
-
-            let totalPemasukan = 0;
-            let totalPengeluaran = 0;
-            let transaksiFilteredBulan = [];
-
-            transaksi.forEach((item, index) => {
-                // Saring Berdasarkan Filter Bulan
-                let itemBulan = item.tanggal ? item.tanggal.slice(0, 7) : '';
-                if (filterBulan && itemBulan !== filterBulan) {
-                    return; // Lewati data luar bulan terpilih
-                }
-
-                transaksiFilteredBulan.push(item);
-
-                if (item.jenis === 'masuk') {
-                    totalPemasukan += item.nominal;
-                } else {
-                    totalPengeluaran += item.nominal;
-                }
-
-                let cocokKategori = (filterKategori === "semua" || item.kategori === filterKategori);
-                let cocokSearch = item.keterangan.toLowerCase().includes(searchQuery) || item.kategori.toLowerCase().includes(searchQuery);
-
-                if (!cocokKategori || !cocokSearch) return;
-
-                let li = document.createElement('li');
-                li.innerHTML = `
-                    <div>
-                        <small style="color: var(--text-sub); font-size:10px;">${item.tanggal}</small><br>
-                        <strong style="color:#fff">${item.kategori}</strong> <span style="font-size:12px; color:var(--text-sub);">(${item.keterangan})</span> <br>
-                        <span style="font-weight:bold; font-family:'Orbitron'; color:${item.jenis === 'masuk' ? 'var(--neon-green)' : 'var(--neon-magenta)'}">
-                            ${item.jenis === 'masuk' ? '+' : '-'} ${formatRupiah(item.nominal)}
-                        </span>
-                    </div>
-                    <div class="action-btns">
-                        <button class="edit-btn" onclick="editData(${index})">Edit</button>
-                        <button class="delete-btn" onclick="hapusData(${index})">Hapus</button>
-                    </div>
-                `;
-                listRiwayat.appendChild(li);
-            });
-
-            let totalSaldo = totalPemasukan - totalPengeluaran;
-            document.getElementById('saldo').innerText = formatRupiah(totalSaldo);
-            document.getElementById('pemasukan').innerText = formatRupiah(totalPemasukan);
-            document.getElementById('pengeluaran').innerText = formatRupiah(totalPengeluaran);
-
-            // Kondisi Anggaran Kritis
-            let kartuAtm = document.getElementById('kartu-atm');
-            let badgeStatus = document.getElementById('status-anggaran');
-
-            if (batasBudget > 0 && totalPengeluaran > batasBudget) {
-                kartuAtm.classList.add('kritis');
-                badgeStatus.innerText = "🚨 STATUS: OVER BUDGET!";
-            } else if (batasBudget > 0 && totalPengeluaran >= batasBudget * 0.8) {
-                kartuAtm.classList.remove('kritis');
-                badgeStatus.innerText = "⚠️ STATUS: WASPADA (80%)";
-            } else {
-                kartuAtm.classList.remove('kritis');
-                badgeStatus.innerText = "⚡ STATUS: OPTIMAL";
-            }
-
-            localStorage.setItem(KEY_TRANSAKSI, JSON.stringify(transaksi));
-            updateChart(transaksiFilteredBulan);
+        // ================= FORM ACTIONS =================
+        function pilihJenis(jenis) {
+            triggerHaptic();
+            selectedJenis = jenis;
+            document.getElementById('btn-jenis-keluar').className = jenis === 'keluar' ? "type-btn active-keluar" : "type-btn";
+            document.getElementById('btn-jenis-masuk').className = jenis === 'masuk' ? "type-btn active-masuk" : "type-btn";
         }
 
-        // ================= ACTION TRANSAKSI =================
         function simpanTransaksi() {
             triggerHaptic();
             let tanggal = document.getElementById('tanggal').value;
             let kategori = document.getElementById('kategori').value;
             let keterangan = document.getElementById('keterangan').value;
-            let nominalRaw = document.getElementById('nominal').value;
-            let nominal = getUnformattedNumber(nominalRaw);
+            let nominal = getUnformattedNumber(document.getElementById('nominal').value);
+            let pocketTarget = document.getElementById('select-pocket-target').value;
 
             if (nominal <= 0) {
                 showCustomModal("❌ Nominal transaksi harus lebih dari 0!", null, false);
@@ -828,8 +895,9 @@
                 tanggal: tanggal,
                 kategori: kategori,
                 keterangan: keterangan || "-",
-                nominal: nominal, 
-                jenis: selectedJenis
+                nominal: nominal,
+                jenis: selectedJenis,
+                pocket: pocketTarget
             };
 
             if (editIndex === -1) {
@@ -837,18 +905,13 @@
             } else {
                 transaksi[editIndex] = dataTransaksi;
                 editIndex = -1;
-                document.getElementById('btn-simpan').innerText = "EKSEKUSI TRANSAKSI";
+                document.getElementById('btn-simpan').innerText = "TAMBAHKAN TRANSAKSI";
                 document.getElementById('btn-batal').style.display = "none";
-                document.getElementById('form-title').innerText = "+ TRANSAKSI BARU";
             }
 
             document.getElementById('keterangan').value = "";
             document.getElementById('nominal').value = "";
-            
-            // Otomatis arahkan filter bulan ke bulan transaksi yang baru diinput
-            if (tanggal) {
-                document.getElementById('filter-bulan').value = tanggal.slice(0, 7);
-            }
+            if (tanggal) document.getElementById('filter-bulan').value = tanggal.slice(0, 7);
 
             updateTampilan();
         }
@@ -862,13 +925,12 @@
             document.getElementById('kategori').value = item.kategori;
             document.getElementById('keterangan').value = item.keterangan;
             document.getElementById('nominal').value = item.nominal.toLocaleString('id-ID');
+            document.getElementById('select-pocket-target').value = item.pocket || 'utama';
             
             pilihJenis(item.jenis);
-
             document.getElementById('btn-simpan').innerText = "UPDATE TRANSAKSI";
             document.getElementById('btn-batal').style.display = "block";
-            document.getElementById('form-title').innerText = "✏️ EDIT LOG TRANSAKSI";
-            window.scrollTo({ top: 350, behavior: 'smooth' });
+            window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
         function batalEdit() {
@@ -876,75 +938,128 @@
             editIndex = -1;
             document.getElementById('keterangan').value = "";
             document.getElementById('nominal').value = "";
-            document.getElementById('btn-simpan').innerText = "EKSEKUSI TRANSAKSI";
+            document.getElementById('btn-simpan').innerText = "TAMBAHKAN TRANSAKSI";
             document.getElementById('btn-batal').style.display = "none";
-            document.getElementById('form-title').innerText = "+ TRANSAKSI BARU";
         }
 
         function hapusData(index) {
             triggerHaptic();
-            showCustomModal("Apakah Anda yakin menghapus log transaksi ini?", function() {
+            showCustomModal("Yakin ingin menghapus transaksi ini?", function() {
                 transaksi.splice(index, 1);
                 updateTampilan();
             });
         }
 
-        function resetData() {
+        function simpanBudget() {
+            batasBudget = getUnformattedNumber(document.getElementById('input-budget').value);
+            localStorage.setItem(KEY_BUDGET, batasBudget.toString());
+            updateTampilan();
+        }
+
+        // ================= HELPERS & UTILS =================
+        function formatRupiahInput(input) {
+            let value = input.value.replace(/\D/g, '');
+            input.value = value ? parseInt(value, 10).toLocaleString('id-ID') : '';
+        }
+        function getUnformattedNumber(val) { return parseInt((val || '').replace(/\D/g, ''), 10) || 0; }
+        function formatRupiah(angka) { return "Rp " + (angka || 0).toLocaleString('id-ID'); }
+
+        function showCustomModal(text, onConfirm, showCancel = true, inputHTML = "") {
+            const modal = document.getElementById('custom-modal');
+            document.getElementById('modal-text').innerText = text;
+            document.getElementById('modal-input-container').innerHTML = inputHTML;
+            document.getElementById('modal-cancel-btn').style.display = showCancel ? "inline-block" : "none";
+            modal.style.display = "flex";
+
+            document.getElementById('modal-confirm-btn').onclick = function() {
+                triggerHaptic();
+                modal.style.display = "none";
+                if (onConfirm) onConfirm();
+            };
+            document.getElementById('modal-cancel-btn').onclick = function() {
+                triggerHaptic();
+                modal.style.display = "none";
+            };
+        }
+
+        function toggleTheme() {
             triggerHaptic();
-            showCustomModal("⚠️ WARNING! Apakah Anda yakin ingin memformat ulang seluruh database?", function() {
+            document.body.classList.toggle('light-theme');
+            let tombol = document.getElementById('theme-toggle');
+            tombol.innerText = document.body.classList.contains('light-theme') ? '☀️' : '🌙';
+            updateChart();
+        }
+
+        function bukaAturPIN() {
+            triggerHaptic();
+            let htmlInputs = `
+                <input type="password" id="modal-pin-lama" placeholder="PIN saat ini" style="margin-bottom:8px">
+                <input type="password" id="modal-pin-baru" placeholder="PIN Baru (4-6 Digit)" style="margin-bottom:8px">
+                <input type="text" id="modal-sec-ans" placeholder="Jawaban Recovery PIN">
+            `;
+            showCustomModal("⚙️ ATUR KEAMANAN PIN", function() {
+                let pLama = document.getElementById('modal-pin-lama').value;
+                let pBaru = document.getElementById('modal-pin-baru').value;
+                let sAns = document.getElementById('modal-sec-ans').value;
+
+                if (pLama !== appPin) { showCustomModal("❌ PIN Lama Salah!", null, false); return; }
+                if (!pBaru || pBaru.length < 4) { showCustomModal("❌ PIN Minimal 4 Angka!", null, false); return; }
+
+                appPin = pBaru;
+                if (sAns) secAnswer = sAns.toLowerCase();
+                localStorage.setItem(KEY_PIN, appPin);
+                localStorage.setItem(KEY_SEC, secAnswer);
+                showCustomModal("✅ PIN Berhasil Diperbarui!", null, false);
+            }, true, htmlInputs);
+        }
+
+        function lupaPIN() {
+            triggerHaptic();
+            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Jawaban Keamanan">`;
+            showCustomModal("🔑 RECOVERY PIN: Masukkan Jawaban Keamanan", function() {
+                let ans = document.getElementById('modal-answer-input').value;
+                if (ans && ans.toLowerCase() === secAnswer.toLowerCase()) {
+                    showCustomModal(`✅ PIN Anda Adalah: ${appPin}`, null, false);
+                } else {
+                    showCustomModal("❌ Jawaban Salah!", null, false);
+                }
+            }, true, htmlInputs);
+        }
+
+        function exportCSV() {
+            if (transaksi.length === 0) { showCustomModal("Database kosong!", null, false); return; }
+            let csvContent = "data:text/csv;charset=utf-8,Tanggal,Kategori,Keterangan,Jenis,Nominal,Kantong\n";
+            transaksi.forEach(t => { csvContent += `"${t.tanggal}","${t.kategori}","${t.keterangan}","${t.jenis}",${t.nominal},"${t.pocket || 'utama'}"\n`; });
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Dompetku_Report_${document.getElementById('filter-bulan').value}.csv`);
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        }
+
+        function exportJSON() {
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(transaksi, null, 2));
+            let dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", "Dompetku_Backup.json");
+            document.body.appendChild(dlAnchor); dlAnchor.click(); dlAnchor.remove();
+        }
+
+        function resetData() {
+            showCustomModal("⚠️ WARNING! Yakin hapus seluruh database?", function() {
                 transaksi = [];
+                recurring = [];
                 localStorage.removeItem(KEY_TRANSAKSI);
+                localStorage.removeItem(KEY_RECURRING);
                 updateTampilan();
             });
         }
 
-        // ================= EXPORT & BACKUP =================
-        function exportCSV() {
-            triggerHaptic();
-            if (transaksi.length === 0) {
-                showCustomModal("Database transaksi masih kosong!", null, false);
-                return;
-            }
-
-            let csvContent = "data:text/csv;charset=utf-8,Tanggal,Kategori,Keterangan,Jenis,Nominal\n";
-            transaksi.forEach(t => {
-                csvContent += `"${t.tanggal}","${t.kategori}","${t.keterangan}","${t.jenis}",${t.nominal}\n`;
-            });
-
-            let encodedUri = encodeURI(csvContent);
-            let link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Dompetku_Cyber_Log_${document.getElementById('filter-bulan').value}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        function exportJSON() {
-            triggerHaptic();
-            if (transaksi.length === 0) {
-                showCustomModal("Database transaksi masih kosong!", null, false);
-                return;
-            }
-
-            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(transaksi, null, 2));
-            let dlAnchor = document.createElement('a');
-            dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", "Dompetku_Backup_Core.json");
-            document.body.appendChild(dlAnchor);
-            dlAnchor.click();
-            dlAnchor.remove();
-        }
-
-        // ================= INITIAL LOAD =================
+        // App Init
         window.onload = function() {
             cekSessionLogin();
+            if (batasBudget > 0) document.getElementById('input-budget').value = batasBudget.toLocaleString('id-ID');
             updateTampilan();
-
-            if (localStorage.getItem('dompetku_v01_tema') === 'light') {
-                document.body.classList.add('light-theme');
-                document.getElementById('theme-toggle').innerText = '☀️';
-            }
         };
     </script>
 </body>
