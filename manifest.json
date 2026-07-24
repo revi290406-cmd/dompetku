@@ -1,15 +1,22 @@
 {
-  "name": "Dompetku",
+  "name": "Dompetku - Catatan Keuangan",
   "short_name": "Dompetku",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f0f2f5",
-  "theme_color": "#667eea",
+  "theme_color": "#d4af37",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/2902/2902974.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2902/2902974.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
