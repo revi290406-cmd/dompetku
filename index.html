@@ -3,29 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dompetku - Catatan Keuangan</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+    <title>Dompetku - Catatan Keuangan Premium</title>
+    
+    <!-- Chart.js CDN untuk Grafik -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- CSS Internal -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+            --bg-body: #f0f2f5;
+            --bg-container: rgba(255, 255, 255, 0.95);
+            --text-utama: #2d3436;
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.7);
+            --card-bg: rgba(0,0,0,0.03);
+            --border-color: rgba(150,150,150,0.2);
+        }
+
+        .dark-theme {
+            --bg-body: #0a0a0a;
+            --bg-container: rgba(20, 20, 20, 0.85);
+            --text-utama: #f1f1f1;
+            --gold: #d4af37;
+            --glass: rgba(30, 30, 30, 0.7);
+            --card-bg: rgba(255,255,255,0.05);
+            --border-color: rgba(255,255,255,0.1);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Poppins', sans-serif; 
+            transition: background 0.3s, color 0.3s, border-color 0.3s; 
+        }
+
+        body { 
+            background-color: var(--bg-body); 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px; 
+        }
+
+        h1, h2, h3, h4, p, label { color: var(--text-utama); }
+
+        .container { 
+            width: 100%; 
+            max-width: 420px; 
+            background: var(--bg-container); 
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 30px; 
+            padding: 25px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+        }
+
+        /* Header */
+        .header-app { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header-app h2 { font-size: 22px; font-weight: 600; }
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .icon-btn { 
+            background: transparent; border: none; font-size: 22px; cursor: pointer; outline: none; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        /* PIN Overlay */
+        .pin-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 9999;
+        }
+        .pin-box {
+            background: #151515; padding: 30px; border-radius: 25px; text-align: center;
+            width: 90%; max-width: 320px; color: white; border: 1px solid var(--gold);
+        }
+        .pin-box input {
+            width: 100%; padding: 12px; margin: 15px 0; text-align: center; font-size: 20px;
+            letter-spacing: 10px; border-radius: 12px; border: 1px solid #333; background: #222; color: white; outline: none;
+        }
+        .pin-box button {
+            width: 100%; padding: 12px; background: var(--gold); color: #000; border: none;
+            border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 5px;
+        }
+        .pin-link { font-size: 12px; color: var(--gold); cursor: pointer; text-decoration: underline; margin-top: 15px; display: inline-block; }
+
+        /* Kartu ATM Premium */
+        .saldo { 
+            background: linear-gradient(135deg, #1a1a1a, #333); 
+            border: 1px solid var(--gold);
+            padding: 20px; border-radius: 25px; color: white; height: 190px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative; overflow: hidden; margin-bottom: 20px;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .saldo h1, .saldo h4, .saldo span { color: white; }
+        .card-top, .card-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 12px; opacity: 0.8; }
+        .card-middle { text-align: center; }
+        .card-middle h1 { font-size: 26px; margin: 5px 0; }
+        
+        .status-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600;
+            background: rgba(255,255,255,0.2); margin-top: 5px;
+        }
+        .saldo.kritis {
+            background: linear-gradient(135deg, #4a0000, #800000);
+            border-color: #ff4757; box-shadow: 0 0 15px rgba(255, 71, 87, 0.5);
+        }
+
+        /* Budget & Widgets */
+        .budget-section { margin-bottom: 15px; font-size: 13px; }
+        .card-group { display: flex; gap: 15px; margin-bottom: 20px; }
+        .card-group .card { 
+            flex: 1; padding: 15px; border-radius: 20px; text-align: center;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+        }
+        .card-group .card h4 { font-size: 13px; opacity: 0.7; margin-bottom: 5px; }
+        .card-group .card p { font-size: 18px; font-weight: 600; }
+
+        /* Grafik Section */
+        .chart-section {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            padding: 15px; border-radius: 20px; margin-bottom: 20px; text-align: center;
+        }
+        .chart-section h3 { font-size: 14px; margin-bottom: 10px; }
+        .chart-container { position: relative; height: 200px; width: 100%; display: flex; justify-content: center; }
+
+        /* Inputs & Buttons */
+        .form-section h3, .history-section h3 { margin-bottom: 10px; font-size: 16px; }
+        input, select {
+            width: 100%; padding: 12px 15px; margin-bottom: 12px;
+            border: 1px solid var(--border-color); background: var(--card-bg);
+            border-radius: 12px; color: var(--text-utama); outline: none; font-size: 14px;
+        }
+        input:focus, select:focus { border-color: var(--gold); box-shadow: 0 0 8px rgba(212, 175, 55, 0.3); }
+
+        .btn-simpan { 
+            width: 100%; padding: 14px; border: none; border-radius: 12px; 
+            background: linear-gradient(135deg, var(--gold), #f3e5ab); 
+            color: #000; font-weight: 600; cursor: pointer; font-size: 14px; margin-bottom: 10px;
+        }
+        .btn-batal { background: #e74c3c; color: white; display: none; }
+        .btn-simpan:active, .btn-batal:active { transform: scale(0.97); }
+
+        /* Riwayat Transaksi & Filter */
+        .history-section { margin-top: 25px; }
+        .search-box { margin-bottom: 10px; }
+        .history-header { display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        
+        ul { list-style: none; }
+        li { 
+            background: var(--card-bg); padding: 12px 15px; border-radius: 15px; margin-bottom: 10px;
+            border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;
+        }
+        .action-btns { display: flex; gap: 6px; }
+        .edit-btn, .delete-btn {
+            border: none; padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; color: white;
+        }
+        .edit-btn { background: #3498db; }
+        .delete-btn { background: #e74c3c; }
+
+        /* Backup & Export Buttons */
+        .export-group { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-export { 
+            flex: 1; padding: 10px; background: transparent; border: 1px solid var(--gold); 
+            color: var(--text-utama); border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer;
+        }
+        .btn-export:hover { background: var(--gold); color: black; }
+
+        .reset-btn { 
+            width: 100%; padding: 12px; margin-top: 15px; background: transparent; 
+            color: #ff4757; border: 1px solid #ff4757; border-radius: 12px; font-weight: 600; cursor: pointer;
+        }
+        .reset-btn:hover { background: #ff4757; color: white; }
+
+        /* Custom Modal Pop-up */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 10000;
+        }
+        .modal-box {
+            background: var(--bg-container); border: 1px solid var(--gold);
+            padding: 20px; border-radius: 20px; width: 85%; max-width: 320px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .modal-box p { margin-bottom: 15px; font-size: 14px; }
+        .modal-btns { display: flex; gap: 10px; justify-content: center; }
+        .modal-btns button {
+            flex: 1; padding: 10px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;
+        }
+        .modal-btn-confirm { background: var(--gold); color: black; }
+        .modal-btn-cancel { background: #e74c3c; color: white; }
+    </style>
 </head>
 <body>
-    <!-- Fitur Baru: Layar Kunci PIN Rahasia -->
+
+    <!-- Layar Kunci PIN Rahasia -->
     <div id="pin-screen" class="pin-overlay">
         <div class="pin-box">
-            <h3>🔒 Masukkan PIN Anda</h3>
-            <p id="pin-info" style="font-size: 12px; color: gray; margin-bottom: 15px;">PIN bawaan pertama kali: 1234</p>
-            <input type="password" id="pin-input" maxlength="4" placeholder="••••" autocomplete="off">
+            <h3 id="pin-title">🔒 Masukkan PIN Anda</h3>
+            <p id="pin-info" style="font-size: 11px; color: gray; margin-top: 5px;">PIN bawaan: 1234</p>
+            <input type="password" id="pin-input" maxlength="6" placeholder="••••" autocomplete="off">
             <button onclick="verifikasiPIN()">Buka Dompet</button>
+            <div>
+                <span class="pin-link" onclick="lupaPIN()">Lupa PIN?</span>
+            </div>
         </div>
     </div>
 
+    <!-- Custom Modal Popup -->
+    <div id="custom-modal" class="modal-overlay">
+        <div class="modal-box">
+            <p id="modal-text">Pesan Konfirmasi</p>
+            <div id="modal-input-container"></div>
+            <div class="modal-btns">
+                <button id="modal-cancel-btn" class="modal-btn-cancel">Batal</button>
+                <button id="modal-confirm-btn" class="modal-btn-confirm">Ya</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
     <div class="container">
         <div class="header-app">
             <h2>Dompetku</h2>
-            <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
+            <div class="header-actions">
+                <button class="icon-btn" title="Pengaturan PIN" onclick="bukaAturPIN()">⚙️</button>
+                <button id="theme-toggle" class="icon-btn" onclick="toggleTheme()">🌙</button>
+            </div>
         </div>
         
         <div class="dashboard">
-            <!-- Kartu ATM Premium -->
+            <!-- Kartu ATM -->
             <div class="card saldo" id="kartu-atm">
                 <div class="card-top">
                     <span class="card-label">Digital Wallet</span>
@@ -34,7 +245,6 @@
                 <div class="card-middle">
                     <h4>Total Saldo</h4>
                     <h1 id="saldo">Rp 0</h1>
-                    <!-- Fitur Baru: Teks Status Peringatan Anggaran -->
                     <span id="status-anggaran" class="status-badge">Aman</span>
                 </div>
                 <div class="card-bottom">
@@ -43,28 +253,35 @@
                 </div>
             </div>
 
-            <!-- Fitur Baru: Set Batas Anggaran Bulanan -->
+            <!-- Batas Anggaran -->
             <div class="budget-section">
                 <label for="input-budget">🎯 Batas Anggaran Pengeluaran:</label>
-                <div class="budget-input-group">
-                    <input type="number" id="input-budget" placeholder="Set Batas (Misal: 1000000)" onchange="simpanBudget()">
-                </div>
+                <input type="text" id="input-budget" placeholder="Set Batas (Misal: 1.000.000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
             </div>
 
             <div class="card-group">
                 <div class="card masuk">
                     <h4>Pemasukan</h4>
-                    <p id="pemasukan">Rp 0</p>
+                    <p id="pemasukan" style="color: #28a745;">Rp 0</p>
                 </div>
                 <div class="card keluar">
                     <h4>Pengeluaran</h4>
-                    <p id="pengeluaran">Rp 0</p>
+                    <p id="pengeluaran" style="color: #dc3545;">Rp 0</p>
+                </div>
+            </div>
+
+            <!-- Visualisasi Chart.js -->
+            <div class="chart-section">
+                <h3>📊 Analisis Pengeluaran</h3>
+                <div class="chart-container">
+                    <canvas id="chartPengeluaran"></canvas>
                 </div>
             </div>
         </div>
 
+        <!-- Form Input & Edit Transaksi -->
         <div class="form-section">
-            <h3>Tambah Transaksi</h3>
+            <h3 id="form-title">Tambah Transaksi</h3>
             <input type="date" id="tanggal">
             <select id="kategori">
                 <option value="Makanan 🍔">Makanan 🍔</option>
@@ -75,20 +292,28 @@
                 <option value="Lainnya 📌">Lainnya 📌</option>
             </select>
             
-            <input type="text" id="keterangan" placeholder="Keterangan (Opsional)">
-            <input type="number" id="nominal" placeholder="Nominal (Misal: 50000)">
+            <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi)">
+            <input type="text" id="nominal" placeholder="Nominal (Misal: 50.000)" oninput="formatRupiahInput(this)">
             <select id="jenis">
                 <option value="masuk">Pemasukan (+)</option>
                 <option value="keluar">Pengeluaran (-)</option>
             </select>
-            <button class="btn-simpan" onclick="tambahData()">Simpan Transaksi</button>
+            
+            <button id="btn-simpan" class="btn-simpan" onclick="simpanTransaksi()">Simpan Transaksi</button>
+            <button id="btn-batal" class="btn-simpan btn-batal" onclick="batalEdit()">Batal Edit</button>
         </div>
 
+        <!-- Riwayat Transaksi -->
         <div class="history-section">
+            <h3>Riwayat Transaksi</h3>
+            
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="🔍 Cari keterangan/kategori..." oninput="updateTampilan()">
+            </div>
+
             <div class="history-header">
-                <h3>Riwayat Transaksi</h3>
-                <!-- Fitur Baru: Filter Kategori -->
-                <select id="filter-kategori" onchange="updateTampilan()">
+                <label style="font-size: 12px;">Filter Kategori:</label>
+                <select id="filter-kategori" onchange="updateTampilan()" style="margin-bottom:0; width: 60%;">
                     <option value="semua">Semua 📑</option>
                     <option value="Makanan 🍔">Makanan 🍔</option>
                     <option value="Transportasi 🚗">Transportasi 🚗</option>
@@ -98,16 +323,392 @@
                     <option value="Lainnya 📌">Lainnya 📌</option>
                 </select>
             </div>
+
             <ul id="list-riwayat"></ul>
+
+            <!-- Export / Backup Data -->
+            <div class="export-group">
+                <button class="btn-export" onclick="exportCSV()">📁 Export CSV</button>
+                <button class="btn-export" onclick="exportJSON()">💾 Backup JSON</button>
+            </div>
+
             <button class="reset-btn" onclick="resetData()">🗑️ Hapus Semua Data</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- JavaScript Logic -->
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
+        // State Variabel Utama
+        let transaksi = JSON.parse(localStorage.getItem('transaksi_keuangan')) || [];
+        let batasBudget = parseInt(localStorage.getItem('batas_anggaran')) || 0;
+        let appPin = localStorage.getItem('app_pin') || "1234";
+        let secAnswer = localStorage.getItem('sec_answer') || "dompetku";
+        let editIndex = -1;
+        let myChart = null;
+
+        // Inisialisasi Tanggal Hari Ini
+        document.getElementById('tanggal').valueAsDate = new Date();
+
+        // ================= KONTROL MODAL CUSTOM =================
+        function showCustomModal(text, onConfirm, showCancel = true, inputHTML = "") {
+            const modal = document.getElementById('custom-modal');
+            const modalText = document.getElementById('modal-text');
+            const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+            const modalCancelBtn = document.getElementById('modal-cancel-btn');
+            const inputContainer = document.getElementById('modal-input-container');
+
+            modalText.innerText = text;
+            inputContainer.innerHTML = inputHTML;
+            modalCancelBtn.style.display = showCancel ? "inline-block" : "none";
+            modal.style.display = "flex";
+
+            modalConfirmBtn.onclick = function() {
+                modal.style.display = "none";
+                if (onConfirm) onConfirm();
+            };
+
+            modalCancelBtn.onclick = function() {
+                modal.style.display = "none";
+            };
         }
+
+        // ================= VERIFIKASI & PENGATURAN PIN =================
+        function verifikasiPIN() {
+            let pinInput = document.getElementById('pin-input').value;
+            if (pinInput === appPin) {
+                document.getElementById('pin-screen').style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById('pin-screen').style.display = "none";
+                }, 300);
+            } else {
+                showCustomModal("❌ PIN Salah! Coba lagi.", null, false);
+                document.getElementById('pin-input').value = "";
+            }
+        }
+
+        function bukaAturPIN() {
+            let htmlInputs = `
+                <input type="password" id="modal-pin-lama" placeholder="PIN Saat Ini" style="margin-bottom:8px">
+                <input type="password" id="modal-pin-baru" placeholder="PIN Baru (4-6 Angka)" style="margin-bottom:8px">
+                <input type="text" id="modal-sec-ans" placeholder="Jawaban Keamanan (Misal: nama ibu)">
+            `;
+            showCustomModal("⚙️ Ubah PIN & Keamanan", function() {
+                let pLama = document.getElementById('modal-pin-lama').value;
+                let pBaru = document.getElementById('modal-pin-baru').value;
+                let sAns = document.getElementById('modal-sec-ans').value;
+
+                if (pLama !== appPin) {
+                    showCustomModal("❌ PIN saat ini tidak cocok!", null, false);
+                    return;
+                }
+                if (!pBaru || pBaru.length < 4) {
+                    showCustomModal("❌ PIN baru minimal 4 angka!", null, false);
+                    return;
+                }
+
+                appPin = pBaru;
+                if (sAns) secAnswer = sAns.toLowerCase();
+
+                localStorage.setItem('app_pin', appPin);
+                localStorage.setItem('sec_answer', secAnswer);
+                showCustomModal("✅ PIN Berhasil Diubah!", null, false);
+            }, true, htmlInputs);
+        }
+
+        function lupaPIN() {
+            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Masukkan Jawaban Keamanan">`;
+            showCustomModal("🔑 Pertanyaan Keamanan: Siapa kata kunci keamanan Anda?", function() {
+                let ans = document.getElementById('modal-answer-input').value;
+                if (ans && ans.toLowerCase() === secAnswer.toLowerCase()) {
+                    showCustomModal(`✅ PIN Anda adalah: ${appPin}`, null, false);
+                } else {
+                    showCustomModal("❌ Jawaban keamanan salah!", null, false);
+                }
+            }, true, htmlInputs);
+        }
+
+        // ================= TEMA GELAP/TERANG =================
+        if (localStorage.getItem('tema_aplikasi') === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.getElementById('theme-toggle').innerText = '☀️';
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            let tombol = document.getElementById('theme-toggle');
+            if (document.body.classList.contains('dark-theme')) {
+                localStorage.setItem('tema_aplikasi', 'dark');
+                tombol.innerText = '☀️';
+            } else {
+                localStorage.setItem('tema_aplikasi', 'light');
+                tombol.innerText = '🌙';
+            }
+            updateChart();
+        }
+
+        // ================= INPUT RUPIAH REAL-TIME =================
+        function formatRupiahInput(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value) {
+                input.value = parseInt(value, 10).toLocaleString('id-ID');
+            } else {
+                input.value = '';
+            }
+        }
+
+        function getUnformattedNumber(val) {
+            return parseInt(val.replace(/\D/g, ''), 10) || 0;
+        }
+
+        function formatRupiah(angka) {
+            return "Rp " + angka.toLocaleString('id-ID');
+        }
+
+        // ================= BUDGET MANAGEMENT =================
+        if (batasBudget > 0) {
+            document.getElementById('input-budget').value = batasBudget.toLocaleString('id-ID');
+        }
+
+        function simpanBudget() {
+            let nilaiBudget = document.getElementById('input-budget').value;
+            batasBudget = getUnformattedNumber(nilaiBudget);
+            localStorage.setItem('batas_anggaran', batasBudget);
+            updateTampilan();
+        }
+
+        // ================= CHART.JS ANALYTICS =================
+        function updateChart() {
+            let categoryTotals = {};
+
+            transaksi.forEach(t => {
+                if (t.jenis === 'keluar') {
+                    categoryTotals[t.kategori] = (categoryTotals[t.kategori] || 0) + t.nominal;
+                }
+            });
+
+            let labels = Object.keys(categoryTotals);
+            let data = Object.values(categoryTotals);
+
+            let ctx = document.getElementById('chartPengeluaran').getContext('2d');
+
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            if (labels.length === 0) {
+                labels = ["Belum ada pengeluaran"];
+                data = [1];
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#ff6b6b', '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd', '#1dd1a1'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: document.body.classList.contains('dark-theme') ? '#fff' : '#333',
+                                font: { size: 10 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ================= RENDER TAMPILAN UTAMA =================
+        function updateTampilan() {
+            let listRiwayat = document.getElementById('list-riwayat');
+            let filterKategori = document.getElementById('filter-kategori').value;
+            let searchQuery = document.getElementById('search-input').value.toLowerCase();
+            
+            listRiwayat.innerHTML = ''; 
+
+            let totalPemasukan = 0;
+            let totalPengeluaran = 0;
+
+            transaksi.forEach((item, index) => {
+                if (item.jenis === 'masuk') {
+                    totalPemasukan += item.nominal;
+                } else {
+                    totalPengeluaran += item.nominal;
+                }
+
+                // Filter Kategori & Search
+                let cocokFilter = (filterKategori === "semua" || item.kategori === filterKategori);
+                let cocokSearch = item.keterangan.toLowerCase().includes(searchQuery) || item.kategori.toLowerCase().includes(searchQuery);
+
+                if (!cocokFilter || !cocokSearch) {
+                    return;
+                }
+
+                let li = document.createElement('li');
+                li.innerHTML = `
+                    <div>
+                        <small style="color: gray;">${item.tanggal}</small><br>
+                        <strong>${item.kategori}</strong> <span style="font-size:12px">(${item.keterangan})</span> <br>
+                        <span style="font-weight:bold; color:${item.jenis === 'masuk' ? '#28a745' : '#dc3545'}">
+                            ${item.jenis === 'masuk' ? '+' : '-'} ${formatRupiah(item.nominal)}
+                        </span>
+                    </div>
+                    <div class="action-btns">
+                        <button class="edit-btn" onclick="editData(${index})">Edit</button>
+                        <button class="delete-btn" onclick="hapusData(${index})">Hapus</button>
+                    </div>
+                `;
+                listRiwayat.appendChild(li);
+            });
+
+            let totalSaldo = totalPemasukan - totalPengeluaran;
+            document.getElementById('saldo').innerText = formatRupiah(totalSaldo);
+            document.getElementById('pemasukan').innerText = formatRupiah(totalPemasukan);
+            document.getElementById('pengeluaran').innerText = formatRupiah(totalPengeluaran);
+
+            // LOGIKA KONDISI ANGGARAN
+            let kartuAtm = document.getElementById('kartu-atm');
+            let badgeStatus = document.getElementById('status-anggaran');
+
+            if (batasBudget > 0 && totalPengeluaran > batasBudget) {
+                kartuAtm.classList.add('kritis');
+                badgeStatus.innerText = "🚨 DOMPET KRITIS!";
+            } else if (batasBudget > 0 && totalPengeluaran >= batasBudget * 0.8) {
+                kartuAtm.classList.remove('kritis');
+                badgeStatus.innerText = "⚠️ Siaga (80%)";
+            } else {
+                kartuAtm.classList.remove('kritis');
+                badgeStatus.innerText = "💸 Saldo Aman";
+            }
+
+            localStorage.setItem('transaksi_keuangan', JSON.stringify(transaksi));
+            updateChart();
+        }
+
+        // ================= TAMBAH & EDIT TRANSAKSI =================
+        function simpanTransaksi() {
+            let tanggal = document.getElementById('tanggal').value;
+            let kategori = document.getElementById('kategori').value;
+            let keterangan = document.getElementById('keterangan').value;
+            let nominalRaw = document.getElementById('nominal').value;
+            let jenis = document.getElementById('jenis').value;
+            let nominal = getUnformattedNumber(nominalRaw);
+
+            if (nominal <= 0) {
+                showCustomModal("Nominal transaksi harus lebih dari 0!", null, false);
+                return;
+            }
+
+            let dataTransaksi = {
+                tanggal: tanggal,
+                kategori: kategori,
+                keterangan: keterangan || "-",
+                nominal: nominal, 
+                jenis: jenis
+            };
+
+            if (editIndex === -1) {
+                transaksi.push(dataTransaksi);
+            } else {
+                transaksi[editIndex] = dataTransaksi;
+                editIndex = -1;
+                document.getElementById('btn-simpan').innerText = "Simpan Transaksi";
+                document.getElementById('btn-batal').style.display = "none";
+                document.getElementById('form-title').innerText = "Tambah Transaksi";
+            }
+
+            document.getElementById('keterangan').value = "";
+            document.getElementById('nominal').value = "";
+            updateTampilan();
+        }
+
+        function editData(index) {
+            editIndex = index;
+            let item = transaksi[index];
+
+            document.getElementById('tanggal').value = item.tanggal;
+            document.getElementById('kategori').value = item.kategori;
+            document.getElementById('keterangan').value = item.keterangan;
+            document.getElementById('nominal').value = item.nominal.toLocaleString('id-ID');
+            document.getElementById('jenis').value = item.jenis;
+
+            document.getElementById('btn-simpan').innerText = "Update Transaksi";
+            document.getElementById('btn-batal').style.display = "block";
+            document.getElementById('form-title').innerText = "Edit Transaksi";
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        function batalEdit() {
+            editIndex = -1;
+            document.getElementById('keterangan').value = "";
+            document.getElementById('nominal').value = "";
+            document.getElementById('btn-simpan').innerText = "Simpan Transaksi";
+            document.getElementById('btn-batal').style.display = "none";
+            document.getElementById('form-title').innerText = "Tambah Transaksi";
+        }
+
+        function hapusData(index) {
+            showCustomModal("Apakah Anda yakin ingin menghapus catatan ini?", function() {
+                transaksi.splice(index, 1);
+                updateTampilan();
+            });
+        }
+
+        function resetData() {
+            showCustomModal("PERINGATAN! Anda yakin ingin menghapus seluruh data transaksi?", function() {
+                transaksi = [];
+                localStorage.removeItem('transaksi_keuangan');
+                updateTampilan();
+            });
+        }
+
+        // ================= EXPORT & BACKUP =================
+        function exportCSV() {
+            if (transaksi.length === 0) {
+                showCustomModal("Data transaksi masih kosong!", null, false);
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,Tanggal,Kategori,Keterangan,Jenis,Nominal\n";
+            transaksi.forEach(t => {
+                csvContent += `"${t.tanggal}","${t.kategori}","${t.keterangan}","${t.jenis}",${t.nominal}\n`;
+            });
+
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "catatan_dompetku.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function exportJSON() {
+            if (transaksi.length === 0) {
+                showCustomModal("Data transaksi masih kosong!", null, false);
+                return;
+            }
+
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(transaksi, null, 2));
+            let dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", "backup_dompetku.json");
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+        }
+
+        window.onload = function() {
+            updateTampilan();
+        };
     </script>
 </body>
 </html>
