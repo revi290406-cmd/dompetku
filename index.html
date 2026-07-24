@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- Meta Web App Manifest Virtual -->
-    <meta name="theme-color" content="#020617">
+    <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Dompetku v0.1 - Quantum Wealth Engine</title>
+    <title>Dompetku v0.2 Standar - Dompet Finansial Masa Depan</title>
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,31 +16,43 @@
 
     <style>
         :root {
-            --bg-main: #020617; /* Darker futuristic abyss */
-            --card-glass: rgba(15, 23, 42, 0.65);
-            --card-border: rgba(6, 182, 212, 0.2);
-            --accent-emerald: #10b981;
-            --accent-rose: #f43f5e;
-            --accent-violet: #8b5cf6;
-            --accent-amber: #f59e0b;
-            --accent-sky: #0ea5e9;
-            --accent-cyan: #06b6d4;
+            /* Mode Gelap (Dark Theme) Default */
+            --bg-main: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-card-hover: rgba(51, 65, 85, 0.8);
+            --card-border: rgba(255, 255, 255, 0.08);
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --radius-xl: 32px;
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --glass-blur: blur(30px);
-            --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.4);
-            --glow-violet: 0 0 20px rgba(139, 92, 246, 0.4);
+            --accent-primary: #6366f1; /* Indigo Modern */
+            --accent-emerald: #10b981; /* Pemasukan */
+            --accent-rose: #f43f5e;    /* Pengeluaran */
+            --accent-amber: #f59e0b;   /* Peringatan/Agen AI */
+            --accent-sky: #0ea5e9;
+            --radius-xl: 28px;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --glass-blur: blur(20px);
+            --shadow-main: 0 20px 40px rgba(0, 0, 0, 0.3);
+            --input-bg: rgba(15, 23, 42, 0.6);
+            --nav-bg: rgba(15, 23, 42, 0.85);
         }
 
         .light-theme {
-            --bg-main: #f8fafc;
-            --card-glass: rgba(255, 255, 255, 0.7);
-            --card-border: rgba(139, 92, 246, 0.2);
+            /* Mode Terang (Light Theme) */
+            --bg-main: #f1f5f9;
+            --bg-card: rgba(255, 255, 255, 0.8);
+            --bg-card-hover: rgba(241, 245, 249, 1);
+            --card-border: rgba(0, 0, 0, 0.06);
             --text-primary: #0f172a;
             --text-secondary: #64748b;
+            --accent-primary: #4f46e5;
+            --accent-emerald: #059669;
+            --accent-rose: #e11d48;
+            --accent-amber: #d97706;
+            --accent-sky: #0284c7;
+            --shadow-main: 0 20px 40px rgba(148, 163, 184, 0.2);
+            --input-bg: rgba(241, 245, 249, 0.8);
+            --nav-bg: rgba(255, 255, 255, 0.85);
         }
 
         * {
@@ -49,7 +60,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -61,68 +72,41 @@
             justify-content: center;
             align-items: flex-start;
             padding: 16px;
-            padding-bottom: 95px;
+            padding-bottom: 100px;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* 50 YEARS FUTURE AESTHETIC: Holographic Grid */
+        /* Latar Belakang Gradien Halus Masa Depan */
         body::before {
             content: "";
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: 
-                linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -2; pointer-events: none;
-            transform: perspective(600px) rotateX(60deg) translateY(-100px) scale(3);
-            animation: holoScroll 15s linear infinite;
-        }
-        @keyframes holoScroll {
-            to { transform: perspective(600px) rotateX(60deg) translateY(100px) scale(3); }
+            position: fixed; top: -10%; left: -10%; width: 120vw; height: 120vh;
+            background: radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+            z-index: -1; pointer-events: none;
         }
 
-        /* Ambient Aurora Animated Background */
-        .aurora-container {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -1; overflow: hidden; pointer-events: none;
-        }
-        .aurora-blob {
-            position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.5;
-            animation: floatAurora 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .aurora-1 { width: 350px; height: 350px; background: var(--accent-violet); top: -100px; left: -80px; }
-        .aurora-2 { width: 400px; height: 400px; background: var(--accent-sky); bottom: -120px; right: -100px; animation-delay: -5s; }
-        .aurora-3 { width: 300px; height: 300px; background: var(--accent-cyan); top: 30%; left: 20%; animation-delay: -10s; }
-
-        @keyframes floatAurora {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(80px, 100px) scale(1.2) rotate(180deg); }
-            100% { transform: translate(-60px, 50px) scale(0.9) rotate(360deg); }
-        }
-
-        /* Container Layout */
+        /* Kontainer Utama */
         .app-container {
             width: 100%;
             max-width: 480px;
-            background: var(--card-glass);
+            background: var(--bg-card);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--card-border);
             border-radius: var(--radius-xl);
             padding: 24px;
-            box-shadow: inset 0 0 20px rgba(255,255,255,0.02), 0 25px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: var(--shadow-main);
             margin-bottom: 20px;
-            animation: popUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: popUp 0.5s ease-out;
         }
 
         @keyframes popUp {
-            from { opacity: 0; transform: translateY(40px) scale(0.92); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header UI */
+        /* Header */
         .header-bar {
             display: flex;
             justify-content: space-between;
@@ -130,652 +114,487 @@
             margin-bottom: 24px;
         }
         .brand-title h2 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
-            background: linear-gradient(135deg, #00f2fe, #4facfe, var(--accent-violet));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+            color: var(--text-primary);
             letter-spacing: -0.5px;
         }
         .brand-title span {
-            font-size: 9px;
-            background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+            font-size: 10px;
+            background: var(--accent-primary);
             color: white;
             padding: 3px 8px;
-            border-radius: 8px;
-            margin-left: 8px;
+            border-radius: 20px;
+            margin-left: 6px;
             vertical-align: middle;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: var(--glow-violet);
+            font-weight: 700;
         }
-        .header-actions { display: flex; gap: 10px; }
+        .header-actions { display: flex; gap: 8px; }
         .icon-btn-rounded {
-            width: 42px; height: 42px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border);
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--input-bg); border: 1px solid var(--card-border);
             color: var(--text-primary); font-size: 16px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px);
         }
-        .icon-btn-rounded:hover { border-color: var(--accent-cyan); box-shadow: var(--glow-cyan); }
-        .icon-btn-rounded:active { transform: scale(0.85); }
+        .icon-btn-rounded:hover { background: var(--bg-card-hover); transform: scale(1.05); }
 
-        /* TAB / CATALOG SYSTEM STYLES */
-        .tab-content { display: none; animation: fadeInTab 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* Sistem Tab */
+        .tab-content { display: none; animation: fadeInTab 0.3s ease; }
         .tab-content.active { display: block; }
         @keyframes fadeInTab {
-            from { opacity: 0; transform: translateY(15px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Bottom Fixed Navigation Bar */
+        /* Navigasi Bawah */
         .bottom-nav {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
             width: 92%; max-width: 440px;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            border-radius: 40px; display: flex; justify-content: space-around;
-            align-items: center; padding: 8px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(255,255,255,0.05);
-            z-index: 990;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 35px; display: flex; justify-content: space-around;
+            align-items: center; padding: 6px;
+            box-shadow: var(--shadow-main); z-index: 990;
         }
         .nav-item {
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
             color: var(--text-secondary); font-size: 10px; font-weight: 700;
-            cursor: pointer; padding: 8px 14px; border-radius: 30px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; padding: 8px 12px; border-radius: 25px; transition: all 0.3s ease;
         }
-        .nav-item span.icon { font-size: 18px; transition: transform 0.3s ease; }
+        .nav-item span.icon { font-size: 18px; }
         .nav-item.active {
             color: #ffffff;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
-            box-shadow: var(--glow-cyan); transform: translateY(-4px);
+            background: var(--accent-primary);
+            transform: translateY(-2px);
         }
-        .nav-item.active span.icon { transform: scale(1.2); }
 
-        /* Lock Screen PIN & Biometric */
+        /* Layar Kunci & PIN */
         .pin-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(40px);
-            display: flex; justify-content: center; align-items: center; z-index: 99999;
+            background: var(--bg-main); display: flex; justify-content: center;
+            align-items: center; z-index: 99999; padding: 20px;
         }
         .pin-card {
-            background: var(--card-glass); border: 1px solid var(--accent-cyan);
-            padding: 40px 30px; border-radius: var(--radius-xl); text-align: center;
-            width: 90%; max-width: 380px; box-shadow: var(--glow-cyan);
-            position: relative; overflow: hidden;
+            background: var(--bg-card); border: 1px solid var(--card-border);
+            padding: 32px 24px; border-radius: var(--radius-xl); text-align: center;
+            width: 100%; max-width: 360px; box-shadow: var(--shadow-main);
         }
-        /* Scanner line effect for futuristic look */
-        .pin-card::after {
-            content: ""; position: absolute; top: -50%; left: 0; width: 100%; height: 20%;
-            background: linear-gradient(to bottom, transparent, rgba(6, 182, 212, 0.4), transparent);
-            animation: scanLine 3s infinite linear; pointer-events: none;
-        }
-        @keyframes scanLine { 0% { top: -20%; } 100% { top: 120%; } }
-
-        .pin-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 16px; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .pin-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
         .pin-card input {
-            width: 100%; padding: 16px; text-align: center; font-size: 32px;
-            letter-spacing: 16px; border-radius: var(--radius-md); border: 1px solid rgba(6, 182, 212, 0.5);
-            background: rgba(0,0,0,0.4); color: var(--accent-cyan); outline: none; margin-bottom: 18px;
-            text-shadow: 0 0 15px var(--accent-cyan);
+            width: 100%; padding: 14px; text-align: center; font-size: 28px;
+            letter-spacing: 12px; border-radius: var(--radius-md); border: 1px solid var(--card-border);
+            background: var(--input-bg); color: var(--text-primary); outline: none; margin-bottom: 16px;
         }
 
-        /* Buttons */
+        /* Tombol Utama */
         .btn-primary {
-            width: 100%; padding: 16px; border: none; border-radius: var(--radius-md);
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
-            color: white; font-weight: 800; font-size: 14px; cursor: pointer;
-            box-shadow: var(--glow-violet); margin-top: 8px; text-transform: uppercase; letter-spacing: 1px;
+            width: 100%; padding: 14px; border: none; border-radius: var(--radius-md);
+            background: var(--accent-primary); color: white; font-weight: 700; font-size: 13px;
+            cursor: pointer; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .btn-primary:hover { filter: brightness(1.1); }
-        .btn-primary:active { transform: scale(0.95); }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-primary:active { transform: scale(0.98); }
         .btn-bio {
-            background: rgba(16, 185, 129, 0.1) !important;
+            background: rgba(16, 185, 129, 0.15) !important;
             border: 1px solid var(--accent-emerald) !important;
             color: var(--accent-emerald) !important;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2) !important;
         }
 
-        /* Total Balance Card */
+        /* Kartu Saldo Utama */
         .total-balance-card {
-            background: linear-gradient(145deg, rgba(15, 23, 42, 0.8), rgba(6, 182, 212, 0.1));
-            border: 1px solid rgba(6, 182, 212, 0.4);
-            border-radius: var(--radius-lg); padding: 26px;
-            position: relative; overflow: hidden; margin-bottom: 24px;
-            box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.1), 0 15px 35px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, var(--accent-primary), #4338ca);
+            color: white; border-radius: var(--radius-lg); padding: 24px;
+            position: relative; overflow: hidden; margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
         }
-        .balance-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-cyan); font-weight: 700; }
-        .balance-amount { font-size: 38px; font-weight: 800; margin: 8px 0; color: #ffffff; text-shadow: 0 0 20px rgba(255,255,255,0.4); letter-spacing: -1px; }
+        .balance-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-weight: 700; }
+        .balance-amount { font-size: 34px; font-weight: 800; margin: 6px 0; letter-spacing: -1px; }
         .budget-status-pill {
-            display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px;
-            border-radius: 30px; font-size: 11px; font-weight: 800; text-transform: uppercase;
-            background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald);
-            border: 1px solid rgba(16, 185, 129, 0.4); box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+            display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
+            border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.2); color: #fff; backdrop-filter: blur(10px);
         }
-        .budget-status-pill.kritis {
-            background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); 
-            border-color: rgba(244, 63, 94, 0.4); box-shadow: 0 0 10px rgba(244, 63, 94, 0.2);
-        }
+        .budget-status-pill.kritis { background: rgba(244, 63, 94, 0.8); }
 
-        /* Pocket System */
+        /* Kantong Dana */
         .pocket-section-title {
             display: flex; justify-content: space-between; align-items: center;
-            font-size: 12px; font-weight: 800; letter-spacing: 1px; color: var(--accent-sky); margin-bottom: 12px;
+            font-size: 12px; font-weight: 800; color: var(--text-secondary); margin-bottom: 10px;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .pocket-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+        .pocket-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
         .pocket-card {
-            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.05);
-            padding: 16px 10px; border-radius: var(--radius-md); text-align: center;
-            cursor: pointer; position: relative; overflow: hidden;
+            background: var(--input-bg); border: 1px solid var(--card-border);
+            padding: 14px 8px; border-radius: var(--radius-md); text-align: center; cursor: pointer;
         }
         .pocket-card:hover, .pocket-card.active {
-            border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.1);
-            transform: translateY(-4px); box-shadow: var(--glow-cyan);
+            border-color: var(--accent-primary); background: var(--bg-card-hover);
+            transform: translateY(-2px);
         }
-        .pocket-icon { font-size: 24px; margin-bottom: 6px; }
-        .pocket-name { font-size: 11px; font-weight: 800; color: var(--text-primary); text-transform: uppercase; letter-spacing: 1px; }
-        .pocket-val { font-size: 13px; font-weight: 800; color: var(--accent-emerald); margin-top: 4px; }
+        .pocket-icon { font-size: 20px; margin-bottom: 4px; }
+        .pocket-name { font-size: 10px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; }
+        .pocket-val { font-size: 12px; font-weight: 800; color: var(--text-primary); margin-top: 2px; }
 
-        /* Filter & Metrics */
-        .filter-row {
-            display: flex; gap: 12px; align-items: center; margin-bottom: 20px;
-            background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: var(--radius-md);
-            border: 1px solid var(--card-border);
-        }
-        .filter-row label { font-size: 12px; font-weight: 800; color: var(--accent-cyan); white-space: nowrap; text-transform: uppercase; }
-        .filter-row input[type="month"] {
-            border: none; background: transparent; color: var(--text-primary);
-            font-size: 14px; font-weight: 800; outline: none; width: 100%; cursor: pointer;
-        }
-
-        .inc-exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+        /* Grid Pemasukan & Pengeluaran */
+        .inc-exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .inc-card, .exp-card {
-            background: rgba(0,0,0,0.3); border: 1px solid var(--card-border);
-            padding: 18px; border-radius: var(--radius-lg); text-align: center;
+            background: var(--input-bg); border: 1px solid var(--card-border);
+            padding: 16px; border-radius: var(--radius-md); text-align: center;
         }
-        .inc-card h5, .exp-card h5 { font-size: 10px; color: var(--text-secondary); font-weight: 800; letter-spacing: 1px; margin-bottom: 6px; }
-        .inc-card p { font-size: 18px; font-weight: 800; color: var(--accent-emerald); text-shadow: 0 0 10px rgba(16,185,129,0.3); }
-        .exp-card p { font-size: 18px; font-weight: 800; color: var(--accent-rose); text-shadow: 0 0 10px rgba(244,63,94,0.3); }
+        .inc-card h5, .exp-card h5 { font-size: 10px; color: var(--text-secondary); font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .inc-card p { font-size: 16px; font-weight: 800; color: var(--accent-emerald); }
+        .exp-card p { font-size: 16px; font-weight: 800; color: var(--accent-rose); }
 
-        /* Quantum Metrics Grid */
-        .quantum-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
-        .quantum-card {
-            background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3);
-            padding: 14px 10px; border-radius: var(--radius-md); text-align: center;
-            box-shadow: inset 0 0 15px rgba(139, 92, 246, 0.05);
+        /* Kartu Agen AI Otonom */
+        .agent-card {
+            background: rgba(245, 158, 11, 0.1); border: 1px solid var(--accent-amber);
+            padding: 18px; border-radius: var(--radius-lg); margin-bottom: 20px;
         }
-        .quantum-card h6 { font-size: 9px; font-weight: 800; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; }
-        .quantum-card p { font-size: 14px; font-weight: 800; color: var(--accent-violet); text-shadow: 0 0 10px rgba(139,92,246,0.4); }
+        .agent-title { font-size: 13px; font-weight: 800; color: var(--accent-amber); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 
-        /* Chart Box */
+        /* Grafik Box */
         .chart-box {
-            background: rgba(0, 0, 0, 0.3); border: 1px solid var(--card-border);
-            padding: 20px; border-radius: var(--radius-lg); margin-bottom: 24px;
+            background: var(--input-bg); border: 1px solid var(--card-border);
+            padding: 16px; border-radius: var(--radius-lg); margin-bottom: 20px;
         }
-        .chart-box h4 { font-size: 12px; font-weight: 800; letter-spacing: 1px; color: var(--accent-cyan); margin-bottom: 16px; text-align: center; text-transform: uppercase; }
-        .chart-wrapper { position: relative; height: 200px; width: 100%; }
+        .chart-box h4 { font-size: 11px; font-weight: 800; color: var(--text-secondary); margin-bottom: 12px; text-align: center; text-transform: uppercase; }
+        .chart-wrapper { position: relative; height: 180px; width: 100%; }
 
-        /* Form Controls */
-        label { font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--accent-cyan); margin-bottom: 8px; display: block; text-transform: uppercase; }
+        /* Elemen Form */
+        label { font-size: 10px; font-weight: 800; color: var(--text-secondary); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
         input, select {
-            width: 100%; padding: 14px 16px; margin-bottom: 16px;
-            border: 1px solid rgba(255,255,255,0.1); background: rgba(0, 0, 0, 0.4);
-            border-radius: var(--radius-md); color: var(--text-primary); outline: none; font-size: 14px; font-weight: 700;
+            width: 100%; padding: 12px 14px; margin-bottom: 14px;
+            border: 1px solid var(--card-border); background: var(--input-bg);
+            border-radius: var(--radius-md); color: var(--text-primary); outline: none; font-size: 13px; font-weight: 600;
         }
-        select option { background-color: #020617; color: #ffffff; }
-        input:focus, select:focus { border-color: var(--accent-cyan); box-shadow: var(--glow-cyan); }
+        select option { background-color: var(--bg-main); color: var(--text-primary); }
+        input:focus, select:focus { border-color: var(--accent-primary); }
 
-        .type-selector { display: flex; gap: 12px; margin-bottom: 18px; }
+        .type-selector { display: flex; gap: 10px; margin-bottom: 16px; }
         .type-btn {
-            flex: 1; padding: 14px; border-radius: var(--radius-md); text-align: center;
-            font-weight: 800; font-size: 13px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(0, 0, 0, 0.3); color: var(--text-secondary); user-select: none; text-transform: uppercase;
+            flex: 1; padding: 12px; border-radius: var(--radius-md); text-align: center;
+            font-weight: 800; font-size: 12px; cursor: pointer; border: 1px solid var(--card-border);
+            background: var(--input-bg); color: var(--text-secondary);
         }
-        .type-btn.active-keluar { background: rgba(244, 63, 94, 0.15); border-color: var(--accent-rose); color: var(--accent-rose); box-shadow: 0 0 15px rgba(244,63,94,0.2); }
-        .type-btn.active-masuk { background: rgba(16, 185, 129, 0.15); border-color: var(--accent-emerald); color: var(--accent-emerald); box-shadow: 0 0 15px rgba(16,185,129,0.2); }
+        .type-btn.active-keluar { background: rgba(244, 63, 94, 0.15); border-color: var(--accent-rose); color: var(--accent-rose); }
+        .type-btn.active-masuk { background: rgba(16, 185, 129, 0.15); border-color: var(--accent-emerald); color: var(--accent-emerald); }
 
-        /* History List */
-        .history-list { list-style: none; margin-top: 12px; }
+        /* Daftar Riwayat */
+        .filter-row {
+            display: flex; gap: 10px; align-items: center; margin-bottom: 16px;
+            background: var(--input-bg); padding: 8px 12px; border-radius: var(--radius-md); border: 1px solid var(--card-border);
+        }
+        .history-list { list-style: none; margin-top: 10px; }
         .history-item {
-            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.05);
-            padding: 16px; border-radius: var(--radius-md); margin-bottom: 12px;
+            background: var(--input-bg); border: 1px solid var(--card-border);
+            padding: 14px; border-radius: var(--radius-md); margin-bottom: 10px;
             display: flex; justify-content: space-between; align-items: center;
-            animation: slideIn 0.4s ease; border-left: 3px solid transparent;
+            border-left: 4px solid transparent;
         }
-        .history-item:hover { background: rgba(255,255,255,0.05); border-color: var(--accent-cyan); }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
-        
-        .item-info small { font-size: 10px; font-weight: 700; color: var(--accent-cyan); letter-spacing: 0.5px; }
-        .item-info div { font-weight: 800; font-size: 14px; margin: 4px 0; }
-        .item-val { font-weight: 800; font-size: 15px; }
-        .item-actions { display: flex; gap: 8px; margin-top: 6px; }
-        .action-chip { border: none; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
-        .chip-edit { background: rgba(139, 92, 246, 0.15); color: var(--accent-violet); border: 1px solid rgba(139, 92, 246, 0.3); }
-        .chip-del { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); border: 1px solid rgba(244, 63, 94, 0.3); }
-
-        /* Floating AI Advisor Widget */
-        .ai-floating-btn {
-            position: fixed; bottom: 100px; right: 20px; z-index: 999;
-            width: 56px; height: 56px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
-            box-shadow: var(--glow-cyan);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 26px; cursor: pointer; border: 2px solid rgba(255,255,255,0.6);
-            animation: pulseGlow 2s infinite;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(6, 182, 212, 0.5); }
-            50% { transform: scale(1.1); box-shadow: 0 0 35px rgba(139, 92, 246, 0.8); }
-        }
-
-        .ai-chat-drawer {
-            position: fixed; bottom: 170px; right: 20px; width: 90%; max-width: 380px;
-            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            border: 1px solid var(--accent-cyan); border-radius: var(--radius-lg);
-            padding: 20px; box-shadow: var(--glow-cyan);
-            display: none; flex-direction: column; gap: 14px; z-index: 998;
-            animation: drawerUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes drawerUp { from { opacity: 0; transform: translateY(30px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-
-        .ai-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-        .ai-header h4 { font-size: 14px; font-weight: 800; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .ai-body { font-size: 13px; line-height: 1.6; color: var(--text-primary); max-height: 240px; overflow-y: auto; font-weight: 500; }
-        .ai-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-        .ai-chip-btn {
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; color: var(--text-primary); cursor: pointer;
-        }
-        .ai-chip-btn:hover { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); }
+        .item-info small { font-size: 10px; font-weight: 700; color: var(--text-secondary); }
+        .item-info div { font-weight: 800; font-size: 13px; margin: 2px 0; }
+        .item-val { font-weight: 800; font-size: 14px; }
+        .item-actions { display: flex; gap: 6px; margin-top: 4px; }
+        .action-chip { border: none; padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        .chip-edit { background: rgba(99, 102, 241, 0.15); color: var(--accent-primary); }
+        .chip-del { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
 
         /* Modal Overlay */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(2, 6, 23, 0.9); backdrop-filter: blur(20px);
-            display: none; justify-content: center; align-items: center; z-index: 100000;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px);
+            display: none; justify-content: center; align-items: center; z-index: 100000; padding: 20px;
         }
         .modal-box {
-            background: var(--card-glass); border: 1px solid var(--accent-cyan); box-shadow: var(--glow-cyan);
-            padding: 28px; border-radius: var(--radius-lg); width: 90%; max-width: 360px; text-align: center;
+            background: var(--bg-card); border: 1px solid var(--card-border);
+            padding: 24px; border-radius: var(--radius-lg); width: 100%; max-width: 360px; text-align: center;
+            box-shadow: var(--shadow-main);
         }
-        .modal-btns { display: flex; gap: 12px; margin-top: 20px; }
-        .modal-btns button { flex: 1; padding: 14px; border: none; border-radius: var(--radius-md); font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 12px; }
-        .btn-confirm { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet)); color: white; }
-        .btn-cancel { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+        .modal-btns { display: flex; gap: 10px; margin-top: 16px; }
+        .modal-btns button { flex: 1; padding: 12px; border: none; border-radius: var(--radius-md); font-weight: 800; cursor: pointer; font-size: 11px; text-transform: uppercase; }
+        .btn-confirm { background: var(--accent-primary); color: white; }
+        .btn-cancel { background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); }
     </style>
 </head>
 <body>
 
-    <!-- Ambient Background Aurora -->
-    <div class="aurora-container">
-        <div class="aurora-blob aurora-1"></div>
-        <div class="aurora-blob aurora-2"></div>
-        <div class="aurora-blob aurora-3"></div>
-    </div>
-
-    <!-- Lock Screen (PIN & WebAuthn Biometric) -->
+    <!-- Layar Kunci (PIN & Biometrik) -->
     <div id="pin-screen" class="pin-overlay">
         <div class="pin-card">
-            <h3>🔐 NEO-SECURITY</h3>
-            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 20px; font-weight: 600;">Otentikasi Identitas Kuantum</p>
+            <h3>🔒 Keamanan Akses</h3>
+            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 16px; font-weight: 600;">Verifikasi Identitas Dompetku</p>
             <input type="password" id="pin-input" maxlength="6" placeholder="••••" autocomplete="off">
-            <button class="btn-primary" onclick="verifikasiPIN()">AKSES TERMINAL</button>
-            <button class="btn-primary btn-bio" onclick="loginBiometric()">👆 NEURAL / BIOMETRIC SCAN</button>
-            <p style="font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--accent-cyan); margin-top: 20px; cursor: pointer;" onclick="lupaPIN()">RECOVERY PROTOCOL</p>
+            <button class="btn-primary" onclick="verifikasiPIN()">Buka Dompet</button>
+            <button class="btn-primary btn-bio" onclick="loginBiometric()">👆 Pindai Biometrik</button>
+            <p style="font-size: 11px; font-weight: 800; color: var(--accent-primary); margin-top: 16px; cursor: pointer;" onclick="lupaPIN()">Pemulihan PIN</p>
         </div>
     </div>
 
-    <!-- Custom Modal Popup -->
+    <!-- Modal Pop-up Custom -->
     <div id="custom-modal" class="modal-overlay">
         <div class="modal-box">
-            <p id="modal-text" style="font-size: 15px; font-weight: 800; margin-bottom: 15px;"></p>
+            <p id="modal-text" style="font-size: 14px; font-weight: 800; margin-bottom: 12px;"></p>
             <div id="modal-input-container"></div>
             <div class="modal-btns">
-                <button id="modal-cancel-btn" class="btn-cancel">ABORT</button>
-                <button id="modal-confirm-btn" class="btn-confirm">EXECUTE</button>
+                <button id="modal-cancel-btn" class="btn-cancel">Batal</button>
+                <button id="modal-confirm-btn" class="btn-confirm">Proses</button>
             </div>
         </div>
     </div>
 
-    <!-- Main Container -->
+    <!-- Kontainer Utama -->
     <div class="app-container">
-        <!-- Header Bar -->
+        <!-- Header -->
         <div class="header-bar">
             <div class="brand-title">
-                <h2>DOMPETKU <span>v0.1 Standar</span></h2>
+                <h2>Dompetku <span>v0.2</span></h2>
             </div>
             <div class="header-actions">
-                <button class="icon-btn-rounded" title="Kelola Kantong & Transfer" onclick="bukaModalTransfer()">🔄</button>
-                <button class="icon-btn-rounded" title="Atur PIN Keamanan" onclick="bukaAturPIN()">⚙️</button>
+                <button class="icon-btn-rounded" title="Transfer Antar Kantong" onclick="bukaModalTransfer()">🔄</button>
+                <button class="icon-btn-rounded" title="Pengaturan Keamanan" onclick="bukaAturPIN()">⚙️</button>
                 <button id="theme-toggle" class="icon-btn-rounded" onclick="toggleTheme()">🌙</button>
             </div>
         </div>
 
-        <!-- KATALOG 1: BERANDA / UTAMA -->
+        <!-- TAB 1: BERANDA -->
         <div id="tab-beranda" class="tab-content active">
             <div class="total-balance-card">
-                <div class="balance-label">Total Neraca Aset Kuantum</div>
+                <div class="balance-label">Total Keuangan Saat Ini</div>
                 <div id="saldo" class="balance-amount">Rp 0</div>
-                <div id="status-anggaran" class="budget-status-pill">⚡ Status: Optimal</div>
+                <div id="status-anggaran" class="budget-status-pill">⚡ Status: Aman</div>
             </div>
 
-            <!-- Multi-Pocket Dana -->
+            <!-- Kantong Dana -->
             <div class="pocket-section-title">
-                <span>🎯 NODE KANTONG DANA</span>
-                <span style="color: var(--accent-cyan); cursor: pointer;" onclick="bukaModalTransfer()">+ Reroute Transfer</span>
+                <span>🎯 Alokasi Kantong Dana</span>
+                <span style="color: var(--accent-primary); cursor: pointer;" onclick="bukaModalTransfer()">+ Transfer</span>
             </div>
             <div class="pocket-grid">
                 <div class="pocket-card active" id="pocket-card-utama" onclick="pilihFilterPocket('utama')">
                     <div class="pocket-icon">💳</div>
-                    <div class="pocket-name">Main Node</div>
+                    <div class="pocket-name">Utama</div>
                     <div class="pocket-val" id="val-pocket-utama">Rp 0</div>
                 </div>
                 <div class="pocket-card" id="pocket-card-tabungan" onclick="pilihFilterPocket('tabungan')">
                     <div class="pocket-icon">🎯</div>
-                    <div class="pocket-name">Future Node</div>
+                    <div class="pocket-name">Tabungan</div>
                     <div class="pocket-val" id="val-pocket-tabungan">Rp 0</div>
                 </div>
                 <div class="pocket-card" id="pocket-card-darurat" onclick="pilihFilterPocket('darurat')">
                     <div class="pocket-icon">🚨</div>
-                    <div class="pocket-name">Crisis Node</div>
+                    <div class="pocket-name">Darurat</div>
                     <div class="pocket-val" id="val-pocket-darurat">Rp 0</div>
                 </div>
             </div>
 
             <div class="inc-exp-grid">
                 <div class="inc-card">
-                    <h5>INFLOW SIKLUS INI</h5>
+                    <h5>PEMASUKAN BULAN INI</h5>
                     <p id="pemasukan">Rp 0</p>
                 </div>
                 <div class="exp-card">
-                    <h5>OUTFLOW SIKLUS INI</h5>
+                    <h5>PENGELUARAN BULAN INI</h5>
                     <p id="pengeluaran">Rp 0</p>
                 </div>
             </div>
 
             <div class="chart-box">
-                <h4>📊 ANALISIS STRUKTUR PENGELUARAN</h4>
+                <h4>📊 Analisis Kategori Pengeluaran</h4>
                 <div class="chart-wrapper">
                     <canvas id="chartPengeluaran"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- KATALOG 2: QUANTUM LIFETIME WEALTH SIMULATION -->
-        <div id="tab-quantum" class="tab-content">
-            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--accent-cyan); margin-bottom: 20px; box-shadow: inset 0 0 15px rgba(6,182,212,0.1);">
-                <h4 style="font-size: 15px; font-weight: 800; color: var(--accent-cyan); margin-bottom: 10px; text-shadow: 0 0 10px rgba(6,182,212,0.5);">⚛️ QUANTUM LIFETIME WEALTH SIMULATOR</h4>
-                <p style="font-size: 11px; font-weight: 600; color: var(--text-secondary); line-height: 1.5; margin-bottom: 18px;">
-                    Prediksi probabilitas nilai kekayaan pribadi 50–100 tahun ke depan memperhitungkan siklus hiper-inflasi, krisis makro iklim, dan akumulasi warisan generasional.
+        <!-- TAB 2: AGEN OTONOM & MASA DEPAN -->
+        <div id="tab-agen" class="tab-content">
+            <div class="agent-card">
+                <div class="agent-title">🤖 Agen Asisten Finansial Otonom</div>
+                <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                    Sistem otomatisasi yang bernegosiasi, membandingkan opsi pasar terbaik, dan mengeksekusi kebutuhan finansial Anda tanpa pencatatan manual.
                 </p>
-
-                <label for="sim-horizon">HORIZON WAKTU SIMULASI:</label>
-                <select id="sim-horizon">
-                    <option value="50">50 Tahun Mendatang (1 Generasi)</option>
-                    <option value="100">100 Tahun Mendatang (Multi Generasi)</option>
-                </select>
-
-                <label for="sim-climate">RISIKO SHOCK MAKRO IKLIM & KRISIS:</label>
-                <select id="sim-climate">
-                    <option value="0.03">Rendah (Pertumbuhan Stabil ~3% Impak)</option>
-                    <option value="0.08" selected>Sedang (Shock Iklim & Inflasi Agresif ~8%)</option>
-                    <option value="0.15">Ekstrem (Siklus Hiper-Inflasi & Krisis Iklim ~15%)</option>
-                </select>
-
-                <label for="sim-inheritance">ALOKASI WARISAN LINTAS GENERASI (%):</label>
-                <input type="number" id="sim-inheritance" value="40" min="10" max="100" placeholder="Contoh: 40">
-
-                <button class="btn-primary" onclick="jalankanSimulasiKuantum()">⚡ JALANKAN MESIN QUANTUM SIMULATION</button>
+                <input type="text" id="agent-command" placeholder="Perintah Agen (misal: Beli Sembako Bulanan Max 500rb)" style="margin-bottom: 10px;">
+                <button class="btn-primary" style="background: var(--accent-amber);" onclick="eksekusiAgenOtonom()">⚡ Eksekusi Pembelanjaan Otonom</button>
             </div>
 
-            <div class="quantum-grid">
-                <div class="quantum-card">
-                    <h6>ESTIMASI NILAIASET (MEDIAN)</h6>
-                    <p id="q-val-50">Rp 0</p>
-                </div>
-                <div class="quantum-card">
-                    <h6>LEGACY SCORE</h6>
-                    <p id="q-legacy-score">0 / 100</p>
-                </div>
-                <div class="quantum-card">
-                    <h6>KETAHANAN KRISIS</h6>
-                    <p id="q-survival-rate">0%</p>
-                </div>
+            <div style="background: var(--input-bg); padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 20px;">
+                <h4 style="font-size: 13px; font-weight: 800; color: var(--accent-primary); margin-bottom: 8px;">📈 Simulasi Aset Masa Depan (50-100 Tahun)</h4>
+                <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                    Proyeksi akumulasi kekayaan jangka panjang memperhitungkan inflasi dan warisan lintas generasi.
+                </p>
+
+                <label for="sim-horizon">Horizon Waktu:</label>
+                <select id="sim-horizon">
+                    <option value="50">50 Tahun Ke Depan</option>
+                    <option value="100">100 Tahun Ke Depan (Generasional)</option>
+                </select>
+
+                <label for="sim-climate">Asumsi Risiko Inflasi & Ekonomi:</label>
+                <select id="sim-climate">
+                    <option value="0.03">Rendah (Pertumbuhan Stabil ~3%)</option>
+                    <option value="0.08" selected>Sedang (Inflasi Normal ~8%)</option>
+                    <option value="0.15">Tinggi (Krisis Makro ~15%)</option>
+                </select>
+
+                <button class="btn-primary" onclick="jalankanSimulasiMasaDepan()">Kalkulasi Proyeksi Masa Depan</button>
             </div>
 
             <div class="chart-box">
-                <h4>📈 TRAJEKTORI BEBAS SEPANJANG ABAD</h4>
+                <h4>📈 Trajektori Kekayaan Panjang</h4>
                 <div class="chart-wrapper">
-                    <canvas id="chartQuantum"></canvas>
+                    <canvas id="chartMasaDepan"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- KATALOG 3: TAMBAH TRANSAKSI -->
+        <!-- TAB 3: TAMBAH TRANSAKSI -->
         <div id="tab-transaksi" class="tab-content">
-            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 20px;">
-                <h4 id="form-title" style="font-size: 15px; font-weight: 800; color: var(--accent-violet); margin-bottom: 18px; text-shadow: 0 0 10px rgba(139,92,246,0.4);">+ INJEKSI DATA TRANSAKSI</h4>
+            <div style="background: var(--input-bg); padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--card-border); margin-bottom: 20px;">
+                <h4 id="form-title" style="font-size: 14px; font-weight: 800; color: var(--accent-primary); margin-bottom: 14px;">+ Tambah Transaksi Manual</h4>
                 
                 <div class="type-selector">
-                    <div id="btn-jenis-keluar" class="type-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Outflow (-)</div>
-                    <div id="btn-jenis-masuk" class="type-btn" onclick="pilihJenis('masuk')">🟢 Inflow (+)</div>
+                    <div id="btn-jenis-keluar" class="type-btn active-keluar" onclick="pilihJenis('keluar')">🔴 Pengeluaran (-)</div>
+                    <div id="btn-jenis-masuk" class="type-btn" onclick="pilihJenis('masuk')">🟢 Pemasukan (+)</div>
                 </div>
 
-                <label for="select-pocket-target">SIMPAN KE NODE KANTONG:</label>
+                <label for="select-pocket-target">Pilih Kantong Dana:</label>
                 <select id="select-pocket-target">
-                    <option value="utama">Main Node 💳</option>
-                    <option value="tabungan">Future Node 🎯</option>
-                    <option value="darurat">Crisis Node 🚨</option>
+                    <option value="utama">Kantong Utama 💳</option>
+                    <option value="tabungan">Kantong Tabungan 🎯</option>
+                    <option value="darurat">Kantong Darurat 🚨</option>
                 </select>
 
-                <label for="tanggal">TIMESTAMP:</label>
+                <label for="tanggal">Tanggal:</label>
                 <input type="date" id="tanggal">
                 
-                <label for="kategori">KATEGORI:</label>
+                <label for="kategori">Kategori:</label>
                 <select id="kategori">
-                    <option value="Makanan 🍔">Nutrisi & Makanan 🍔</option>
-                    <option value="Transportasi 🚗">Mobilitas 🚗</option>
-                    <option value="Belanja 🛍️">Logistik & Belanja 🛍️</option>
-                    <option value="Tagihan 📄">Infrastruktur/Tagihan 📄</option>
-                    <option value="Gaji 💰">Pendapatan Utama 💰</option>
-                    <option value="Lainnya 📌">Aktivitas Lainnya 📌</option>
+                    <option value="Makanan 🍔">Makanan & Nutrisi 🍔</option>
+                    <option value="Transportasi 🚗">Transportasi & Mobilitas 🚗</option>
+                    <option value="Belanja 🛍️">Belanja & Logistik 🛍️</option>
+                    <option value="Tagihan 📄">Tagihan & Rutinitas 📄</option>
+                    <option value="Gaji 💰">Gaji & Pendapatan 💰</option>
+                    <option value="Lainnya 📌">Kebutuhan Lainnya 📌</option>
                 </select>
                 
-                <label for="keterangan">LOG KETERANGAN:</label>
-                <input type="text" id="keterangan" placeholder="Input Log Data (misal: Beli Kopi)">
+                <label for="keterangan">Keterangan:</label>
+                <input type="text" id="keterangan" placeholder="Keterangan (misal: Beli Kopi)">
                 
-                <label for="nominal">UNIT NOMINAL (RP):</label>
-                <input type="text" id="nominal" placeholder="Input Value (misal: 50000)" oninput="formatRupiahInput(this)">
+                <label for="nominal">Nominal (Rp):</label>
+                <input type="text" id="nominal" placeholder="Nominal (misal: 50.000)" oninput="formatRupiahInput(this)">
                 
-                <button id="btn-simpan" class="btn-primary" onclick="simpanTransaksi()">INJEKSI KE DATABASE</button>
-                <button id="btn-batal" class="btn-primary" style="background: rgba(255,255,255,0.1); margin-top:10px; display:none;" onclick="batalEdit()">BATALKAN PROSES</button>
+                <button id="btn-simpan" class="btn-primary" onclick="simpanTransaksi()">Simpan Transaksi</button>
+                <button id="btn-batal" class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); margin-top:8px; display:none;" onclick="batalEdit()">Batal Edit</button>
             </div>
 
-            <!-- Transaksi Berulang Otomatis -->
-            <div style="background: rgba(139, 92, 246, 0.1); padding: 18px; border-radius: var(--radius-lg); border: 1px dashed var(--accent-violet);">
+            <!-- Transaksi Berulang -->
+            <div style="background: var(--input-bg); padding: 16px; border-radius: var(--radius-lg); border: 1px dashed var(--accent-primary);">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 13px; font-weight: 800; color: var(--accent-violet);">📅 AUTOMATED RUTINITAS</span>
-                    <button class="action-chip chip-edit" onclick="bukaModalRecurring()">+ Set Protokol</button>
+                    <span style="font-size: 12px; font-weight: 800; color: var(--accent-primary);">📅 Rutinitas Otomatis Bulan Baru</span>
+                    <button class="action-chip chip-edit" onclick="bukaModalRecurring()">+ Atur Jadwal</button>
                 </div>
-                <small style="font-size: 11px; font-weight: 600; color: var(--text-secondary); display:block; margin-top: 8px;">Skrip otomatis ditambahkan setiap siklus bulan baru.</small>
+                <small style="font-size: 10px; font-weight: 600; color: var(--text-secondary); display:block; margin-top: 6px;">Otomatis dimasukkan saat memasuki bulan baru.</small>
             </div>
         </div>
 
-        <!-- KATALOG 4: RIWAYAT & LAPORAN -->
+        <!-- TAB 4: RIWAYAT TRANSAKSI -->
         <div id="tab-riwayat" class="tab-content">
             <div class="filter-row">
-                <label for="filter-bulan">📅 SIKLUS:</label>
-                <input type="month" id="filter-bulan" onchange="updateTampilan()">
+                <label for="filter-bulan" style="margin-bottom:0; white-space:nowrap;">📅 Bulan:</label>
+                <input type="month" id="filter-bulan" style="margin-bottom:0;" onchange="updateTampilan()">
             </div>
 
             <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
-                    <h4 style="font-size: 14px; font-weight: 800; color: var(--text-secondary);">📜 LOG DATABASE</h4>
-                    <select id="filter-kategori" onchange="updateTampilan()" style="width: auto; padding: 8px 12px; margin-bottom:0; font-size:12px; border-radius: 8px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+                    <h4 style="font-size: 12px; font-weight: 800; color: var(--text-secondary);">📜 Catatan Riwayat</h4>
+                    <select id="filter-kategori" onchange="updateTampilan()" style="width: auto; padding: 6px 10px; margin-bottom:0; font-size:11px; border-radius: 8px;">
                         <option value="semua">Semua Kategori 📑</option>
-                        <option value="Makanan 🍔">Nutrisi & Makanan 🍔</option>
-                        <option value="Transportasi 🚗">Mobilitas 🚗</option>
-                        <option value="Belanja 🛍️">Logistik & Belanja 🛍️</option>
-                        <option value="Tagihan 📄">Infrastruktur/Tagihan 📄</option>
-                        <option value="Gaji 💰">Pendapatan Utama 💰</option>
-                        <option value="Lainnya 📌">Aktivitas Lainnya 📌</option>
+                        <option value="Makanan 🍔">Makanan & Nutrisi 🍔</option>
+                        <option value="Transportasi 🚗">Transportasi & Mobilitas 🚗</option>
+                        <option value="Belanja 🛍️">Belanja & Logistik 🛍️</option>
+                        <option value="Tagihan 📄">Tagihan & Rutinitas 📄</option>
+                        <option value="Gaji 💰">Gaji & Pendapatan 💰</option>
+                        <option value="Lainnya 📌">Kebutuhan Lainnya 📌</option>
                     </select>
                 </div>
 
-                <input type="text" id="search-input" placeholder="🔍 Query pencarian log..." oninput="updateTampilan()">
+                <input type="text" id="search-input" placeholder="🔍 Cari transaksi..." oninput="updateTampilan()">
 
                 <ul id="list-riwayat" class="history-list"></ul>
 
-                <div style="display: flex; gap: 12px; margin-top: 24px;">
-                    <button class="btn-primary" style="background: rgba(255,255,255,0.1); font-size: 12px;" onclick="exportCSV()">📁 EKSTRAKSI CSV</button>
-                    <button class="btn-primary" style="background: rgba(255,255,255,0.1); font-size: 12px;" onclick="exportJSON()">💾 BACKUP JSON</button>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); font-size: 11px;" onclick="exportCSV()">📁 Ekspor CSV</button>
+                    <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); font-size: 11px;" onclick="exportJSON()">💾 Ekspor JSON</button>
                 </div>
             </div>
         </div>
 
-        <!-- KATALOG 5: PENGATURAN -->
+        <!-- TAB 5: PENGATURAN -->
         <div id="tab-pengaturan" class="tab-content">
-            <h4 style="font-size: 15px; font-weight: 800; color: var(--accent-cyan); margin-bottom: 20px; text-shadow: 0 0 10px rgba(6,182,212,0.4);">⚙️ SYSTEM PREFERENCES</h4>
+            <h4 style="font-size: 14px; font-weight: 800; color: var(--text-primary); margin-bottom: 16px;">⚙️ Pengaturan Sistem</h4>
 
-            <div style="margin-bottom: 24px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--card-border);">
-                <label for="input-budget">🎯 BATAS OUTFLOW SIKLUS:</label>
-                <input type="text" id="input-budget" placeholder="Limit Angka (misal: 2000000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
-                <small style="font-size: 11px; font-weight: 600; color: var(--text-secondary);">Protokol peringatan aktif jika melampaui limit.</small>
+            <div style="margin-bottom: 20px; background: var(--input-bg); padding: 16px; border-radius: var(--radius-lg); border: 1px solid var(--card-border);">
+                <label for="input-budget">🎯 Batas Pengeluaran Bulanan (Batas Anggaran):</label>
+                <input type="text" id="input-budget" placeholder="Batas Anggaran (misal: 2.000.000)" oninput="formatRupiahInput(this)" onchange="simpanBudget()">
+                <small style="font-size: 10px; color: var(--text-secondary);">Sistem memberi peringatan bila pengeluaran melebihi angka ini.</small>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-                <button class="btn-primary" style="background: rgba(255,255,255,0.1); text-align: left; font-size: 12px;" onclick="bukaModalTransfer()">🔄 Reroute Antar Node (Transfer)</button>
-                <button class="btn-primary" style="background: rgba(255,255,255,0.1); text-align: left; font-size: 12px;" onclick="bukaAturPIN()">🔐 Konfigurasi Keamanan PIN</button>
-                <button class="btn-primary" style="background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); border: 1px solid var(--accent-rose); text-align: left; font-size: 12px;" onclick="resetData()">🗑️ PURGE (Hapus Seluruh Database)</button>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); text-align: left;" onclick="bukaModalTransfer()">🔄 Transfer Antar Kantong Dana</button>
+                <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); text-align: left;" onclick="bukaAturPIN()">🔐 Ganti PIN & Keamanan</button>
+                <button class="btn-primary" style="background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); border: 1px solid var(--accent-rose); text-align: left;" onclick="resetData()">🗑️ Hapus Seluruh Data</button>
             </div>
         </div>
     </div>
 
-    <!-- FIXED BOTTOM NAVIGATION BAR -->
+    <!-- NAVIGASI BAWAH FIXED -->
     <div class="bottom-nav">
         <div class="nav-item active" id="nav-beranda" onclick="switchTab('beranda')">
-            <span class="icon">🏠</span><span>Dashboard</span>
+            <span class="icon">🏠</span><span>Beranda</span>
         </div>
-        <div class="nav-item" id="nav-quantum" onclick="switchTab('quantum')">
-            <span class="icon">⚛️</span><span>Quantum</span>
+        <div class="nav-item" id="nav-agen" onclick="switchTab('agen')">
+            <span class="icon">🤖</span><span>Agen AI</span>
         </div>
         <div class="nav-item" id="nav-transaksi" onclick="switchTab('transaksi')">
-            <span class="icon">➕</span><span>Injeksi</span>
+            <span class="icon">➕</span><span>Tambah</span>
         </div>
         <div class="nav-item" id="nav-riwayat" onclick="switchTab('riwayat')">
-            <span class="icon">📜</span><span>Log Data</span>
+            <span class="icon">📜</span><span>Riwayat</span>
         </div>
         <div class="nav-item" id="nav-pengaturan" onclick="switchTab('pengaturan')">
             <span class="icon">⚙️</span><span>Sistem</span>
         </div>
     </div>
 
-    <!-- Floating AI Financial Advisor Widget -->
-    <div class="ai-floating-btn" onclick="toggleAIChat()">🤖</div>
-
-    <div id="ai-chat-drawer" class="ai-chat-drawer">
-        <div class="ai-header">
-            <h4>🤖 AI-A (Autonomous Advisor)</h4>
-            <span style="cursor: pointer; font-size: 18px; color: var(--text-secondary);" onclick="toggleAIChat()">✕</span>
-        </div>
-        <div id="ai-body" class="ai-body">
-            Inisialisasi pemindaian database transaksi...
-        </div>
-        <div class="ai-chips">
-            <button class="ai-chip-btn" onclick="tanyaAI('analisis')">💡 Analitik Siklus</button>
-            <button class="ai-chip-btn" onclick="tanyaAI('tips')">☕ Saran Taktis</button>
-            <button class="ai-chip-btn" onclick="tanyaAI('kantong')">🎯 Status Node</button>
-        </div>
-    </div>
-
-    <!-- JavaScript Core Engine -->
+    <!-- JAVASCRIPT LOGIC ENGINE -->
     <script>
-        // ================= AUTO UPDATE & OFFLINE PWA ENGINE =================
-        // Skrip ini akan membuat ServiceWorker secara dinamis tanpa perlu file .js eksternal
+        // SW & PWA ENGINE
         if ('serviceWorker' in navigator) {
             const swScript = `
-                const CACHE_NAME = 'dompetku-quantum-v01';
-                self.addEventListener('install', event => {
-                    self.skipWaiting(); // Langsung update cache baru tanpa menunggu
-                });
-                self.addEventListener('activate', event => {
-                    event.waitUntil(self.clients.claim());
-                });
+                const CACHE_NAME = 'dompetku-v02';
+                self.addEventListener('install', event => self.skipWaiting());
+                self.addEventListener('activate', event => event.waitUntil(self.clients.claim()));
                 self.addEventListener('fetch', event => {
-                    event.respondWith(
-                        fetch(event.request).catch(() => caches.match(event.request))
-                    );
+                    event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
                 });
             `;
             const blob = new Blob([swScript], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            navigator.serviceWorker.register(swUrl)
-                .then(() => console.log('✅ Sistem Offline & Auto-Update Kuantum Aktif.'))
-                .catch(err => console.log('PWA Error (Bisa diabaikan jika tidak pakai HTTPS):', err));
-        }
-
-        // ================= SCI-FI WEB AUDIO API (NO DOWNLOADS NEEDED) =================
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        let audioCtx;
-        
-        function initAudio() {
-            if (!audioCtx) audioCtx = new AudioContext();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-        }
-
-        function playSciFiSound(type) {
-            try {
-                initAudio();
-                const osc = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                osc.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                const now = audioCtx.currentTime;
-                
-                if (type === 'click') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(800, now);
-                    osc.frequency.exponentialRampToValueAtTime(1200, now + 0.05);
-                    gainNode.gain.setValueAtTime(0.05, now);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-                    osc.start(now); osc.stop(now + 0.1);
-                } else if (type === 'success') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(400, now);
-                    osc.frequency.setValueAtTime(600, now + 0.1);
-                    osc.frequency.setValueAtTime(1000, now + 0.2);
-                    gainNode.gain.setValueAtTime(0.05, now);
-                    gainNode.gain.linearRampToValueAtTime(0, now + 0.4);
-                    osc.start(now); osc.stop(now + 0.4);
-                } else if (type === 'error') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(300, now);
-                    osc.frequency.exponentialRampToValueAtTime(100, now + 0.3);
-                    gainNode.gain.setValueAtTime(0.05, now);
-                    gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
-                    osc.start(now); osc.stop(now + 0.3);
-                }
-            } catch (e) { console.log('Audio not supported or interaction needed first'); }
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
         }
 
         function triggerHaptic() {
-            if (navigator.vibrate) navigator.vibrate(20);
-            playSciFiSound('click');
+            if (navigator.vibrate) navigator.vibrate(15);
         }
 
-        // ================= APP LOGIC VARIABLES =================
-        const KEY_TRANSAKSI = 'dompetku_v01_transaksi';
-        const KEY_BUDGET = 'dompetku_v01_budget';
-        const KEY_PIN = 'dompetku_v01_pin';
-        const KEY_SEC = 'dompetku_v01_sec';
-        const KEY_LAST_LOGIN = 'dompetku_v01_last_login';
-        const KEY_RECURRING = 'dompetku_v01_recurring';
-        const KEY_POCKETS = 'dompetku_v01_pockets';
+        // VARIABLE APPLIKASI
+        const KEY_TRANSAKSI = 'dompetku_v02_transaksi';
+        const KEY_BUDGET = 'dompetku_v02_budget';
+        const KEY_PIN = 'dompetku_v02_pin';
+        const KEY_SEC = 'dompetku_v02_sec';
+        const KEY_LAST_LOGIN = 'dompetku_v02_last_login';
+        const KEY_RECURRING = 'dompetku_v02_recurring';
+        const KEY_POCKETS = 'dompetku_v02_pockets';
 
         let transaksi = JSON.parse(localStorage.getItem(KEY_TRANSAKSI)) || [];
         let recurring = JSON.parse(localStorage.getItem(KEY_RECURRING)) || [];
@@ -788,15 +607,15 @@
         let selectedFilterPocket = 'semua';
         let editIndex = -1;
         let myChart = null;
-        let quantumChart = null;
+        let masaDepanChart = null;
 
-        // Init Dates
+        // Inisialisasi Tanggal
         const now = new Date();
         document.getElementById('tanggal').valueAsDate = now;
         const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
         document.getElementById('filter-bulan').value = currentMonthStr;
 
-        // ================= TAB SWITCHER =================
+        // SISTEM TAB
         function switchTab(tabName) {
             triggerHaptic();
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -807,12 +626,12 @@
 
             if (tabName === 'beranda') {
                 setTimeout(() => updateTampilan(), 50);
-            } else if (tabName === 'quantum') {
-                jalankanSimulasiKuantum();
+            } else if (tabName === 'agen') {
+                jalankanSimulasiMasaDepan();
             }
         }
 
-        // ================= AUTH & SECURITY =================
+        // KEAMANAN & SESI
         function cekSessionLogin() {
             const lastLogin = localStorage.getItem(KEY_LAST_LOGIN);
             const sekarang = Date.now();
@@ -828,35 +647,60 @@
             document.getElementById('pin-screen').style.display = "none";
             prosesRecurringOtomatis();
             updateTampilan();
-            playSciFiSound('success');
         }
 
         function verifikasiPIN() {
-            initAudio(); // Initialize audio context on first user interaction
             triggerHaptic();
             if (document.getElementById('pin-input').value === appPin) {
                 unlockApp();
             } else {
-                showCustomModal("❌ OTENTIKASI GAGAL!", null, false);
+                showCustomModal("❌ PIN Salah, Verifikasi Gagal!", null, false);
                 document.getElementById('pin-input').value = "";
             }
         }
 
         async function loginBiometric() {
-            initAudio();
             triggerHaptic();
             if (window.PublicKeyCredential && (await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())) {
-                showCustomModal("👆 Melakukan pemindaian neural/biometrik...", null, false);
+                showCustomModal("👆 Memindai Biometrik Perangkat...", null, false);
                 setTimeout(() => {
                     unlockApp();
-                    showCustomModal("✅ AKSES DIBERIKAN!", null, false);
-                }, 800);
+                    showCustomModal("✅ Verifikasi Berhasil!", null, false);
+                }, 600);
             } else {
-                showCustomModal("ℹ️ Perangkat tidak mendukung Biometrik Kuantum. Gunakan PIN manual.", null, false);
+                showCustomModal("ℹ️ Perangkat Tidak Mendukung Biometrik, Gunakan PIN Manual.", null, false);
             }
         }
 
-        // ================= MULTI-POCKET MANAGEMENT =================
+        // AGEN FINANSIAL OTONOM (AI Pembelanjaan)
+        function eksekusiAgenOtonom() {
+            triggerHaptic();
+            let perintah = document.getElementById('agent-command').value;
+            if (!perintah) {
+                showCustomModal("❌ Masukkan perintah untuk Agen Finansial Otonom!", null, false);
+                return;
+            }
+
+            // Simulasi Logika Agen Otonom Memilih Diskon Terbaik & Negosiasi Pasar
+            let nominalEstimasi = Math.floor(Math.random() * 150000) + 50000;
+            let tgl = new Date().toISOString().split('T')[0];
+
+            showCustomModal(`🤖 Agen Otonom Berhasil Mengatur Pembelanjaan:\n"${perintah}"\n\nNegosiasi Harga Terbaik: Rp ${nominalEstimasi.toLocaleString('id-ID')}. Eksekusi Pembayaran?`, function() {
+                transaksi.push({
+                    tanggal: tgl,
+                    kategori: "Belanja 🛍️",
+                    keterangan: `[Eksekusi AI] ${perintah}`,
+                    nominal: nominalEstimasi,
+                    jenis: 'keluar',
+                    pocket: 'utama'
+                });
+                document.getElementById('agent-command').value = '';
+                updateTampilan();
+                showCustomModal("✅ Transaksi Otonom Berhasil Dieksekusi!", null, false);
+            });
+        }
+
+        // KANTONG DANA
         function pilihFilterPocket(pocketKey) {
             triggerHaptic();
             selectedFilterPocket = pocketKey;
@@ -868,38 +712,38 @@
         function bukaModalTransfer() {
             triggerHaptic();
             let htmlInputs = `
-                <label style="text-align:left;">DARI NODE KANTONG:</label>
-                <select id="modal-trans-from" style="margin-bottom:12px">
-                    <option value="utama">Main Node 💳</option>
-                    <option value="tabungan">Future Node 🎯</option>
-                    <option value="darurat">Crisis Node 🚨</option>
+                <label style="text-align:left;">Dari Kantong:</label>
+                <select id="modal-trans-from" style="margin-bottom:10px">
+                    <option value="utama">Kantong Utama 💳</option>
+                    <option value="tabungan">Kantong Tabungan 🎯</option>
+                    <option value="darurat">Kantong Darurat 🚨</option>
                 </select>
-                <label style="text-align:left;">KE NODE KANTONG:</label>
-                <select id="modal-trans-to" style="margin-bottom:12px">
-                    <option value="tabungan">Future Node 🎯</option>
-                    <option value="darurat">Crisis Node 🚨</option>
-                    <option value="utama">Main Node 💳</option>
+                <label style="text-align:left;">Ke Kantong:</label>
+                <select id="modal-trans-to" style="margin-bottom:10px">
+                    <option value="tabungan">Kantong Tabungan 🎯</option>
+                    <option value="darurat">Kantong Darurat 🚨</option>
+                    <option value="utama">Kantong Utama 💳</option>
                 </select>
-                <input type="text" id="modal-trans-amount" placeholder="Input Nominal Transfer" oninput="formatRupiahInput(this)">
+                <input type="text" id="modal-trans-amount" placeholder="Nominal Transfer" oninput="formatRupiahInput(this)">
             `;
-            showCustomModal("🔄 REROUTE DATA TRANSFER", function() {
+            showCustomModal("🔄 Transfer Antar Kantong Dana", function() {
                 let from = document.getElementById('modal-trans-from').value;
                 let to = document.getElementById('modal-trans-to').value;
                 let amt = getUnformattedNumber(document.getElementById('modal-trans-amount').value);
 
-                if (from === to) { showCustomModal("❌ Asal dan Tujuan harus berbeda!", null, false); return; }
-                if (amt <= 0) { showCustomModal("❌ Value tidak valid!", null, false); return; }
+                if (from === to) { showCustomModal("❌ Kantong Asal dan Tujuan Harus Berbeda!", null, false); return; }
+                if (amt <= 0) { showCustomModal("❌ Nominal Tidak Valid!", null, false); return; }
 
                 const tgl = new Date().toISOString().split('T')[0];
-                transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Reroute ke ${to}`, nominal: amt, jenis: 'keluar', pocket: from });
-                transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Reroute dari ${from}`, nominal: amt, jenis: 'masuk', pocket: to });
+                transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Transfer ke ${to}`, nominal: amt, jenis: 'keluar', pocket: from });
+                transaksi.push({ tanggal: tgl, kategori: "Lainnya 📌", keterangan: `Transfer dari ${from}`, nominal: amt, jenis: 'masuk', pocket: to });
 
                 updateTampilan();
-                showCustomModal("✅ Transfer Antar Node Berhasil!", null, false);
+                showCustomModal("✅ Transfer Antar Kantong Berhasil!", null, false);
             }, true, htmlInputs);
         }
 
-        // ================= RECURRING TRANSACTIONS =================
+        // TRANSAKSI BERULANG
         function prosesRecurringOtomatis() {
             const bulanIni = new Date().toISOString().slice(0, 7);
             let adaDitambahkan = false;
@@ -909,7 +753,7 @@
                     transaksi.push({
                         tanggal: `${bulanIni}-${String(r.day).padStart(2, '0')}`,
                         kategori: r.kategori,
-                        keterangan: `[AUTO-SCRIPT] ${r.keterangan}`,
+                        keterangan: `[Rutin] ${r.keterangan}`,
                         nominal: r.nominal,
                         jenis: r.jenis,
                         pocket: r.pocket || 'utama'
@@ -929,22 +773,22 @@
         function bukaModalRecurring() {
             triggerHaptic();
             let htmlInputs = `
-                <input type="text" id="rec-title" placeholder="Nama Protokol (misal: Sewa Server)" style="margin-bottom:12px">
-                <input type="text" id="rec-amount" placeholder="Nominal Rutin" oninput="formatRupiahInput(this)" style="margin-bottom:12px">
-                <label style="text-align:left;">TIPE & HARI EKSEKUSI (1-28):</label>
-                <select id="rec-jenis" style="margin-bottom:12px">
-                    <option value="keluar">Outflow Rutin (-)</option>
-                    <option value="masuk">Inflow Rutin (+)</option>
+                <input type="text" id="rec-title" placeholder="Nama Rutinitas (misal: Langganan Internet)" style="margin-bottom:10px">
+                <input type="text" id="rec-amount" placeholder="Nominal Rutin" oninput="formatRupiahInput(this)" style="margin-bottom:10px">
+                <label style="text-align:left;">Jenis & Tanggal Eksekusi (1-28):</label>
+                <select id="rec-jenis" style="margin-bottom:10px">
+                    <option value="keluar">Pengeluaran Rutin (-)</option>
+                    <option value="masuk">Pemasukan Rutin (+)</option>
                 </select>
-                <input type="number" id="rec-day" min="1" max="28" placeholder="Hari Eksekusi (1-28)">
+                <input type="number" id="rec-day" min="1" max="28" placeholder="Tanggal Eksekusi Tiap Bulan (1-28)">
             `;
-            showCustomModal("📅 SET SCRIPT RUTIN", function() {
+            showCustomModal("📅 Tambah Rutinitas Otomatis", function() {
                 let title = document.getElementById('rec-title').value;
                 let amt = getUnformattedNumber(document.getElementById('rec-amount').value);
                 let jenis = document.getElementById('rec-jenis').value;
                 let day = parseInt(document.getElementById('rec-day').value) || 1;
 
-                if (!title || amt <= 0) { showCustomModal("❌ Konfigurasi gagal, data tidak lengkap!", null, false); return; }
+                if (!title || amt <= 0) { showCustomModal("❌ Data Tidak Lengkap!", null, false); return; }
 
                 recurring.push({
                     keterangan: title, nominal: amt, jenis: jenis,
@@ -954,134 +798,66 @@
 
                 localStorage.setItem(KEY_RECURRING, JSON.stringify(recurring));
                 prosesRecurringOtomatis();
-                showCustomModal("✅ Protokol Rutin berhasil diinisialisasi!", null, false);
+                showCustomModal("✅ Jadwal Rutinitas Berhasil Ditambahkan!", null, false);
             }, true, htmlInputs);
         }
 
-        // ================= QUANTUM LIFETIME WEALTH ENGINE =================
-        function jalankanSimulasiKuantum() {
+        // SIMULASI MASA DEPAN 50-100 TAHUN
+        function jalankanSimulasiMasaDepan() {
             triggerHaptic();
             let totalSaldoNet = (pockets.utama || 0) + (pockets.tabungan || 0) + (pockets.darurat || 0);
-
             let totalMasuk = transaksi.filter(t => t.jenis === 'masuk').reduce((a, b) => a + b.nominal, 0);
             let totalKeluar = transaksi.filter(t => t.jenis === 'keluar').reduce((a, b) => a + b.nominal, 0);
 
-            let estNetMonthly = totalMasuk > 0 ? (totalMasuk - totalKeluar) : 1500000;
+            let estNetMonthly = totalMasuk > 0 ? (totalMasuk - totalKeluar) : 1000000;
             let estAnnualFlow = Math.max(0, estNetMonthly * 12);
 
             let horizonYears = parseInt(document.getElementById('sim-horizon').value) || 50;
             let climateRiskDrag = parseFloat(document.getElementById('sim-climate').value) || 0.08;
-            let inheritanceRatio = (parseFloat(document.getElementById('sim-inheritance').value) || 40) / 100;
 
             let yearsLabels = [];
             let optimisticPath = [];
             let medianPath = [];
-            let pessimisticPath = [];
 
             let currOpt = totalSaldoNet;
             let currMed = totalSaldoNet;
-            let currPes = totalSaldoNet;
 
             for (let y = 1; y <= horizonYears; y++) {
-                if (horizonYears === 50 || y % 2 === 0) yearsLabels.push(`T-${y}`);
+                if (horizonYears === 50 || y % 2 === 0) yearsLabels.push(`Tahun ${y}`);
 
-                let optReturn = 0.09 - (climateRiskDrag * 0.2);
-                let medReturn = 0.06 - climateRiskDrag;
-                let pesReturn = 0.02 - (climateRiskDrag * 1.5);
-
-                currOpt = (currOpt + estAnnualFlow) * (1 + optReturn);
-                currMed = (currMed + estAnnualFlow) * (1 + medReturn);
-                currPes = (currPes + estAnnualFlow) * (1 + pesReturn);
-
-                if (y % 30 === 0) {
-                    currOpt *= (1 - (1 - inheritanceRatio) * 0.15);
-                    currMed *= (1 - (1 - inheritanceRatio) * 0.25);
-                    currPes *= (1 - (1 - inheritanceRatio) * 0.35);
-                }
+                currOpt = (currOpt + estAnnualFlow) * (1 + (0.08 - climateRiskDrag * 0.2));
+                currMed = (currMed + estAnnualFlow) * (1 + (0.05 - climateRiskDrag));
 
                 if (horizonYears === 50 || y % 2 === 0) {
                     optimisticPath.push(Math.round(currOpt));
                     medianPath.push(Math.round(currMed));
-                    pessimisticPath.push(Math.round(Math.max(0, currPes)));
                 }
             }
 
-            document.getElementById('q-val-50').innerText = formatRupiah(currMed);
-            let score = Math.min(99, Math.max(12, Math.round((currMed / (totalSaldoNet + 1000000)) * 8)));
-            document.getElementById('q-legacy-score').innerText = `${score} / 100`;
-            let survivalRate = Math.min(98, Math.max(20, Math.round(100 - (climateRiskDrag * 400))));
-            document.getElementById('q-survival-rate').innerText = `${survivalRate}%`;
-
-            renderChartKuantum(yearsLabels, optimisticPath, medianPath, pessimisticPath);
-            playSciFiSound('success');
+            renderChartMasaDepan(yearsLabels, optimisticPath, medianPath);
         }
 
-        function renderChartKuantum(labels, opt, med, pes) {
-            let ctx = document.getElementById('chartQuantum').getContext('2d');
-            if (quantumChart) quantumChart.destroy();
+        function renderChartMasaDepan(labels, opt, med) {
+            let ctx = document.getElementById('chartMasaDepan').getContext('2d');
+            if (masaDepanChart) masaDepanChart.destroy();
 
-            Chart.defaults.color = '#94a3b8';
-            Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
-
-            quantumChart = new Chart(ctx, {
+            masaDepanChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: 'Hyper-Optimis (Best)', data: opt, borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.2)', fill: true, tension: 0.4 },
-                        { label: 'Median (Proyeksi Normal)', data: med, borderColor: '#8b5cf6', backgroundColor: 'rgba(139, 92, 246, 0.1)', fill: false, tension: 0.4, borderDash: [5, 5] },
-                        { label: 'Crisis Mode (Pessimistic)', data: pes, borderColor: '#f43f5e', backgroundColor: 'transparent', fill: false, tension: 0.4 }
+                        { label: 'Proyeksi Optimis', data: opt, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true, tension: 0.3 },
+                        { label: 'Proyeksi Normal', data: med, borderColor: '#6366f1', backgroundColor: 'transparent', fill: false, tension: 0.3, borderDash: [5, 5] }
                     ]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
-                    scales: {
-                        x: { grid: { color: 'rgba(255,255,255,0.05)' } },
-                        y: { grid: { color: 'rgba(255,255,255,0.05)' } }
-                    }
+                    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } }
                 }
             });
         }
 
-        // ================= AI FINANCIAL ADVISOR =================
-        function toggleAIChat() {
-            triggerHaptic();
-            const drawer = document.getElementById('ai-chat-drawer');
-            if (drawer.style.display === 'flex') drawer.style.display = 'none';
-            else { drawer.style.display = 'flex'; tanyaAI('analisis'); }
-        }
-
-        function tanyaAI(tipe) {
-            triggerHaptic();
-            const aiBody = document.getElementById('ai-body');
-            const filterBulan = document.getElementById('filter-bulan').value;
-            
-            let dataBulan = transaksi.filter(t => t.tanggal && t.tanggal.slice(0, 7) === filterBulan);
-            let totalKeluar = dataBulan.filter(t => t.jenis === 'keluar').reduce((a, b) => a + b.nominal, 0);
-
-            let katMap = {};
-            dataBulan.filter(t => t.jenis === 'keluar').forEach(t => katMap[t.kategori] = (katMap[t.kategori] || 0) + t.nominal);
-            let topKat = Object.keys(katMap).sort((a,b) => katMap[b] - katMap[a])[0] || 'N/A';
-            let topKatVal = katMap[topKat] || 0;
-            let persenTop = totalKeluar > 0 ? Math.round((topKatVal / totalKeluar) * 100) : 0;
-
-            if (tipe === 'analisis') {
-                if (dataBulan.length === 0) {
-                    aiBody.innerHTML = `[SISTEM]: Siklus <b>${filterBulan}</b> belum ada injeksi data. Harap input data transaksi untuk menjalankan algoritma. ⚡`;
-                } else if (batasBudget > 0 && totalKeluar > batasBudget) {
-                    aiBody.innerHTML = `🚨 <b>PERINGATAN KRITIS!</b> Outflow siklus ini <b>${formatRupiah(totalKeluar)}</b> melampaui limit parameter (${formatRupiah(batasBudget)}). Kebocoran terbesar pada <b>${topKat}</b> (${persenTop}%). Hentikan operasi! 🛑`;
-                } else {
-                    aiBody.innerHTML = `[SISTEM]: Operasi berjalan normal. Outflow tercatat <b>${formatRupiah(totalKeluar)}</b>. Konsumsi terbesar pada sektor <b>${topKat}</b> (${persenTop}%). Parameter stabil. 💠`;
-                }
-            } else if (tipe === 'tips') {
-                aiBody.innerHTML = `💡 <b>Protokol Taktis:</b><br>1. Alihkan 20% inflow harian ke <b>Crisis Node (Darurat)</b>.<br>2. Evaluasi Mesin Simulasi Quantum setiap akhir siklus bulanan.`;
-            } else if (tipe === 'kantong') {
-                aiBody.innerHTML = `🎯 <b>Status Node Saat Ini:</b><br>• Main: ${document.getElementById('val-pocket-utama').innerText}<br>• Future: ${document.getElementById('val-pocket-tabungan').innerText}<br>• Crisis: ${document.getElementById('val-pocket-darurat').innerText}`;
-            }
-        }
-
-        // ================= CORE RENDER ENGINE =================
+        // ENGINE RENDER UTAMA
         function updateTampilan() {
             let listRiwayat = document.getElementById('list-riwayat');
             let filterKategori = document.getElementById('filter-kategori').value;
@@ -1116,19 +892,18 @@
 
                 let li = document.createElement('li');
                 li.className = 'history-item';
-                // Futuristic border color logic
                 li.style.borderLeftColor = item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)';
                 
                 li.innerHTML = `
                     <div class="item-info">
-                        <small>[${item.tanggal}] • NODE: ${pKey.toUpperCase()}</small>
-                        <div>${item.kategori} <span style="font-weight:600; font-size:12px; color:var(--text-secondary)">// ${item.keterangan}</span></div>
+                        <small>[${item.tanggal}] • KANTONG: ${pKey.toUpperCase()}</small>
+                        <div>${item.kategori} <span style="font-weight:600; font-size:11px; color:var(--text-secondary)">- ${item.keterangan}</span></div>
                         <div class="item-actions">
                             <button class="action-chip chip-edit" onclick="editData(${index})">Edit</button>
-                            <button class="action-chip chip-del" onclick="hapusData(${index})">Delete</button>
+                            <button class="action-chip chip-del" onclick="hapusData(${index})">Hapus</button>
                         </div>
                     </div>
-                    <div class="item-val" style="color:${item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; text-shadow: 0 0 10px ${item.jenis === 'masuk' ? 'rgba(16,185,129,0.4)' : 'rgba(244,63,94,0.4)'}">
+                    <div class="item-val" style="color:${item.jenis === 'masuk' ? 'var(--accent-emerald)' : 'var(--accent-rose)'}">
                         ${item.jenis === 'masuk' ? '+' : '-'} ${formatRupiah(item.nominal)}
                     </div>
                 `;
@@ -1150,10 +925,10 @@
             let badgeStatus = document.getElementById('status-anggaran');
             if (batasBudget > 0 && totalPengeluaran > batasBudget) {
                 badgeStatus.className = "budget-status-pill kritis";
-                badgeStatus.innerText = "🚨 WARNING: OVERLIMIT!";
+                badgeStatus.innerText = "🚨 Melebihi Anggaran!";
             } else {
                 badgeStatus.className = "budget-status-pill";
-                badgeStatus.innerText = "⚡ SYSTEM: OPTIMAL";
+                badgeStatus.innerText = "⚡ Status: Aman";
             }
 
             localStorage.setItem(KEY_TRANSAKSI, JSON.stringify(transaksi));
@@ -1175,7 +950,7 @@
             if (myChart) myChart.destroy();
 
             if (labels.length === 0) {
-                labels = ["System Empty"];
+                labels = ["Belum Ada Data"];
                 data = [1];
             }
 
@@ -1185,21 +960,19 @@
                     labels: labels,
                     datasets: [{
                         data: data,
-                        backgroundColor: ['#06b6d4', '#8b5cf6', '#f43f5e', '#10b981', '#f59e0b', '#ec4899'],
-                        borderWidth: 2,
-                        borderColor: '#020617',
-                        hoverOffset: 4
+                        backgroundColor: ['#6366f1', '#10b981', '#f43f5e', '#f59e0b', '#0ea5e9', '#ec4899'],
+                        borderWidth: 2
                     }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } },
-                    cutout: '75%'
+                    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
+                    cutout: '70%'
                 }
             });
         }
 
-        // ================= FORM ACTIONS =================
+        // AKSI FORM
         function pilihJenis(jenis) {
             triggerHaptic();
             selectedJenis = jenis;
@@ -1215,10 +988,10 @@
             let nominal = getUnformattedNumber(document.getElementById('nominal').value);
             let pocketTarget = document.getElementById('select-pocket-target').value;
 
-            if (nominal <= 0) { showCustomModal("❌ Nominal error! Harus lebih dari 0.", null, false); return; }
+            if (nominal <= 0) { showCustomModal("❌ Nominal harus lebih dari 0!", null, false); return; }
 
             let dataTransaksi = {
-                tanggal: tanggal, kategori: kategori, keterangan: keterangan || "Log Sistem",
+                tanggal: tanggal, kategori: kategori, keterangan: keterangan || "Transaksi",
                 nominal: nominal, jenis: selectedJenis, pocket: pocketTarget
             };
 
@@ -1227,7 +1000,7 @@
             } else {
                 transaksi[editIndex] = dataTransaksi;
                 editIndex = -1;
-                document.getElementById('btn-simpan').innerText = "INJEKSI KE DATABASE";
+                document.getElementById('btn-simpan').innerText = "Simpan Transaksi";
                 document.getElementById('btn-batal').style.display = "none";
             }
 
@@ -1236,7 +1009,6 @@
             if (tanggal) document.getElementById('filter-bulan').value = tanggal.slice(0, 7);
 
             updateTampilan();
-            playSciFiSound('success');
             switchTab('riwayat');
         }
 
@@ -1254,7 +1026,7 @@
             document.getElementById('select-pocket-target').value = item.pocket || 'utama';
             
             pilihJenis(item.jenis);
-            document.getElementById('btn-simpan').innerText = "UPDATE DATA";
+            document.getElementById('btn-simpan').innerText = "Update Transaksi";
             document.getElementById('btn-batal').style.display = "block";
         }
 
@@ -1263,16 +1035,15 @@
             editIndex = -1;
             document.getElementById('keterangan').value = "";
             document.getElementById('nominal').value = "";
-            document.getElementById('btn-simpan').innerText = "INJEKSI KE DATABASE";
+            document.getElementById('btn-simpan').innerText = "Simpan Transaksi";
             document.getElementById('btn-batal').style.display = "none";
         }
 
         function hapusData(index) {
             triggerHaptic();
-            showCustomModal("Yakin ingin melakukan *Purge* pada data ini?", function() {
+            showCustomModal("Apakah Anda yakin ingin menghapus catatan transaksi ini?", function() {
                 transaksi.splice(index, 1);
                 updateTampilan();
-                playSciFiSound('success');
             });
         }
 
@@ -1280,10 +1051,9 @@
             batasBudget = getUnformattedNumber(document.getElementById('input-budget').value);
             localStorage.setItem(KEY_BUDGET, batasBudget.toString());
             updateTampilan();
-            playSciFiSound('success');
         }
 
-        // ================= HELPERS & UTILS =================
+        // UTILITAS
         function formatRupiahInput(input) {
             let value = input.value.replace(/\D/g, '');
             input.value = value ? parseInt(value, 10).toLocaleString('id-ID') : '';
@@ -1297,9 +1067,6 @@
             document.getElementById('modal-input-container').innerHTML = inputHTML;
             document.getElementById('modal-cancel-btn').style.display = showCancel ? "inline-block" : "none";
             modal.style.display = "flex";
-
-            if (text.includes('❌') || text.includes('GAGAL')) playSciFiSound('error');
-            else if (text.includes('✅')) playSciFiSound('success');
 
             document.getElementById('modal-confirm-btn').onclick = function() {
                 triggerHaptic(); modal.style.display = "none"; if (onConfirm) onConfirm();
@@ -1320,62 +1087,59 @@
         function bukaAturPIN() {
             triggerHaptic();
             let htmlInputs = `
-                <input type="password" id="modal-pin-lama" placeholder="PIN Lama" style="margin-bottom:12px">
-                <input type="password" id="modal-pin-baru" placeholder="PIN Baru (4-6 Digit)" style="margin-bottom:12px">
-                <input type="text" id="modal-sec-ans" placeholder="Recovery Keyword">
+                <input type="password" id="modal-pin-lama" placeholder="PIN Lama" style="margin-bottom:10px">
+                <input type="password" id="modal-pin-baru" placeholder="PIN Baru (Minimal 4 Digit)" style="margin-bottom:10px">
+                <input type="text" id="modal-sec-ans" placeholder="Kata Kunci Pemulihan">
             `;
-            showCustomModal("⚙️ REKONFIGURASI KEAMANAN", function() {
+            showCustomModal("⚙️ Pengaturan Keamanan PIN", function() {
                 let pLama = document.getElementById('modal-pin-lama').value;
                 let pBaru = document.getElementById('modal-pin-baru').value;
                 let sAns = document.getElementById('modal-sec-ans').value;
 
-                if (pLama !== appPin) { showCustomModal("❌ Otorisasi Ditolak: PIN Lama Salah!", null, false); return; }
-                if (!pBaru || pBaru.length < 4) { showCustomModal("❌ PIN Minimal 4 Karakter Numerik!", null, false); return; }
+                if (pLama !== appPin) { showCustomModal("❌ PIN Lama Salah!", null, false); return; }
+                if (!pBaru || pBaru.length < 4) { showCustomModal("❌ PIN Minimal 4 Angka!", null, false); return; }
 
                 appPin = pBaru;
                 if (sAns) secAnswer = sAns.toLowerCase();
                 localStorage.setItem(KEY_PIN, appPin);
                 localStorage.setItem(KEY_SEC, secAnswer);
-                showCustomModal("✅ Protokol Keamanan Diperbarui!", null, false);
+                showCustomModal("✅ PIN Keamanan Berhasil Diperbarui!", null, false);
             }, true, htmlInputs);
         }
 
         function lupaPIN() {
             triggerHaptic();
-            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Masukkan Recovery Keyword">`;
-            showCustomModal("🔑 RECOVERY PROTOCOL", function() {
+            let htmlInputs = `<input type="text" id="modal-answer-input" placeholder="Masukkan Kata Kunci Pemulihan">`;
+            showCustomModal("🔑 Pemulihan PIN", function() {
                 let ans = document.getElementById('modal-answer-input').value;
                 if (ans && ans.toLowerCase() === secAnswer.toLowerCase()) {
-                    showCustomModal(`✅ AKSES RECOVERY: PIN Anda = ${appPin}`, null, false);
+                    showCustomModal(`✅ Akses Diterima: PIN Anda adalah ${appPin}`, null, false);
                 } else {
-                    showCustomModal("❌ GAGAL: Keyword Tidak Dikenali!", null, false);
+                    showCustomModal("❌ Kata Kunci Pemulihan Tidak Cocok!", null, false);
                 }
             }, true, htmlInputs);
         }
 
         function exportCSV() {
-            if (transaksi.length === 0) { showCustomModal("Database Kosong!", null, false); return; }
+            if (transaksi.length === 0) { showCustomModal("Riwayat Transaksi Masih Kosong!", null, false); return; }
             let csvContent = "data:text/csv;charset=utf-8,Tanggal,Kategori,Keterangan,Jenis,Nominal,Kantong\n";
             transaksi.forEach(t => { csvContent += `"${t.tanggal}","${t.kategori}","${t.keterangan}","${t.jenis}",${t.nominal},"${t.pocket || 'utama'}"\n`; });
-            let encodedUri = encodeURI(csvContent);
             let link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Data_Kuantum_${document.getElementById('filter-bulan').value}.csv`);
+            link.setAttribute("href", encodeURI(csvContent));
+            link.setAttribute("download", `Dompetku_Laporan_${document.getElementById('filter-bulan').value}.csv`);
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
-            playSciFiSound('success');
         }
 
         function exportJSON() {
             let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(transaksi, null, 2));
             let dlAnchor = document.createElement('a');
             dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", "Backup_Kuantum.json");
+            dlAnchor.setAttribute("download", "Dompetku_Backup.json");
             document.body.appendChild(dlAnchor); dlAnchor.click(); dlAnchor.remove();
-            playSciFiSound('success');
         }
 
         function resetData() {
-            showCustomModal("⚠️ CRITICAL WARNING: Anda akan melakukan wipe total pada seluruh node database. Lanjutkan?", function() {
+            showCustomModal("⚠️ PERINGATAN: Seluruh data transaksi dan kantong akan dihapus permanen. Lanjutkan?", function() {
                 transaksi = [];
                 recurring = [];
                 pockets = { utama: 0, tabungan: 0, darurat: 0 };
@@ -1383,11 +1147,10 @@
                 localStorage.removeItem(KEY_RECURRING);
                 localStorage.removeItem(KEY_POCKETS);
                 updateTampilan();
-                playSciFiSound('error'); // Error sound to signify deletion
             });
         }
 
-        // Init App
+        // Init Aplikasi
         window.onload = function() {
             cekSessionLogin();
             if (batasBudget > 0) document.getElementById('input-budget').value = batasBudget.toLocaleString('id-ID');
