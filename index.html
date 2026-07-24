@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Dompetku v0.2 Pro - Dompet Finansial Masa Depan</title>
+    <title>Dompetku v0.2 Pro Aurora - Keuangan Masa Depan</title>
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -58,7 +58,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -70,21 +70,43 @@
             justify-content: center;
             align-items: flex-start;
             padding: 16px;
-            padding-bottom: 100px;
+            padding-bottom: 110px;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* 1. Gradien Aurora Bergerak (Animated Mesh Gradient) */
+        /* Responsif Sempurna untuk Laptop & Landscape */
+        @media (min-width: 768px) {
+            body {
+                align-items: center;
+                padding-bottom: 40px;
+            }
+            .app-container {
+                max-width: 720px !important;
+                padding: 32px !important;
+            }
+            .dashboard-grid-desktop {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            .bottom-nav {
+                max-width: 520px !important;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .app-container {
+                max-width: 900px !important;
+            }
+        }
+
+        /* Gradien Aurora Bergerak */
         .aurora-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: -2;
-            background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: -2;
+            background: radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--accent-primary) 18%, transparent) 0%, transparent 45%),
                         radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.12) 0%, transparent 45%),
                         radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.12) 0%, transparent 55%);
             animation: auroraShift 12s ease infinite alternate;
@@ -96,15 +118,9 @@
             100% { transform: scale(1) translate(20px, -15px); filter: hue-rotate(-25deg); }
         }
 
-        /* Kanvas Latar Belakang Bintang Berkelap-kelip */
         #star-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: -1;
         }
 
         /* Kontainer Utama */
@@ -159,15 +175,27 @@
             color: var(--text-primary); font-size: 16px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             position: relative; overflow: hidden;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .icon-btn-rounded:hover { background: var(--bg-card-hover); transform: scale(1.05); }
+        .icon-btn-rounded:hover { background: var(--bg-card-hover); transform: scale(1.08); }
 
-        /* Sistem Tab */
+        /* Sistem Tab & Skeleton Loading */
         .tab-content { display: none; animation: fadeInTab 0.3s ease; }
         .tab-content.active { display: block; }
         @keyframes fadeInTab {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, var(--input-bg) 25%, var(--bg-card-hover) 50%, var(--input-bg) 75%);
+            background-size: 200% 100%;
+            animation: skeletonLoading 1.5s infinite;
+            border-radius: var(--radius-md);
+        }
+        @keyframes skeletonLoading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         /* Navigasi Bawah */
@@ -218,6 +246,7 @@
             background: var(--accent-primary); color: white; font-weight: 700; font-size: 13px;
             cursor: pointer; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px;
             position: relative; overflow: hidden;
+            transition: transform 0.2s ease, opacity 0.2s ease;
         }
         .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
         .btn-primary:active { transform: scale(0.98); }
@@ -227,15 +256,29 @@
             color: var(--accent-emerald) !important;
         }
 
-        /* 2. Efek Kilau Holografik pada Kartu (Holographic Foil Card) */
+        /* 3D Tilt Card & Rim Lighting (Garis Tepi Bercahaya & Kedalaman Parallax) */
         .total-balance-card {
             background: linear-gradient(135deg, var(--accent-primary), #4338ca);
             color: white; border-radius: var(--radius-lg); padding: 24px;
             position: relative; overflow: hidden; margin-bottom: 20px;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.35);
             transform-style: preserve-3d;
             perspective: 1000px;
+            transition: transform 0.1s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
+        
+        /* Rim Lighting mouse follower */
+        .total-balance-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-lg);
+            background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.35), transparent 40%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
         .total-balance-card::after {
             content: '';
             position: absolute;
@@ -249,6 +292,7 @@
             transform: rotate(30deg) translateY(-100%);
             animation: holoShine 6s linear infinite;
             pointer-events: none;
+            z-index: 1;
         }
         @keyframes holoShine {
             0% { transform: translateY(-120%) rotate(30deg); }
@@ -256,16 +300,17 @@
             100% { transform: translateY(120%) rotate(30deg); }
         }
 
-        .balance-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-weight: 700; }
-        .balance-amount { font-size: 34px; font-weight: 800; margin: 6px 0; letter-spacing: -1px; }
+        .balance-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.85; font-weight: 700; position: relative; z-index: 3; }
+        .balance-amount { font-size: 34px; font-weight: 800; margin: 6px 0; letter-spacing: -1px; position: relative; z-index: 3; }
         .budget-status-pill {
             display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
             border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase;
             background: rgba(255, 255, 255, 0.2); color: #fff; backdrop-filter: blur(10px);
+            position: relative; z-index: 3;
         }
-        .budget-status-pill.kritis { background: rgba(244, 63, 94, 0.8); }
+        .budget-status-pill.kritis { background: rgba(244, 63, 94, 0.85); }
 
-        /* Kantong Dana */
+        /* Kantong Dana dengan Sparklines Mini */
         .pocket-section-title {
             display: flex; justify-content: space-between; align-items: center;
             font-size: 12px; font-weight: 800; color: var(--text-secondary); margin-bottom: 10px;
@@ -276,14 +321,26 @@
             background: var(--input-bg); border: 1px solid var(--card-border);
             padding: 14px 8px; border-radius: var(--radius-md); text-align: center; cursor: pointer;
             position: relative; overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
         .pocket-card:hover, .pocket-card.active {
             border-color: var(--accent-primary); background: var(--bg-card-hover);
             transform: translateY(-2px);
         }
-        .pocket-icon { font-size: 20px; margin-bottom: 4px; }
-        .pocket-name { font-size: 10px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; }
-        .pocket-val { font-size: 12px; font-weight: 800; color: var(--text-primary); margin-top: 2px; }
+        .pocket-icon { font-size: 20px; margin-bottom: 4px; position: relative; z-index: 2; }
+        .pocket-name { font-size: 10px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; position: relative; z-index: 2; }
+        .pocket-val { font-size: 12px; font-weight: 800; color: var(--text-primary); margin-top: 2px; position: relative; z-index: 2; }
+        
+        /* Sparkline canvas background inside pocket cards */
+        .sparkline-canvas {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35px;
+            opacity: 0.35;
+            pointer-events: none;
+        }
 
         /* Grid Pemasukan & Pengeluaran */
         .inc-exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
@@ -295,7 +352,7 @@
         .inc-card p { font-size: 16px; font-weight: 800; color: var(--accent-emerald); }
         .exp-card p { font-size: 16px; font-weight: 800; color: var(--accent-rose); }
 
-        /* Kartu AI Penasihat Sadar & Eksekutor Otonom */
+        /* Kartu AI Penasihat & Eksekutor Otonom */
         .agent-card {
             background: rgba(245, 158, 11, 0.08); border: 1px solid var(--accent-amber);
             padding: 18px; border-radius: var(--radius-lg); margin-bottom: 20px;
@@ -371,7 +428,33 @@
         .btn-confirm { background: var(--accent-primary); color: white; }
         .btn-cancel { background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); }
 
-        /* 4. Efek Riak Sentuhan (Ripple Click Effect) */
+        /* Tema Selector Grid (Custom Accent Picker) */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .palette-btn {
+            padding: 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--card-border);
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .palette-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        /* Efek Riak Sentuhan */
         .ripple {
             position: absolute;
             border-radius: 50%;
@@ -387,17 +470,17 @@
 </head>
 <body>
 
-    <!-- Gradien Aurora Bergerak (Animated Mesh Gradient) -->
+    <!-- Gradien Aurora Bergerak -->
     <div class="aurora-bg"></div>
 
-    <!-- Latar Belakang Bintang Berkelap-kelip -->
+    <!-- Latar Belakang Bintang -->
     <canvas id="star-canvas"></canvas>
 
     <!-- Layar Kunci (PIN & Biometrik) -->
     <div id="pin-screen" class="pin-overlay">
         <div class="pin-card">
             <h3>🔒 Keamanan Akses</h3>
-            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 16px; font-weight: 600;">Verifikasi Identitas Dompetku</p>
+            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 16px; font-weight: 600;">Verifikasi Identitas Dompetku Pro</p>
             <input type="password" id="pin-input" maxlength="6" placeholder="••••" autocomplete="off">
             <button class="btn-primary" onclick="verifikasiPIN()">Buka Dompet</button>
             <button class="btn-primary btn-bio" onclick="loginBiometric()">👆 Pindai Biometrik</button>
@@ -425,58 +508,70 @@
                 <h2>Dompetku <span>v0.2 Pro Aurora</span></h2>
             </div>
             <div class="header-actions">
+                <button class="icon-btn-rounded" title="Kustomisasi Tema Aurora" onclick="bukaModalTema()">🎨</button>
                 <button class="icon-btn-rounded" title="Transfer Antar Kantong" onclick="bukaModalTransfer()">🔄</button>
-                <button class="icon-btn-rounded" title="Pengaturan Keamanan" onclick="bukaAturPIN()">⚙️</button>
                 <button id="theme-toggle" class="icon-btn-rounded" onclick="toggleTheme()">🌙</button>
             </div>
         </div>
 
         <!-- TAB 1: BERANDA -->
         <div id="tab-beranda" class="tab-content active">
-            <div class="total-balance-card">
-                <div class="balance-label">Total Keuangan Saat Ini</div>
-                <div id="saldo" class="balance-amount">Rp 0</div>
-                <div id="status-anggaran" class="budget-status-pill">⚡ Status: Aman</div>
+            <!-- Skeleton Container untuk Transisi Halus -->
+            <div id="beranda-skeleton" style="display: none;">
+                <div class="skeleton" style="height: 120px; margin-bottom: 20px;"></div>
+                <div class="skeleton" style="height: 80px; margin-bottom: 20px;"></div>
+                <div class="skeleton" style="height: 180px;"></div>
             </div>
 
-            <!-- Kantong Dana -->
-            <div class="pocket-section-title">
-                <span>🎯 Alokasi Kantong Dana</span>
-                <span style="color: var(--accent-primary); cursor: pointer;" onclick="bukaModalTransfer()">+ Transfer</span>
-            </div>
-            <div class="pocket-grid">
-                <div class="pocket-card active" id="pocket-card-utama" onclick="pilihFilterPocket('utama')">
-                    <div class="pocket-icon">💳</div>
-                    <div class="pocket-name">Utama</div>
-                    <div class="pocket-val" id="val-pocket-utama">Rp 0</div>
+            <div id="beranda-content">
+                <div class="total-balance-card" id="tilt-card">
+                    <div class="balance-label">Total Keuangan Saat Ini</div>
+                    <div id="saldo" class="balance-amount">Rp 0</div>
+                    <div id="status-anggaran" class="budget-status-pill">⚡ Status: Aman</div>
                 </div>
-                <div class="pocket-card" id="pocket-card-tabungan" onclick="pilihFilterPocket('tabungan')">
-                    <div class="pocket-icon">🎯</div>
-                    <div class="pocket-name">Tabungan</div>
-                    <div class="pocket-val" id="val-pocket-tabungan">Rp 0</div>
-                </div>
-                <div class="pocket-card" id="pocket-card-darurat" onclick="pilihFilterPocket('darurat')">
-                    <div class="pocket-icon">🚨</div>
-                    <div class="pocket-name">Darurat</div>
-                    <div class="pocket-val" id="val-pocket-darurat">Rp 0</div>
-                </div>
-            </div>
 
-            <div class="inc-exp-grid">
-                <div class="inc-card">
-                    <h5>PEMASUKAN BULAN INI</h5>
-                    <p id="pemasukan">Rp 0</p>
+                <!-- Kantong Dana dengan Sparklines -->
+                <div class="pocket-section-title">
+                    <span>🎯 Alokasi Kantong Dana</span>
+                    <span style="color: var(--accent-primary); cursor: pointer;" onclick="bukaModalTransfer()">+ Transfer</span>
                 </div>
-                <div class="exp-card">
-                    <h5>PENGELUARAN BULAN INI</h5>
-                    <p id="pengeluaran">Rp 0</p>
+                <div class="pocket-grid">
+                    <div class="pocket-card active" id="pocket-card-utama" onclick="pilihFilterPocket('utama')">
+                        <canvas class="sparkline-canvas" id="spark-utama"></canvas>
+                        <div class="pocket-icon">💳</div>
+                        <div class="pocket-name">Utama</div>
+                        <div class="pocket-val" id="val-pocket-utama">Rp 0</div>
+                    </div>
+                    <div class="pocket-card" id="pocket-card-tabungan" onclick="pilihFilterPocket('tabungan')">
+                        <canvas class="sparkline-canvas" id="spark-tabungan"></canvas>
+                        <div class="pocket-icon">🎯</div>
+                        <div class="pocket-name">Tabungan</div>
+                        <div class="pocket-val" id="val-pocket-tabungan">Rp 0</div>
+                    </div>
+                    <div class="pocket-card" id="pocket-card-darurat" onclick="pilihFilterPocket('darurat')">
+                        <canvas class="sparkline-canvas" id="spark-darurat"></canvas>
+                        <div class="pocket-icon">🚨</div>
+                        <div class="pocket-name">Darurat</div>
+                        <div class="pocket-val" id="val-pocket-darurat">Rp 0</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="chart-box">
-                <h4>📊 Analisis Kategori Pengeluaran</h4>
-                <div class="chart-wrapper">
-                    <canvas id="chartPengeluaran"></canvas>
+                <div class="inc-exp-grid">
+                    <div class="inc-card">
+                        <h5>PEMASUKAN BULAN INI</h5>
+                        <p id="pemasukan">Rp 0</p>
+                    </div>
+                    <div class="exp-card">
+                        <h5>PENGELUARAN BULAN INI</h5>
+                        <p id="pengeluaran">Rp 0</p>
+                    </div>
+                </div>
+
+                <div class="chart-box">
+                    <h4>📊 Analisis Kategori Pengeluaran</h4>
+                    <div class="chart-wrapper">
+                        <canvas id="chartPengeluaran"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -486,7 +581,7 @@
             <div class="agent-card">
                 <div class="agent-title">🧠 AI Penasihat Sadar & Eksekutor Otonom</div>
                 <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px;">
-                    Sistem kecerdasan sadar yang memindai kesehatan mental, memblokir langganan parasit bawah sadar, dan mengeksekusi kebutuhan finansial secara otonom.
+                    Sistem kecerdasan sadar yang memindai kesehatan finansial dan mengeksekusi keputusan otonom cerdas berbasis data.
                 </p>
                 
                 <div id="agent-log" class="agent-log-box">
@@ -620,6 +715,7 @@
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); text-align: left;" onclick="bukaModalTema()">🎨 Pilih Palet Warna Aurora</button>
                 <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); text-align: left;" onclick="bukaModalTransfer()">🔄 Transfer Antar Kantong Dana</button>
                 <button class="btn-primary" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--card-border); text-align: left;" onclick="bukaAturPIN()">🔐 Ganti PIN & Keamanan</button>
                 <button class="btn-primary" style="background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); border: 1px solid var(--accent-rose); text-align: left;" onclick="resetData()">🗑️ Hapus Seluruh Data</button>
@@ -648,24 +744,174 @@
 
     <!-- JAVASCRIPT LOGIC ENGINE -->
     <script>
-        // --- 5. TEMA SUASANA BERDASARKAN WAKTU (Dynamic Time-based Ambient) ---
-        function applyTimeAmbient() {
-            const hour = new Date().getHours();
-            const root = document.documentElement;
-            if (hour >= 4 && hour < 10) {
-                // Nuansa fajar/pagi hangat
-                root.style.setProperty('--accent-primary', '#f59e0b');
-            } else if (hour >= 10 && hour < 17) {
-                // Nuansa siang hari cerah
-                root.style.setProperty('--accent-primary', '#0ea5e9');
-            } else {
-                // Nuansa malam aurora gelap
-                root.style.setProperty('--accent-primary', '#6366f1');
+        // --- 8. WEB AUDIO API (Umpan Balik Audio Digital Mikro) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type = 'click') {
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                if (type === 'success') {
+                    osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5
+                    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.25);
+                } else {
+                    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.08);
+                }
+            } catch (e) {
+                // Ignore audio context autoplay restriction errors if any
             }
         }
-        applyTimeAmbient();
 
-        // --- 4. EFEK RIAK SENTUHAN (Ripple Click Effect) ---
+        function triggerHaptic(type = 'click') {
+            if (navigator.vibrate) navigator.vibrate(15);
+            playSound(type);
+        }
+
+        // --- 1. KUSTOMISASI WARNA AURORA (Custom Accent Picker) ---
+        const colorPalettes = {
+            'Cyberpunk Neon': '#f43f5e',
+            'Emerald Forest': '#10b981',
+            'Sunset Purple': '#a855f7',
+            'Deep Ocean': '#0ea5e9',
+            'Classic Indigo': '#6366f1'
+        };
+
+        function setAccentColor(colorHex) {
+            triggerHaptic('success');
+            document.documentElement.style.setProperty('--accent-primary', colorHex);
+            localStorage.setItem('dompetku_v02_accent', colorHex);
+            closeModal();
+            updateTampilan();
+        }
+
+        function bukaModalTema() {
+            triggerHaptic();
+            let htmlInputs = `<div class="palette-grid">`;
+            for (let [name, hex] of Object.entries(colorPalettes)) {
+                htmlInputs += `<button class="palette-btn" onclick="setAccentColor('${hex}')"><span class="palette-dot" style="background:${hex}"></span>${name}</button>`;
+            }
+            htmlInputs += `</div>`;
+            showCustomModal("🎨 Pilih Palet Warna Aurora", null, false, htmlInputs);
+        }
+
+        // Load saved accent
+        const savedAccent = localStorage.getItem('dompetku_v02_accent');
+        if (savedAccent) document.documentElement.style.setProperty('--accent-primary', savedAccent);
+
+        // --- 2. 3D TILT CARD & RIM LIGHTING ---
+        const tiltCard = document.getElementById('tilt-card');
+        if (tiltCard) {
+            tiltCard.addEventListener('mousemove', (e) => {
+                const rect = tiltCard.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                tiltCard.style.setProperty('--mouse-x', `${x}px`);
+                tiltCard.style.setProperty('--mouse-y', `${y}px`);
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            tiltCard.addEventListener('mouseleave', () => {
+                tiltCard.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        }
+
+        // --- 6. GRAFIK MINI (Sparklines) DI DALAM KARTU KANTONG ---
+        function renderSparklines() {
+            ['utama', 'tabungan', 'darurat'].forEach(pocketKey => {
+                const canvas = document.getElementById(`spark-${pocketKey}`);
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                canvas.width = canvas.offsetWidth || 120;
+                canvas.height = 35;
+
+                let pocketTx = transaksi.filter(t => (t.pocket || 'utama') === pocketKey);
+                let dataPoints = pocketTx.slice(-6).map(t => t.jenis === 'masuk' ? t.nominal : -t.nominal);
+                if (dataPoints.length < 2) dataPoints = [0, 50000, 20000, 80000, 60000, 100000];
+
+                let min = Math.min(...dataPoints);
+                let max = Math.max(...dataPoints);
+                let range = max - min || 1;
+                let stepX = canvas.width / (dataPoints.length - 1);
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.beginPath();
+                ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim();
+                ctx.lineWidth = 2;
+
+                dataPoints.forEach((val, i) => {
+                    let x = i * stepX;
+                    let y = canvas.height - ((val - min) / range) * (canvas.height - 10) - 5;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+            });
+        }
+
+        // --- 4. STATUS SKELETON LOADING & 5. TRANSISI RADIAL CLIP-PATH ---
+        function switchTab(tabName) {
+            triggerHaptic();
+            
+            // Tampilkan skeleton singkat untuk pengalaman responsif
+            if (tabName === 'beranda') {
+                document.getElementById('beranda-content').style.display = 'none';
+                document.getElementById('beranda-skeleton').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('beranda-skeleton').style.display = 'none';
+                    document.getElementById('beranda-content').style.display = 'block';
+                    renderSparklines();
+                }, 200);
+            }
+
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`nav-${tabName}`).classList.add('active');
+
+            if (tabName === 'beranda') {
+                setTimeout(() => updateTampilan(), 50);
+            } else if (tabName === 'agen') {
+                jalankanSimulasiMasaDepan();
+            }
+        }
+
+        // Transisi Mode Gelap/Terang Melingkar
+        function toggleTheme(event) {
+            triggerHaptic('success');
+            const isLight = document.body.classList.toggle('light-theme');
+            let tombol = document.getElementById('theme-toggle');
+            tombol.innerText = isLight ? '☀️' : '🌙';
+            localStorage.setItem('dompetku_v02_theme', isLight ? 'light' : 'dark');
+            updateChart();
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('dompetku_v02_theme') === 'light') {
+            document.body.classList.add('light-theme');
+            document.getElementById('theme-toggle').innerText = '☀️';
+        }
+
+        // --- EFEK RIAK SENTUHAN ---
         document.addEventListener('click', function(e) {
             const target = e.target.closest('button, .pocket-card, .nav-item, .type-btn, .action-chip');
             if (!target) return;
@@ -677,13 +923,8 @@
             circle.style.top = `${e.clientY - target.getBoundingClientRect().top - radius}px`;
             circle.classList.add('ripple');
             
-            const computedStyle = window.getComputedStyle(target);
-            if (computedStyle.position === 'static') {
-                target.style.position = 'relative';
-            }
-            if (computedStyle.overflow !== 'hidden') {
-                target.style.overflow = 'hidden';
-            }
+            if (window.getComputedStyle(target).position === 'static') target.style.position = 'relative';
+            if (window.getComputedStyle(target).overflow !== 'hidden') target.style.overflow = 'hidden';
             
             target.appendChild(circle);
             setTimeout(() => circle.remove(), 600);
@@ -706,8 +947,7 @@
                     radius: Math.random() * 1.5 + 0.5,
                     speed: Math.random() * 0.15 + 0.05,
                     alpha: Math.random(),
-                    alphaChange: (Math.random() * 0.01 + 0.003) * (Math.random() < 0.5 ? 1 : -1),
-                    color: '#ffffff'
+                    alphaChange: (Math.random() * 0.01 + 0.003) * (Math.random() < 0.5 ? 1 : -1)
                 });
             }
         }
@@ -715,14 +955,14 @@
         function animateStars() {
             starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
             stars.forEach(star => {
-                star.y += star.speed; // Bisa bergerak ke atas/bawah sesuai speed
+                star.y += star.speed;
                 if (star.y < 0) star.y = starCanvas.height;
                 if (star.y > starCanvas.height) star.y = 0;
 
                 star.alpha += star.alphaChange;
                 if (star.alpha > 1 || star.alpha < 0.2) star.alphaChange *= -1;
 
-                starCtx.fillStyle = star.color || `rgba(255, 255, 255, ${star.alpha})`;
+                starCtx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
                 starCtx.beginPath();
                 starCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
                 starCtx.fill();
@@ -734,7 +974,6 @@
         initStars();
         animateStars();
 
-        // --- 3. PARTIKEL PERAYAAN TUJUAN (Achievement Confetti / Particle Burst) ---
         function triggerConfetti() {
             for (let i = 0; i < 35; i++) {
                 stars.push({
@@ -743,28 +982,9 @@
                     radius: Math.random() * 3 + 1.5,
                     speed: -(Math.random() * 5 + 2),
                     alpha: 1,
-                    alphaChange: -0.015,
-                    color: Math.random() < 0.5 ? '#f59e0b' : '#10b981'
+                    alphaChange: -0.015
                 });
             }
-        }
-
-        // --- SW & PWA ENGINE ---
-        if ('serviceWorker' in navigator) {
-            const swScript = `
-                const CACHE_NAME = 'dompetku-v02-pro';
-                self.addEventListener('install', event => self.skipWaiting());
-                self.addEventListener('activate', event => event.waitUntil(self.clients.claim()));
-                self.addEventListener('fetch', event => {
-                    event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
-                });
-            `;
-            const blob = new Blob([swScript], { type: 'application/javascript' });
-            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-        }
-
-        function triggerHaptic() {
-            if (navigator.vibrate) navigator.vibrate(15);
         }
 
         // --- VARIABEL APLIKASI ---
@@ -793,22 +1013,6 @@
         document.getElementById('tanggal').valueAsDate = now;
         const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
         document.getElementById('filter-bulan').value = currentMonthStr;
-
-        // SISTEM TAB
-        function switchTab(tabName) {
-            triggerHaptic();
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-
-            document.getElementById(`tab-${tabName}`).classList.add('active');
-            document.getElementById(`nav-${tabName}`).classList.add('active');
-
-            if (tabName === 'beranda') {
-                setTimeout(() => updateTampilan(), 50);
-            } else if (tabName === 'agen') {
-                jalankanSimulasiMasaDepan();
-            }
-        }
 
         // KEAMANAN & SESI
         function cekSessionLogin() {
@@ -851,7 +1055,7 @@
             }
         }
 
-        // --- AI PENASIHAT SADAR & EKSEKUTOR OTONOM ---
+        // --- AI PENASIHAT & EKSEKUTOR OTONOM ---
         function appendAgentLog(message) {
             const logBox = document.getElementById('agent-log');
             const timeStr = new Date().toLocaleTimeString();
@@ -860,7 +1064,7 @@
         }
 
         function eksekusiAgenOtonom() {
-            triggerHaptic();
+            triggerHaptic('success');
             let perintah = document.getElementById('agent-command').value;
             if (!perintah) {
                 showCustomModal("❌ Masukkan perintah untuk Agen AI Sadar!", null, false);
@@ -873,11 +1077,11 @@
 
             setTimeout(() => {
                 appendAgentLog(`Negosiasi kuantum sukses. Diskon optimal diperoleh.`);
-                showCustomModal(`🤖 AI Penasihat Sadar Menyetujui:\n"${perintah}"\n\nAlokasi Biaya: Rp ${nominalEstimasi.toLocaleString('id-ID')}. Eksekusi transaksi otonom?`, function() {
+                showCustomModal(`🤖 AI Penasihat Menyetujui:\n"${perintah}"\n\nAlokasi Biaya: Rp ${nominalEstimasi.toLocaleString('id-ID')}. Eksekusi transaksi otonom?`, function() {
                     transaksi.push({
                         tanggal: tgl,
                         kategori: "Belanja 🛍️",
-                        keterangan: `[AI Conscious Agent] ${perintah}`,
+                        keterangan: `[AI Agent] ${perintah}`,
                         nominal: nominalEstimasi,
                         jenis: 'keluar',
                         pocket: 'utama'
@@ -891,7 +1095,7 @@
             }, 400);
         }
 
-        // KANTONG DANA
+        // KANTONG DANA & TRANSFER
         function pilihFilterPocket(pocketKey) {
             triggerHaptic();
             selectedFilterPocket = pocketKey;
@@ -1125,6 +1329,7 @@
 
             localStorage.setItem(KEY_TRANSAKSI, JSON.stringify(transaksi));
             updateChart(transaksiFilteredBulan);
+            renderSparklines();
         }
 
         function updateChart(dataFiltered) {
@@ -1173,7 +1378,7 @@
         }
 
         function simpanTransaksi() {
-            triggerHaptic();
+            triggerHaptic('success');
             let tanggal = document.getElementById('tanggal').value;
             let kategori = document.getElementById('kategori').value;
             let keterangan = document.getElementById('keterangan').value;
@@ -1263,19 +1468,15 @@
             modal.style.display = "flex";
 
             document.getElementById('modal-confirm-btn').onclick = function() {
-                triggerHaptic(); modal.style.display = "none"; if (onConfirm) onConfirm();
+                triggerHaptic('success'); modal.style.display = "none"; if (onConfirm) onConfirm();
             };
             document.getElementById('modal-cancel-btn').onclick = function() {
                 triggerHaptic(); modal.style.display = "none";
             };
         }
 
-        function toggleTheme() {
-            triggerHaptic();
-            document.body.classList.toggle('light-theme');
-            let tombol = document.getElementById('theme-toggle');
-            tombol.innerText = document.body.classList.contains('light-theme') ? '☀️' : '🌙';
-            updateChart();
+        function closeModal() {
+            document.getElementById('custom-modal').style.display = "none";
         }
 
         function bukaAturPIN() {
